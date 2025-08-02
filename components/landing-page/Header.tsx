@@ -23,12 +23,12 @@ export default function Header() {
           >
             <Button variant="link">Open Source</Button>
           </Link>
-          <Link href="/app">
+          <Link href="/dashboard/auth/sign-in">
             <Button variant="outline" size="lg">
               Login
             </Button>
           </Link>
-          <Link href="/app">
+          <Link href="/dashboard/auth/sign-up">
             <Button variant="default" size="lg">
               Get Started
             </Button>
