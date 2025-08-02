@@ -127,15 +127,22 @@ body {
   }
 
   body {
-    @apply antialiased text-base leading-relaxed;
+    @apply antialiased text-base leading-relaxed text-primary;
   }
 
-  main {
+  section {
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  header {
+    @apply w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
 }
 
 @layer components {
+  .section-wide {
+    @apply w-full max-w-none px-0 mx-0;
+  }
 }
 
 @layer utilities {
@@ -145,14 +152,5 @@ body {
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
   }
 }
