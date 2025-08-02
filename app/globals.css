@@ -7,37 +7,38 @@
 :root {
   --font-bricolage: "Bricolage Grotesque", sans-serif;
 
-  --color-background: oklch(99.5% 0.005 260);
-  --color-text: oklch(28.5% 0.02 270);
-  --color-primary: oklch(73% 0.19 142);
-  --color-secondary: oklch(87% 0.22 95);
-  --color-accent: oklch(85% 0.2 230);
-  --color-muted: oklch(92% 0.01 260);
+  --background: #f9fafb;
+  --text: #333333;
+  --primary: #4a90e2;
+  --secondary: #7b8d93;
+  --accent: #f5a623;
+  --muted: #c1c7cd;
 }
 
 .dark {
-  --color-background: oklch(16% 0.015 270);
-  --color-text: oklch(96% 0.007 260);
-  --color-primary: oklch(75% 0.18 140);
-  --color-secondary: oklch(92% 0.22 100);
-  --color-accent: oklch(80% 0.22 225);
-  --color-muted: oklch(32% 0.01 270);
+  --background: #1c1f23; /* Koyu gri - göz yormayan */
+  --text: #e4e6eb; /* Açık gri/beyaz arası */
+  --primary: #729bd2; /* Soft mavi açık ton - koyu zeminde öne çıkar */
+  --secondary: #52656f; /* Orta koyulukta gri-mavi ton */
+  --accent: #f7b953; /* Açık turuncu vurgu - koyuda da canlı */
+  --muted: #3a3f45; /* Koyu gri ton - arka planın yumuşak tamamlayıcısı */
 }
 
 @theme inline {
-  --background: var(--color-background);
-  --text: var(--color-text);
-  --primary: var(--color-primary);
-  --secondary: var(--color-secondary);
-  --accent: var(--color-accent);
-  --muted: var(--color-muted);
-  --font-bricolage: var(--font-bricolage);
+  --font-bricolage: "Bricolage Grotesque", sans-serif;
+
+  --color-background: var(--background);
+  --color-text: var(--text);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-muted: var(--muted);
 }
 
 body {
   font-family: var(--font-bricolage);
-  background-color: var(--color-background);
-  color: var(--color-text);
+  background-color: var(--background);
+  color: var(--text);
   transition: background-color 0.3s, color 0.3s;
 }
 
@@ -56,17 +57,6 @@ body {
 }
 
 @layer components {
-  /* .btn-primary {
-    @apply inline-flex items-center justify-center px-4 py-2 rounded-md text-white bg-primary hover:bg-primary/90 transition;
-  }
-
-  .btn-secondary {
-    @apply inline-flex items-center justify-center px-4 py-2 rounded-md bg-secondary text-black hover:bg-secondary/80 transition;
-  }
-
-  .input {
-    @apply w-full px-3 py-2 rounded-md border border-muted bg-white dark:bg-muted/20 text-foreground placeholder:text-muted;
-  } */
 }
 
 @layer utilities {
