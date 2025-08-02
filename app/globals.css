@@ -1,0 +1,80 @@
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap");
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --font-bricolage: "Bricolage Grotesque", sans-serif;
+
+  --color-background: oklch(99.5% 0.005 260);
+  --color-text: oklch(28.5% 0.02 270);
+  --color-primary: oklch(73% 0.19 142);
+  --color-secondary: oklch(87% 0.22 95);
+  --color-accent: oklch(85% 0.2 230);
+  --color-muted: oklch(92% 0.01 260);
+}
+
+.dark {
+  --color-background: oklch(16% 0.015 270);
+  --color-text: oklch(96% 0.007 260);
+  --color-primary: oklch(75% 0.18 140);
+  --color-secondary: oklch(92% 0.22 100);
+  --color-accent: oklch(80% 0.22 225);
+  --color-muted: oklch(32% 0.01 270);
+}
+
+@theme inline {
+  --background: var(--color-background);
+  --text: var(--color-text);
+  --primary: var(--color-primary);
+  --secondary: var(--color-secondary);
+  --accent: var(--color-accent);
+  --muted: var(--color-muted);
+  --font-bricolage: var(--font-bricolage);
+}
+
+body {
+  font-family: var(--font-bricolage);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+@layer base {
+  * {
+    @apply box-border;
+  }
+
+  body {
+    @apply antialiased text-base leading-relaxed;
+  }
+
+  main {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+}
+
+@layer components {
+  /* .btn-primary {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-md text-white bg-primary hover:bg-primary/90 transition;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-md bg-secondary text-black hover:bg-secondary/80 transition;
+  }
+
+  .input {
+    @apply w-full px-3 py-2 rounded-md border border-muted bg-white dark:bg-muted/20 text-foreground placeholder:text-muted;
+  } */
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
