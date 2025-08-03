@@ -5,12 +5,14 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
+  --radius: 0.625rem;
+  --header-height: 5rem;
+
   --font-bricolage: "Bricolage Grotesque", sans-serif;
   --primary: oklch(0.205 0 0);
   --secondary: oklch(0.97 0 0);
   --accent: oklch(0.97 0 0);
   --muted: oklch(0.97 0 0);
-  --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -95,6 +97,11 @@
 @theme inline {
   --font-bricolage: "Bricolage Grotesque", sans-serif;
 
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
   --color-background: var(--background);
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);
@@ -126,10 +133,6 @@
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
   --color-foreground: var(--foreground);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
 
   /* Custom colors */
   --color-surface: var(--surface);
@@ -179,5 +182,14 @@ body {
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }

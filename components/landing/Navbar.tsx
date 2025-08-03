@@ -2,10 +2,10 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Header() {
+export default function Navbar() {
   return (
-    <nav className="main flex justify-between items-center py-2.5 h-20 px-2.5">
-      <Link href="/">
+    <nav className="flex justify-between items-center p-2.5 h-20">
+      <Link href="/" className="flex items-center p-2.5">
         <Image
           src="/logo.svg"
           alt="Logo"
@@ -28,7 +28,7 @@ export default function Header() {
         <Button variant="outline" size="lg" asChild>
           <Link href="/auth/signin">Login</Link>
         </Button>
-        <Button variant="default" size="lg" asChild>
+        <Button variant="blue" size="lg" asChild>
           <Link href="/auth/signup">Get Started</Link>
         </Button>
       </div>
