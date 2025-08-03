@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
 import { Loader2Icon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -23,8 +22,6 @@ function Page() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // Handle form submission logic here
-
-    console.log("test");
     setIsLoading(true);
     // Simulate a login request
     setTimeout(() => {
@@ -46,7 +43,7 @@ function Page() {
       </Link>
       <Card className="w-full max-w-md mt-5 border-0">
         <CardHeader>
-          <CardTitle className="text-2xl lg:text-3xl">Log in</CardTitle>
+          <CardTitle className="text-2xl lg:text-3xl">Reset password</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} id="login-form">
@@ -58,18 +55,6 @@ function Page() {
                   type="email"
                   placeholder="email@example.com"
                 />
-              </div>
-              <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
-                  <Link
-                    href="/auth/forgot-password"
-                    className="ml-auto text-sm underline-offset-4 hover:underline text-blue"
-                  >
-                    Forgot your password?
-                  </Link>
-                </div>
-                <Input id="password" type="password" placeholder="password" />
               </div>
             </div>
           </form>
@@ -84,7 +69,7 @@ function Page() {
             size="lg"
           >
             {isLoading && <Loader2Icon className="animate-spin" />}
-            Login
+            Send reset password email
           </Button>
           <Button
             disabled={isLoading}
@@ -92,22 +77,7 @@ function Page() {
             asChild
             variant="link"
           >
-            <Link href="/dashboard/auth/signup">Sign up</Link>
-          </Button>
-          <Separator className="my-2.5" />
-          <Button
-            disabled={isLoading}
-            variant="secondary"
-            className="w-full border"
-            size="lg"
-          >
-            <Image
-              src="/icons/google.svg"
-              alt="Google Logo"
-              width={20}
-              height={20}
-            />
-            Login with Google
+            <Link href="/auth/signin">Log in</Link>
           </Button>
         </CardFooter>
       </Card>

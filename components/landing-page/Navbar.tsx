@@ -26,10 +26,10 @@ export default function Header() {
         </Button>
 
         <Button variant="outline" size="lg" asChild>
-          <Link href="/dashboard/auth/signin">Login</Link>
+          <Link href="/auth/signin">Login</Link>
         </Button>
         <Button variant="default" size="lg" asChild>
-          <Link href="/dashboard/auth/signup">Get Started</Link>
+          <Link href="/auth/signup">Get Started</Link>
         </Button>
       </div>
     </nav>

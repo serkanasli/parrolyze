@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,10 +10,27 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { Loader2Icon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 function Page() {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    // Handle form submission logic here
+    setIsLoading(true);
+    // Simulate a login request
+    setTimeout(() => {
+      router.push("/dashboard");
+      setIsLoading(false);
+    }, 1000);
+    // After successful login, redirect to the dashboard
+  };
   return (
     <section className="section-wide flex flex-col items-center justify-center h-screen bg-green-secondary/10 px-2.5 md:px-0">
       <Link href={"/"}>
@@ -26,55 +44,63 @@ function Page() {
       </Link>
       <Card className="w-full max-w-md mt-5 border-0">
         <CardHeader>
-          <CardTitle className="text-2xl lg:text-3xl">Sign up</CardTitle>
+          <CardTitle className="text-2xl lg:text-3xl">Log in</CardTitle>
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={handleSubmit} id="login-form">
             <div className="flex flex-col gap-6">
-              <div className="grid gap-2">
-                <Label htmlFor="name">Name</Label>
-                <Input id="name" type="text" placeholder="name" required />
-              </div>
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
                   id="email"
                   type="email"
                   placeholder="email@example.com"
-                  required
                 />
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
+                  <Link
+                    href="/auth/forgot-password"
+                    className="ml-auto text-sm underline-offset-4 hover:underline text-blue"
+                  >
+                    Forgot your password?
+                  </Link>
                 </div>
-                <Input
-                  id="password"
-                  type="password"
-                  required
-                  placeholder="password"
-                />
+                <Input id="password" type="password" placeholder="password" />
               </div>
             </div>
           </form>
         </CardContent>
         <CardFooter className="flex-col gap-2">
-          <Button type="submit" className="w-full" variant="blue" size="lg">
-            {/* <Loader2Icon className="animate-spin" /> */}
+          <Button
+            form="login-form"
+            disabled={isLoading}
+            type="submit"
+            className="w-full"
+            variant="blue"
+            size="lg"
+          >
+            {isLoading && <Loader2Icon className="animate-spin" />}
             Login
           </Button>
-          <Button type="submit" className="ml-auto" asChild variant="link">
-            <Link href="/dashboard/auth/signin">Sign in</Link>
+          <Button disabled={true} className="ml-auto" asChild variant="link">
+            <Link href="/auth/signup">Sign up</Link>
           </Button>
           <Separator className="my-2.5" />
-          <Button variant="secondary" className="w-full border" size="lg">
+          <Button
+            disabled={isLoading}
+            variant="secondary"
+            className="w-full border"
+            size="lg"
+          >
             <Image
               src="/icons/google.svg"
               alt="Google Logo"
               width={20}
               height={20}
             />
-            Sign up with Google
+            Login with Google
           </Button>
         </CardFooter>
       </Card>
