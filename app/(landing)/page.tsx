@@ -21,7 +21,7 @@ function Page() {
             multiple languages — fast.
           </p>
           <Button asChild className="mt-8 mx-auto" variant="default" size="lg">
-            <Link href="/dashboard">Get for Free</Link>
+            <Link href="/projects">Get for Free</Link>
           </Button>
         </div>
       </section>

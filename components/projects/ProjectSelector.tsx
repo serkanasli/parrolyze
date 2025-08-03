@@ -45,13 +45,13 @@ export default function ProjectSelector() {
             {
               name: "WikiUp",
               description: "Explore & Learn",
-              href: "/dashboard/projects/wikiup/overview",
+              href: "/projects/wikiup/overview",
               icon: "/projects/wikiup.svg",
             },
             {
               name: "Locyst",
               description: "Save & Navigate",
-              href: "/dashboard/projects/locyst/overview",
+              href: "/projects/locyst/overview",
               icon: "/projects/locyst.svg",
             },
           ].map((project) => (
@@ -79,7 +79,7 @@ export default function ProjectSelector() {
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild className="cursor-pointer">
           <Link
-            href="/dashboard/projects/new"
+            href="/projects/new"
             className="w-full justify-start gap-2 items-center"
           >
             <Plus size={20} className="text-green-primary" />

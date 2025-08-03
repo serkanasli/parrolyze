@@ -25,10 +25,10 @@ function Page() {
     setIsLoading(true);
     // Simulate a login request
     setTimeout(() => {
-      router.push("/dashboard");
+      router.push("/projects");
       setIsLoading(false);
     }, 1000);
-    // After successful login, redirect to the dashboard
+    // After successful login, redirect to the projects
   };
   return (
     <section className="section-wide flex flex-col items-center justify-center h-screen bg-green-secondary/10 px-2.5 md:px-0">

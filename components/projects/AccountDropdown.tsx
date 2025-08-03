@@ -40,7 +40,7 @@ export default function AccountDropdown() {
         <DropdownMenuGroup className="py-1 gap-y-1">
           <DropdownMenuItem asChild className="cursor-pointer">
             <Link
-              href="/dashboard/account"
+              href="/account"
               className="w-full justify-start gap-2 items-center"
             >
               <Settings size={20} />

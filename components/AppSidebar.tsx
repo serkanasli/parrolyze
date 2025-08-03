@@ -1,40 +1,68 @@
-import { House, Languages, Settings2Icon } from "lucide-react";
+"use client";
+
+import {
+  AppWindow,
+  ArrowLeftFromLine, // project ayarları için
+  Globe,
+  Key,
+  LayoutDashboard, // store/application translations için
+  Settings,
+} from "lucide-react";
 import Link from "next/link";
 
 import {
   Sidebar,
   SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
+  SidebarFooter,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
+import { AppSidebarGroup } from "./projects/AppSidebarGroup";
+import SidebarToggleButton from "./projects/SidebarToggleButton";
 
 // Menu items.
-const items = [
-  {
-    title: "Overview",
-    url: "/dashboard/overview",
-    icon: House,
-  },
-  {
-    title: "Translations",
-    url: "/dashboard/translations",
-    icon: Languages,
-  },
-  {
-    title: "Project Settings",
-    url: "/dashboard/projects/wikiup/settings",
-    icon: Settings2Icon,
-  },
-];
+const data = {
+  navMain: [
+    {
+      title: "Overview",
+      url: "/projects/wikiup/overview",
+      icon: LayoutDashboard,
+    },
+    {
+      title: "Store Localization",
+      url: "/projects/wikiup/localization/store",
+      icon: Globe,
+    },
+    {
+      title: "App Localization",
+      url: "/projects/wikiup/localization/app",
+      icon: AppWindow,
+    },
+  ],
+  navSecondary: [
+    {
+      title: "API Keys",
+      url: "/projects/api-keys",
+      icon: Key,
+    },
+    {
+      title: "Project Settings",
+      url: "/projects/wikiup/settings",
+      icon: Settings,
+    },
+  ],
+};
 
 export function AppSidebar() {
+  const { state } = useSidebar();
+
   return (
-    <Sidebar className="top-(--header-height) border-0 border-none">
+    <Sidebar
+      collapsible="icon"
+      className="top-(--header-height) border-0 border-none"
+    >
       {/* Sidebar Navigation */}
       <SidebarHeader className="flex md:hidden">
         <Link href="/" className="flex items-center p-2.5">
@@ -48,28 +76,24 @@ export function AppSidebar() {
         </Link>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <Link
-                      href={item.url}
-                      className="flex items-center h-10 gap-2.5"
-                    >
-                      <div className="w-5 h-5">
-                        <item.icon size={20} />
-                      </div>
-                      <span className="font-medium">{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        <AppSidebarGroup items={data.navMain} />
       </SidebarContent>
+      <SidebarFooter className="md:mb-(--header-height)">
+        <AppSidebarGroup items={data.navSecondary} />
+        <SidebarToggleButton
+          className={cn(
+            "md:flex mb-5 mx-2.5 ",
+            state === "collapsed" && "cursor-e-resize",
+            state === "expanded" && "cursor-w-resize"
+          )}
+          icon={ArrowLeftFromLine}
+          iconClassName={cn(
+            "transition-transform duration-500",
+            state === "collapsed" && "rotate-180 ",
+            state === "expanded" && "rotate-0 "
+          )}
+        />
+      </SidebarFooter>
     </Sidebar>
   );
 }
