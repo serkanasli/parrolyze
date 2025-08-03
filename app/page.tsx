@@ -1,4 +1,4 @@
-import Header from "@/components/landing-page/Header";
+import Header from "@/components/landing-page/Navbar";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
@@ -7,7 +7,7 @@ function Page() {
     <main>
       <Header />
 
-      <section className="section-wide flex flex-col items-center pt-10 lg:pt-24 h-[calc(100vh-5rem)] px-4">
+      <section className="section-wide flex flex-col items-center pt-10 lg:pt-24 2xl:pt-48 h-[calc(100vh-5rem)] px-4">
         <div className="max-w-2xl text-center">
           <h1 className="text-6xl font-bold text-center">
             Translate your app. Reach the world.

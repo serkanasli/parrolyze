@@ -1,5 +1,5 @@
 function Page() {
-  return <div>sign-up</div>;
+  return <div>Dashboard</div>;
 }
 
 export default Page;
