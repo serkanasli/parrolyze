@@ -23,8 +23,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://parrolyze.com"),
   openGraph: {
     title: "Parrolyze – Translate your app. Reach the world.",
-    description:
-      "Open-source tool for translating App Store and Play Store listings.",
+    description: "Open-source tool for translating App Store and Play Store listings.",
     url: "https://parrolyze.com",
     siteName: "Parrolyze",
     images: [

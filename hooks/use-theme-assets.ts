@@ -24,11 +24,7 @@ export function useThemeAssets(): ThemeAssets & { currentTheme: ThemeKey } {
     setMounted(true);
   }, []);
 
-  const resolvedTheme = mounted
-    ? theme === "system"
-      ? systemTheme
-      : theme
-    : "light";
+  const resolvedTheme = mounted ? (theme === "system" ? systemTheme : theme) : "light";
 
   const currentTheme: ThemeKey = resolvedTheme === "dark" ? "dark" : "light";
 

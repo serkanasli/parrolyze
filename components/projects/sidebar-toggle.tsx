@@ -15,8 +15,7 @@ type ButtonVariant =
   | "link"
   | "blue"; //custom variant
 
-interface SidebarToggleProps
-  extends Omit<ComponentPropsWithoutRef<typeof Button>, "children"> {
+interface SidebarToggleProps extends Omit<ComponentPropsWithoutRef<typeof Button>, "children"> {
   icon?: LucideIcon;
   iconClassName?: string;
   variant?: ButtonVariant;
@@ -42,10 +41,7 @@ export default function SidebarToggle({
       onClick={toggleSidebar}
       {...props}
     >
-      <IconToRender
-        size={20}
-        className={cn("text-muted-foreground", iconClassName)}
-      />
+      <IconToRender size={20} className={cn("text-muted-foreground", iconClassName)} />
     </Button>
   );
 }

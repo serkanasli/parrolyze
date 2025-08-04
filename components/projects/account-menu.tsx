@@ -16,14 +16,14 @@ import Link from "next/link";
 export default function AccountMenu() {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="flex items-center justify-between p-2 w-full hover:bg-muted rounded-md cursor-pointer data-[state=open]:bg-blue/10">
-        <div className="flex flex-row gap-2.5 items-center">
+      <DropdownMenuTrigger className="hover:bg-muted data-[state=open]:bg-blue/10 flex w-full cursor-pointer items-center justify-between rounded-md p-2">
+        <div className="flex flex-row items-center gap-2.5">
           <Image
             src="/images/user-pic.jpg"
             alt="user picture"
             width={24}
             height={24}
-            className="rounded-full bg-secondary/10 w-8 h-8 object-cover"
+            className="bg-secondary/10 h-8 w-8 rounded-full object-cover"
           />
           <span className="text-base font-medium">Account</span>
         </div>
@@ -32,28 +32,20 @@ export default function AccountMenu() {
       <DropdownMenuContent className="w-64" side="bottom" align="end">
         <DropdownMenuLabel className="flex flex-col text-start">
           <span className="text-base font-medium">Serkan Aslı</span>
-          <span className="text-xs text-muted-foreground">
-            email@example.com
-          </span>
+          <span className="text-muted-foreground text-xs">email@example.com</span>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuGroup className="py-1 gap-y-1">
+        <DropdownMenuGroup className="gap-y-1 py-1">
           <DropdownMenuItem asChild className="cursor-pointer">
-            <Link
-              href="/account"
-              className="w-full justify-start gap-2 items-center"
-            >
+            <Link href="/account" className="w-full items-center justify-start gap-2">
               <Settings size={20} />
-              <span className="font-medium text-base">Account settings</span>
+              <span className="text-base font-medium">Account settings</span>
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild className="cursor-pointer">
-            <Link
-              href="/auth/signin"
-              className="w-full justify-start gap-2 items-center"
-            >
+            <Link href="/auth/signin" className="w-full items-center justify-start gap-2">
               <LogOut size={20} className="text-destructive" />
-              <span className="font-medium text-destructive">Logout</span>
+              <span className="text-destructive font-medium">Logout</span>
             </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>

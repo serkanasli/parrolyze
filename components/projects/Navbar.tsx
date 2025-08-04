@@ -1,25 +1,25 @@
+import AppLogo from "@/components/app-logo";
+import ThemeSwitcher from "@/components/theme-switcher";
+import { Button } from "@/components/ui/button";
 import { Github } from "lucide-react";
 import Link from "next/link";
-import AppLogo from "../app-logo";
-import ThemeSwitcher from "../theme-switcher";
-import { Button } from "../ui/button";
-import AccountDropdown from "./account-menu";
+import AccountMenu from "./account-menu";
 import FeedbackDialog from "./feedback-dialog";
 import ProjectSelector from "./project-selector";
 import SidebarToggle from "./sidebar-toggle";
 
 export default function Navbar() {
   return (
-    <nav className="flex items-center h-[--header-height]">
-      <AppLogo className="w-3xs p-5 hidden md:flex" />
-      <div className="flex-1 flex justify-between items-center mx-2.5">
+    <nav className="flex h-[--header-height] items-center">
+      <AppLogo className="hidden w-3xs p-5 md:flex" />
+      <div className="mx-2.5 flex flex-1 items-center justify-between">
         {/* Header: Project Selector */}
         <div className="flex items-center gap-2">
           <SidebarToggle />
           <ProjectSelector />
         </div>
         {/* Header: User Account */}
-        <div className="flex gap-2.5 items-center">
+        <div className="flex items-center gap-2.5">
           <ThemeSwitcher />
           <Button asChild variant="outline" className="hidden md:flex">
             <Link
@@ -32,7 +32,7 @@ export default function Navbar() {
             </Link>
           </Button>
           <FeedbackDialog />
-          <AccountDropdown />
+          <AccountMenu />
         </div>
       </div>
     </nav>
