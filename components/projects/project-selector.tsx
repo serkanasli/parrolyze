@@ -9,6 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { projects } from "@/data/projects";
 import { ChevronDown, Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -35,26 +36,13 @@ export default function ProjectSelector() {
         <ChevronDown className="text-muted-foreground" size={18} />
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="w-60" side="bottom">
+      <DropdownMenuContent className="w-60" side="bottom" align="start">
         <DropdownMenuLabel className="text-xs text-muted-foreground">
           Your Projects
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup className="py-1 gap-y-1">
-          {[
-            {
-              name: "WikiUp",
-              description: "Explore & Learn",
-              href: "/projects/wikiup/overview",
-              icon: "/projects/wikiup.svg",
-            },
-            {
-              name: "Locyst",
-              description: "Save & Navigate",
-              href: "/projects/locyst/overview",
-              icon: "/projects/locyst.svg",
-            },
-          ].map((project) => (
+          {projects.map((project) => (
             <DropdownMenuItem
               asChild
               key={project.name}
@@ -67,9 +55,9 @@ export default function ProjectSelector() {
                 <Image
                   src={project.icon}
                   alt={project.name}
-                  width={24}
-                  height={24}
-                  className="border rounded-sm"
+                  width={28}
+                  height={28}
+                  className="rounded-sm bg-white"
                 />
                 <span className="font-medium text-base">{project.name}</span>
               </Link>

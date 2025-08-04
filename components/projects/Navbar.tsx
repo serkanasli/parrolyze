@@ -1,32 +1,26 @@
 import { Github } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
+import AppLogo from "../app-logo";
+import ThemeSwitcher from "../theme-switcher";
 import { Button } from "../ui/button";
-import AccountDropdown from "./AccountDropdown";
-import FeedbackDialog from "./FeedbackDialog";
-import ProjectSelector from "./ProjectSelector";
-import SidebarToggleButton from "./SidebarToggleButton";
+import AccountDropdown from "./account-menu";
+import FeedbackDialog from "./feedback-dialog";
+import ProjectSelector from "./project-selector";
+import SidebarToggle from "./sidebar-toggle";
 
 export default function Navbar() {
   return (
-    <nav className="flex items-center h-(--header-height)">
-      <Link href="/" className="w-3xs p-5 hidden md:flex">
-        <Image
-          src="/logo.svg"
-          alt="Logo"
-          width={175}
-          height={175}
-          objectFit="cover"
-        />
-      </Link>
+    <nav className="flex items-center h-[--header-height]">
+      <AppLogo className="w-3xs p-5 hidden md:flex" />
       <div className="flex-1 flex justify-between items-center mx-2.5">
         {/* Header: Project Selector */}
         <div className="flex items-center gap-2">
-          <SidebarToggleButton />
+          <SidebarToggle />
           <ProjectSelector />
         </div>
         {/* Header: User Account */}
         <div className="flex gap-2.5 items-center">
+          <ThemeSwitcher />
           <Button asChild variant="outline" className="hidden md:flex">
             <Link
               href="https://github.com/serkanasli/parrolyze"
