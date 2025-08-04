@@ -1,4 +1,5 @@
 "use client";
+import AppLogo from "@/components/app-logo";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,7 +11,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2Icon } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -30,17 +30,15 @@ function Page() {
     }, 1000);
     // After successful login, redirect to the projects
   };
+
   return (
     <section className="section-wide flex flex-col items-center justify-center h-screen bg-green-secondary/10 px-2.5 md:px-0">
-      <Link href={"/"}>
-        <Image
-          src={"/logo.svg"}
-          alt="Logo"
-          width={250}
-          height={100}
-          className="mb-5"
-        />
-      </Link>
+      <AppLogo
+        image={{
+          width: 200,
+          height: 200,
+        }}
+      />
       <Card className="w-full max-w-md mt-5 border-0">
         <CardHeader>
           <CardTitle className="text-2xl lg:text-3xl">Reset password</CardTitle>

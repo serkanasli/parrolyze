@@ -13,7 +13,7 @@ import { LogOut, Settings } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function AccountDropdown() {
+export default function AccountMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="flex items-center justify-between p-2 w-full hover:bg-muted rounded-md cursor-pointer data-[state=open]:bg-blue/10">
@@ -29,7 +29,7 @@ export default function AccountDropdown() {
         </div>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="w-64 mx-2.5" side="bottom">
+      <DropdownMenuContent className="w-64" side="bottom" align="end">
         <DropdownMenuLabel className="flex flex-col text-start">
           <span className="text-base font-medium">Serkan Aslı</span>
           <span className="text-xs text-muted-foreground">
