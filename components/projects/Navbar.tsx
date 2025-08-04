@@ -10,7 +10,7 @@ import SidebarToggle from "./sidebar-toggle";
 
 export default function Navbar() {
   return (
-    <nav className="flex h-[--header-height] items-center">
+    <nav className="flex h-(--header-height) items-center">
       <AppLogo className="hidden w-3xs p-5 md:flex" />
       <div className="mx-2.5 flex flex-1 items-center justify-between">
         {/* Header: Project Selector */}
