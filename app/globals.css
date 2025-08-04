@@ -148,7 +148,9 @@ body {
   font-family: var(--font-bricolage);
   background-color: var(--background);
   color: var(--text);
-  transition: background-color 0.3s, color 0.3s;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
 }
 
 @layer base {
@@ -157,21 +159,21 @@ body {
   }
 
   body {
-    @apply antialiased text-base leading-relaxed text-primary;
+    @apply text-primary text-base leading-relaxed antialiased;
   }
 
   section {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+    @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
   }
 
   header {
-    @apply w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
   }
 }
 
 @layer components {
   .section-wide {
-    @apply w-full max-w-none px-0 mx-0;
+    @apply mx-0 w-full max-w-none px-0;
   }
 }
 

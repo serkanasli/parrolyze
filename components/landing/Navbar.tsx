@@ -5,9 +5,9 @@ import Link from "next/link";
 
 export default function Navbar() {
   return (
-    <nav className="flex justify-between items-center p-2.5 h-20">
+    <nav className="flex h-20 items-center justify-between p-2.5">
       <AppLogo />
-      <div className="flex gap-2.5 items-center max-md:hidden">
+      <div className="flex items-center gap-2.5 max-md:hidden">
         <ThemeSwitcher />
         <Button asChild variant="link">
           <Link

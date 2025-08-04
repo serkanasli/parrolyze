@@ -16,8 +16,7 @@ interface SidebarItem {
   icon?: LucideIcon;
 }
 
-interface AppSidebarGroupProps
-  extends React.ComponentPropsWithoutRef<typeof SidebarGroup> {
+interface AppSidebarGroupProps extends React.ComponentPropsWithoutRef<typeof SidebarGroup> {
   items: SidebarItem[];
   hideText?: boolean; // icon-only
 }
@@ -34,11 +33,9 @@ export default function AppSidebarGroup({
           {items.map(({ title, url, icon: Icon }) => (
             <SidebarMenuItem key={title}>
               <SidebarMenuButton asChild>
-                <Link href={url} className="flex items-center h-12">
+                <Link href={url} className="flex h-12 items-center">
                   {Icon && <Icon size={24} className="shrink-0" />}
-                  {!hideText && (
-                    <span className="font-medium text-base">{title}</span>
-                  )}
+                  {!hideText && <span className="text-base font-medium">{title}</span>}
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>

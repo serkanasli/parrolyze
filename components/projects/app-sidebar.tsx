@@ -22,10 +22,7 @@ export default function AppSidebar() {
   const { state } = useSidebar();
 
   return (
-    <Sidebar
-      collapsible="icon"
-      className="top-(--header-height) border-0 border-none"
-    >
+    <Sidebar collapsible="icon" className="top-(--header-height) border-0 border-none">
       {/* Sidebar Navigation */}
       <SidebarHeader className="flex md:hidden">
         <Link href="/" className="flex items-center p-2.5">
@@ -39,15 +36,15 @@ export default function AppSidebar() {
         <AppSidebarGroup items={sidebarItems.navSecondary} />
         <SidebarToggle
           className={cn(
-            "md:flex mb-5 mx-2.5 ",
+            "mx-2.5 mb-5 md:flex",
             state === "collapsed" && "cursor-e-resize",
-            state === "expanded" && "cursor-w-resize"
+            state === "expanded" && "cursor-w-resize",
           )}
           icon={ArrowLeftFromLine}
           iconClassName={cn(
             "transition-transform duration-500",
             state === "collapsed" && "rotate-180 ",
-            state === "expanded" && "rotate-0 "
+            state === "expanded" && "rotate-0 ",
           )}
         />
       </SidebarFooter>

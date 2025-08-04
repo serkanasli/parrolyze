@@ -26,17 +26,11 @@ export default function ThemeSwitcher() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent side="bottom" align="end" className="w-40">
-        <DropdownMenuLabel className="text-xs text-muted-foreground">
-          Theme
-        </DropdownMenuLabel>
+        <DropdownMenuLabel className="text-muted-foreground text-xs">Theme</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuRadioGroup value={theme} onValueChange={setTheme}>
           {[...themes].reverse().map((theme) => (
-            <DropdownMenuRadioItem
-              key={theme}
-              value={theme}
-              className="flex items-center gap-2"
-            >
+            <DropdownMenuRadioItem key={theme} value={theme} className="flex items-center gap-2">
               <span className="capitalize">{theme}</span>
             </DropdownMenuRadioItem>
           ))}

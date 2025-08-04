@@ -48,9 +48,7 @@ export default function FeedbackDialog() {
               <RadioGroup
                 defaultValue="issue"
                 name="type"
-                onValueChange={(value) =>
-                  setFeedbackType(value as "issue" | "idea")
-                }
+                onValueChange={(value) => setFeedbackType(value as "issue" | "idea")}
                 className="flex gap-4"
               >
                 <div className="flex items-center space-x-2">
@@ -66,19 +64,12 @@ export default function FeedbackDialog() {
 
             <div className="grid gap-2">
               <Label htmlFor="email">Your Email (optional)</Label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="you@example.com"
-              />
+              <Input id="email" name="email" type="email" placeholder="you@example.com" />
             </div>
 
             <div className="grid gap-2">
               <Label htmlFor="message">
-                {feedbackType === "idea"
-                  ? "What's your idea?"
-                  : "What's the issue?"}
+                {feedbackType === "idea" ? "What's your idea?" : "What's the issue?"}
               </Label>
               <Textarea
                 id="message"

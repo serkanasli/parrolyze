@@ -1,13 +1,7 @@
 "use client";
 import AppLogo from "@/components/app-logo";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2Icon } from "lucide-react";
@@ -32,14 +26,14 @@ function Page() {
   };
 
   return (
-    <section className="section-wide flex flex-col items-center justify-center h-screen bg-green-secondary/10 px-2.5 md:px-0">
+    <section className="section-wide bg-green-secondary/10 flex h-screen flex-col items-center justify-center px-2.5 md:px-0">
       <AppLogo
         image={{
           width: 200,
           height: 200,
         }}
       />
-      <Card className="w-full max-w-md mt-5 border-0">
+      <Card className="mt-5 w-full max-w-md border-0">
         <CardHeader>
           <CardTitle className="text-2xl lg:text-3xl">Reset password</CardTitle>
         </CardHeader>
@@ -48,11 +42,7 @@ function Page() {
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="email@example.com"
-                />
+                <Input id="email" type="email" placeholder="email@example.com" />
               </div>
             </div>
           </form>
@@ -69,12 +59,7 @@ function Page() {
             {isLoading && <Loader2Icon className="animate-spin" />}
             Send reset password email
           </Button>
-          <Button
-            disabled={isLoading}
-            className="ml-auto"
-            asChild
-            variant="link"
-          >
+          <Button disabled={isLoading} className="ml-auto" asChild variant="link">
             <Link href="/auth/signin">Log in</Link>
           </Button>
         </CardFooter>

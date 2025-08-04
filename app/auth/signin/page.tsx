@@ -1,13 +1,7 @@
 "use client";
 import AppLogo from "@/components/app-logo";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
@@ -33,14 +27,14 @@ function Page() {
     // After successful login, redirect to the projects
   };
   return (
-    <section className="section-wide flex flex-col items-center justify-center h-screen bg-green-secondary/10 px-2.5 md:px-0">
+    <section className="section-wide bg-green-secondary/10 flex h-screen flex-col items-center justify-center px-2.5 md:px-0">
       <AppLogo
         image={{
           width: 200,
           height: 200,
         }}
       />
-      <Card className="w-full max-w-md mt-5 border-0">
+      <Card className="mt-5 w-full max-w-md border-0">
         <CardHeader>
           <CardTitle className="text-2xl lg:text-3xl">Log in</CardTitle>
         </CardHeader>
@@ -49,18 +43,14 @@ function Page() {
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="email@example.com"
-                />
+                <Input id="email" type="email" placeholder="email@example.com" />
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
                   <Link
                     href="/auth/forgot-password"
-                    className="ml-auto text-sm underline-offset-4 hover:underline text-blue"
+                    className="text-blue ml-auto text-sm underline-offset-4 hover:underline"
                   >
                     Forgot your password?
                   </Link>
@@ -86,18 +76,8 @@ function Page() {
             <Link href="/auth/signup">Sign up</Link>
           </Button>
           <Separator className="my-2.5" />
-          <Button
-            disabled={isLoading}
-            variant="secondary"
-            className="w-full border"
-            size="lg"
-          >
-            <Image
-              src="/icons/google.svg"
-              alt="Google Logo"
-              width={20}
-              height={20}
-            />
+          <Button disabled={isLoading} variant="secondary" className="w-full border" size="lg">
+            <Image src="/icons/google.svg" alt="Google Logo" width={20} height={20} />
             Login with Google
           </Button>
         </CardFooter>
