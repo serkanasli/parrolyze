@@ -1,3 +1,4 @@
+"use client";
 import AppLogo from "@/components/app-logo";
 import { LoginForm } from "@/components/auth/login-form";
 
@@ -13,7 +14,7 @@ function Page() {
             }}
           />
         </div>
-        <LoginForm mode="signup" />
+        <LoginForm mode="login" />
       </div>
     </div>
   );

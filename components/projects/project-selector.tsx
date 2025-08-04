@@ -17,18 +17,18 @@ import Link from "next/link";
 export default function ProjectSelector() {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="bg-background hover:bg-muted data-[state=open]:bg-blue/10 flex cursor-pointer items-center justify-between gap-x-2.5 rounded-md p-1.5 md:p-2">
+      <DropdownMenuTrigger className="bg-background hover:bg-muted data-[state=open]:bg-blue/10 flex cursor-pointer items-center justify-between gap-x-2.5 rounded-md p-1.5 lg:p-2">
         <div className="flex flex-row items-center gap-2.5">
           <Image
             src="/projects/locyst.svg"
             alt="Project logo"
             width={24}
             height={24}
-            className="bg-secondary/10 h-6 w-6 rounded-sm md:h-8 md:w-8"
+            className="bg-secondary/10 h-6 w-6 rounded-sm lg:h-8 lg:w-8"
           />
           <div className="flex flex-col text-start">
             <span className="font-medium">Locyst</span>
-            <span className="text-muted-foreground hidden text-xs md:flex">
+            <span className="text-muted-foreground hidden text-xs lg:flex">
               Save location & get directions
             </span>
           </div>

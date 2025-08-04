@@ -28,7 +28,7 @@ export default function FeedbackDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" className="hidden md:flex">
+        <Button variant="outline" className="hidden sm:flex">
           <MessageSquareText />
           <span className="font-medium">Feedback</span>
         </Button>

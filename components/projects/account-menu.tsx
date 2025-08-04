@@ -10,22 +10,29 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { LogOut, Settings } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
+import { Avatar, AvatarImage } from "../ui/avatar";
 
 export default function AccountMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="hover:bg-muted data-[state=open]:bg-blue/10 flex w-full cursor-pointer items-center justify-between rounded-md p-2">
         <div className="flex flex-row items-center gap-2.5">
-          <Image
+          <Avatar>
+            <AvatarImage
+              src="/images/user-pic.jpg"
+              alt="user picture"
+              className="rounded-full object-cover"
+            />
+          </Avatar>
+          {/* <Image
             src="/images/user-pic.jpg"
             alt="user picture"
             width={24}
             height={24}
             className="bg-secondary/10 h-8 w-8 rounded-full object-cover"
-          />
-          <span className="text-base font-medium">Account</span>
+          /> */}
+          <span className="hidden text-base font-medium lg:flex">Account</span>
         </div>
       </DropdownMenuTrigger>
 
@@ -43,7 +50,7 @@ export default function AccountMenu() {
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild className="cursor-pointer">
-            <Link href="/auth/signin" className="w-full items-center justify-start gap-2">
+            <Link href="/auth/login" className="w-full items-center justify-start gap-2">
               <LogOut size={20} className="text-destructive" />
               <span className="text-destructive font-medium">Logout</span>
             </Link>
