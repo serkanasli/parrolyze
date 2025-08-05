@@ -1,8 +1,8 @@
 "use client";
-import { LoginForm } from "@/components/auth/login-form";
+import AuthForm from "@/components/auth/auth-form";
 
 function Page() {
-  return <LoginForm mode="login" />;
+  return <AuthForm mode="login" />;
 }
 
 export default Page;

@@ -1,7 +1,7 @@
-import { LoginForm } from "@/components/auth/login-form";
+import AuthForm from "@/components/auth/auth-form";
 
 function Page() {
-  return <LoginForm mode="signup" />;
+  return <AuthForm mode="signup" />;
 }
 
 export default Page;
