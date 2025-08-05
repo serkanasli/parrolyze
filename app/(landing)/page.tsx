@@ -19,7 +19,7 @@ function Page() {
           App Store and Play Store listings in multiple languages — fast.
         </p>
         <Button asChild className="mx-auto mt-8" variant="default" size="lg">
-          <Link href="/projects">Get for Free</Link>
+          <Link href="/auth/login">Get for Free</Link>
         </Button>
       </div>
     </section>

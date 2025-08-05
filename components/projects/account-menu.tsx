@@ -25,13 +25,6 @@ export default function AccountMenu() {
               className="rounded-full object-cover"
             />
           </Avatar>
-          {/* <Image
-            src="/images/user-pic.jpg"
-            alt="user picture"
-            width={24}
-            height={24}
-            className="bg-secondary/10 h-8 w-8 rounded-full object-cover"
-          /> */}
           <span className="hidden text-base font-medium lg:flex">Account</span>
         </div>
       </DropdownMenuTrigger>
@@ -50,7 +43,7 @@ export default function AccountMenu() {
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild className="cursor-pointer">
-            <Link href="/auth/login" className="w-full items-center justify-start gap-2">
+            <Link href="/auth/logout" className="w-full items-center justify-start gap-2">
               <LogOut size={20} className="text-destructive" />
               <span className="text-destructive font-medium">Logout</span>
             </Link>

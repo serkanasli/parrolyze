@@ -2,11 +2,11 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { login, signup } from "@/app/auth/login/actions";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -18,13 +18,17 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { mapSupabaseAuthError } from "@/lib/supabase/errors";
 import { cn } from "@/lib/utils";
 import { loginSchema, signUpSchema } from "@/validations/auth-schema";
 import { Loader2Icon } from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import { toast } from "sonner";
 import Divider from "../divider";
 import PasswordRequirements from "../password-requirements";
 import TermsNotice from "../terms-notice";
 import { GoogleAuthButton } from "./google-auth-button";
+import { SignupSuccessAlert } from "./signup-success-alert";
 
 const formModes = {
   login: {
@@ -53,10 +57,11 @@ interface AuthFormProps {
 }
 
 export default function AuthForm({ className, mode }: AuthFormProps) {
-  const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState<boolean>(false);
+  const [emailSent, setEmailSent] = useState<boolean>(false);
   const isLogin = mode === "login";
+  const searchParams = useSearchParams();
 
   const {
     title,
@@ -79,11 +84,33 @@ export default function AuthForm({ className, mode }: AuthFormProps) {
     mode: "onChange",
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsLoading(true);
-    // API çağrısı veya işlem burada yapılır
-    console.log(values);
-    setTimeout(() => setIsLoading(false), 1500); // sahte bekleme
+
+    const redirectTo = searchParams.get("redirect_to") || undefined;
+
+    const formData = {
+      ...values,
+      redirectTo,
+    };
+
+    if (isLogin) {
+      const response = await login(formData);
+      if (!response.success) {
+        const message = mapSupabaseAuthError(response);
+        toast.error(message);
+      }
+    } else if (mode === "signup") {
+      const response = await signup(formData);
+      if (!response.success) {
+        const message = mapSupabaseAuthError(response);
+        toast.error(message);
+      } else {
+        setEmailSent(true);
+      }
+    }
+
+    setIsLoading(false);
   };
 
   return (
@@ -103,67 +130,72 @@ export default function AuthForm({ className, mode }: AuthFormProps) {
 
               {/* Divider */}
               <Divider text="OR" />
-
-              {/* Email Field */}
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input placeholder="email@example.com" {...field} disabled={isLoading} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              {/* Password Field */}
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <div className="flex items-center justify-between">
-                      <FormLabel>Password</FormLabel>
-                      {isLogin && (
-                        <Link
-                          href="/auth/forgot-password"
-                          className="text-blue text-sm underline-offset-4 hover:underline"
-                        >
-                          Forgot your password?
-                        </Link>
-                      )}
-                    </div>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="password"
-                        {...field}
-                        disabled={isLoading}
-                        onFocus={() => setIsPasswordFocused(true)}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                    {!isLogin && isPasswordFocused && (
-                      <PasswordRequirements password={form.watch("password")} />
+              {emailSent ? (
+                <SignupSuccessAlert />
+              ) : (
+                <>
+                  {/* Email Field */}
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input placeholder="email@example.com" {...field} disabled={isLoading} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
                     )}
-                  </FormItem>
-                )}
-              />
+                  />
 
-              {/* Submit Button */}
-              <Button
-                disabled={isLoading}
-                type="submit"
-                className="w-full"
-                size="lg"
-                variant="blue"
-              >
-                {isLoading && <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />}
-                {buttonText}
-              </Button>
+                  {/* Password Field */}
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <div className="flex items-center justify-between">
+                          <FormLabel>Password</FormLabel>
+                          {isLogin && (
+                            <Link
+                              href="/auth/forgot-password"
+                              className="text-blue text-sm underline-offset-4 hover:underline"
+                            >
+                              Forgot your password?
+                            </Link>
+                          )}
+                        </div>
+                        <FormControl>
+                          <Input
+                            type="password"
+                            placeholder="password"
+                            {...field}
+                            disabled={isLoading}
+                            onFocus={() => setIsPasswordFocused(true)}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                        {!isLogin && isPasswordFocused && (
+                          <PasswordRequirements password={form.watch("password")} />
+                        )}
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* Submit Button */}
+                  <Button
+                    disabled={isLoading}
+                    type="submit"
+                    className="w-full"
+                    size="lg"
+                    variant="blue"
+                  >
+                    {isLoading && <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />}
+                    {buttonText}
+                  </Button>
+                </>
+              )}
 
               {/* Footer Link */}
               <div className="text-center text-sm">

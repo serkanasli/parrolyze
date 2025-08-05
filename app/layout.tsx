@@ -1,5 +1,6 @@
 import { ThemeProvider } from "@/providers/theme-provider";
 import type { Metadata } from "next";
+import { Toaster } from "sonner";
 import "./globals.css";
 
 // Metadata
@@ -60,6 +61,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+          <Toaster position="top-right" />
         </ThemeProvider>
       </body>
     </html>
