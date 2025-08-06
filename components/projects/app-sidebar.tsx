@@ -1,7 +1,6 @@
 "use client";
 
 import { ArrowLeftFromLine } from "lucide-react";
-import Link from "next/link";
 
 import {
   Sidebar,
@@ -10,9 +9,11 @@ import {
   SidebarHeader,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { sidebarItems } from "@/data/sidebar";
+import { getSidebarItems } from "@/data/sidebar";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
+import { useParams } from "next/navigation";
+import AppLogo from "../app-logo";
+import ThemeSwitcher from "../theme-switcher";
 import AppSidebarGroup from "./app-sidebar-group";
 import SidebarToggle from "./sidebar-toggle";
 
@@ -21,32 +22,37 @@ import SidebarToggle from "./sidebar-toggle";
 export default function AppSidebar() {
   const { state } = useSidebar();
 
+  const params = useParams();
+  const projectId = typeof params?.projectId === "string" ? params.projectId : "";
+  const sidebarItems = getSidebarItems(projectId);
+
   return (
     <Sidebar collapsible="icon" className="top-(--header-height) border-0 border-none">
       {/* Sidebar Navigation */}
       <SidebarHeader className="flex md:hidden">
-        <Link href="/" className="flex items-center p-2.5">
-          <Image src="/logo.svg" alt="Logo" width={175} height={175} />
-        </Link>
+        <AppLogo />
       </SidebarHeader>
       <SidebarContent>
         <AppSidebarGroup items={sidebarItems.navMain} />
       </SidebarContent>
       <SidebarFooter className="md:mb-(--header-height)">
         <AppSidebarGroup items={sidebarItems.navSecondary} />
-        <SidebarToggle
-          className={cn(
-            "mx-2.5 mb-5 md:flex",
-            state === "collapsed" && "cursor-e-resize",
-            state === "expanded" && "cursor-w-resize",
-          )}
-          icon={ArrowLeftFromLine}
-          iconClassName={cn(
-            "transition-transform duration-500",
-            state === "collapsed" && "rotate-180 ",
-            state === "expanded" && "rotate-0 ",
-          )}
-        />
+        <div className="mb-5 flex items-center justify-between pr-5">
+          <SidebarToggle
+            className={cn(
+              "mx-2.5 md:flex",
+              state === "collapsed" && "cursor-e-resize",
+              state === "expanded" && "cursor-w-resize",
+            )}
+            icon={ArrowLeftFromLine}
+            iconClassName={cn(
+              "transition-transform duration-500",
+              state === "collapsed" && "rotate-180 ",
+              state === "expanded" && "rotate-0 ",
+            )}
+          />
+          <ThemeSwitcher className="flex md:hidden" />
+        </div>
       </SidebarFooter>
     </Sidebar>
   );

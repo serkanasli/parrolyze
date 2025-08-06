@@ -5,13 +5,13 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 
-interface AppLogoProps {
+type AppLogoProps = {
   className?: string;
   image?: {
     width?: number;
     height?: number;
   };
-}
+};
 
 export default function AppLogo({ className, image }: AppLogoProps) {
   const { logoSrc } = useThemeAssets();

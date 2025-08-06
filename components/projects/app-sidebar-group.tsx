@@ -1,5 +1,3 @@
-"use client";
-
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -10,15 +8,15 @@ import {
 import { LucideIcon } from "lucide-react";
 import Link from "next/link";
 
-interface SidebarItem {
+type SidebarItem = {
   title: string;
   url: string;
   icon?: LucideIcon;
-}
+};
 
 interface AppSidebarGroupProps extends React.ComponentPropsWithoutRef<typeof SidebarGroup> {
   items: SidebarItem[];
-  hideText?: boolean; // icon-only
+  hideText?: boolean;
 }
 
 export default function AppSidebarGroup({

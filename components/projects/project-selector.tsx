@@ -1,5 +1,3 @@
-"use client";
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,34 +7,29 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { projects } from "@/data/projects";
+import { getUserProjects } from "@/lib/database/queries/projects";
+import { createClient } from "@/lib/supabase/server";
 import { ChevronDown, Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import ProjectSummary from "./project-summary";
 
-export default function ProjectSelector() {
+export default async function ProjectSelector() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const projects = await getUserProjects(user?.id ?? "");
+
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="bg-background hover:bg-muted data-[state=open]:bg-blue/10 flex cursor-pointer items-center justify-between gap-x-2.5 rounded-md p-1.5 md:p-2">
-        <div className="flex flex-row items-center gap-2.5">
-          <Image
-            src="/projects/locyst.svg"
-            alt="Project logo"
-            width={24}
-            height={24}
-            className="bg-secondary/10 h-6 w-6 rounded-sm md:h-8 md:w-8"
-          />
-          <div className="flex flex-col text-start">
-            <span className="font-medium">Locyst</span>
-            <span className="text-muted-foreground hidden text-xs md:flex">
-              Save location & get directions
-            </span>
-          </div>
-        </div>
+      <DropdownMenuTrigger className="bg-background hover:bg-muted data-[state=open]:bg-blue/10 flex cursor-pointer items-center justify-between gap-x-2.5 rounded-md p-1.5 lg:p-2">
+        <ProjectSummary projects={projects} />
         <ChevronDown className="text-muted-foreground" size={18} />
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="w-60" side="bottom" align="start">
+      <DropdownMenuContent className="w-72" side="bottom" align="start">
         <DropdownMenuLabel className="text-muted-foreground text-xs">
           Your Projects
         </DropdownMenuLabel>
@@ -44,9 +37,14 @@ export default function ProjectSelector() {
         <DropdownMenuGroup className="gap-y-1 py-1">
           {projects.map((project) => (
             <DropdownMenuItem asChild key={project.name} className="cursor-pointer">
-              <Link href={project.href} className="w-full items-center justify-start gap-2">
+              <Link
+                href={{
+                  pathname: `/projects/${project.id}/overview`,
+                }}
+                className="w-full items-center justify-start gap-2"
+              >
                 <Image
-                  src={project.icon}
+                  src={project?.icon_url || ""}
                   alt={project.name}
                   width={28}
                   height={28}

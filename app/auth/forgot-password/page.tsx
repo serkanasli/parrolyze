@@ -1,7 +1,13 @@
 "use client";
-import AppLogo from "@/components/app-logo";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2Icon } from "lucide-react";
@@ -26,45 +32,40 @@ function Page() {
   };
 
   return (
-    <section className="section-wide bg-green-secondary/10 flex h-screen flex-col items-center justify-center px-2.5 md:px-0">
-      <AppLogo
-        image={{
-          width: 200,
-          height: 200,
-        }}
-      />
-      <Card className="mt-5 w-full max-w-md border-0">
-        <CardHeader>
-          <CardTitle className="text-2xl lg:text-3xl">Reset password</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} id="login-form">
-            <div className="flex flex-col gap-6">
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" placeholder="email@example.com" />
-              </div>
+    <Card>
+      <CardHeader>
+        <CardTitle className="text-xl">Reset your password</CardTitle>
+        <CardDescription>
+          Enter your email address and we’ll send you a link to reset your password.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit} id="login-form">
+          <div className="flex flex-col gap-6">
+            <div className="grid gap-2">
+              <Label htmlFor="email">Email</Label>
+              <Input id="email" type="email" placeholder="email@example.com" />
             </div>
-          </form>
-        </CardContent>
-        <CardFooter className="flex-col gap-2">
-          <Button
-            form="login-form"
-            disabled={isLoading}
-            type="submit"
-            className="w-full"
-            variant="blue"
-            size="lg"
-          >
-            {isLoading && <Loader2Icon className="animate-spin" />}
-            Send reset password email
-          </Button>
-          <Button disabled={isLoading} className="ml-auto" asChild variant="link">
-            <Link href="/auth/signin">Log in</Link>
-          </Button>
-        </CardFooter>
-      </Card>
-    </section>
+          </div>
+        </form>
+      </CardContent>
+      <CardFooter className="flex-col gap-2">
+        <Button
+          form="login-form"
+          disabled={isLoading}
+          type="submit"
+          className="w-full"
+          variant="blue"
+          size="lg"
+        >
+          {isLoading && <Loader2Icon className="animate-spin" />}
+          Send reset password email
+        </Button>
+        <Button disabled={isLoading} className="ml-auto" asChild variant="link">
+          <Link href="/auth/login">Log in</Link>
+        </Button>
+      </CardFooter>
+    </Card>
   );
 }
 

@@ -14,16 +14,18 @@ import { useThemeAssets } from "@/hooks/use-theme-assets";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 
-export default function ThemeSwitcher() {
+type ThemeSwitcherProps = {
+  className?: string;
+};
+
+export default function ThemeSwitcher({ className }: ThemeSwitcherProps) {
   const { theme, setTheme, themes } = useTheme();
   const { currentTheme } = useThemeAssets();
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon">
-          {currentTheme === "dark" ? <Moon /> : <Sun />}
-        </Button>
+      <DropdownMenuTrigger asChild className={className}>
+        <Button variant="outline">{currentTheme === "dark" ? <Moon /> : <Sun />}</Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent side="bottom" align="end" className="w-40">
         <DropdownMenuLabel className="text-muted-foreground text-xs">Theme</DropdownMenuLabel>
