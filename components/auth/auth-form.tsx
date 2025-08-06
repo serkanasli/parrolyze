@@ -6,11 +6,11 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { login, signup } from "@/app/auth/login/actions";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormField } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { login, signUp } from "@/lib/database/mutations/auth";
 import { mapSupabaseAuthError } from "@/lib/supabase/errors";
 import { cn } from "@/lib/utils";
 import { loginSchema, signUpSchema } from "@/validations/auth-schema";
@@ -95,7 +95,7 @@ export default function AuthForm({ className, mode }: AuthFormProps) {
         toast.error(message);
       }
     } else if (mode === "signup") {
-      const response = await signup(formData);
+      const response = await signUp(formData);
       if (!response.success) {
         const message = mapSupabaseAuthError(response);
         toast.error(message);

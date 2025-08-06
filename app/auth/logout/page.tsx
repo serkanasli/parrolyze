@@ -1,22 +1,21 @@
 "use client";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { createClient } from "@/lib/supabase/client";
+import { signOut } from "@/lib/database/mutations/auth";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function LogoutPage() {
   const router = useRouter();
-  const supabase = createClient();
 
   useEffect(() => {
-    async function signOut() {
-      await supabase.auth.signOut();
+    async function logout() {
+      await signOut();
       router.replace("/auth/login");
     }
-    signOut();
-  }, [router, supabase]);
+    logout();
+  }, [router]);
 
   return (
     <Card className="w-full max-w-md shadow-md">

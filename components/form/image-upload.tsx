@@ -68,7 +68,7 @@ function ImageUpload({ onChange, onBlur, name, value, invalid, ...rest }: ImageU
       <div
         onClick={() => inputRef.current?.click()}
         className={cn(
-          "bg-background hover:bg-secondary group relative w-full cursor-pointer rounded-md border border-dashed p-5 shadow-none transition-colors duration-300",
+          "hover:bg-secondary group relative w-full cursor-pointer rounded-md border border-dashed p-5 shadow-none transition-colors duration-300",
           invalid && "border-destructive",
         )}
       >

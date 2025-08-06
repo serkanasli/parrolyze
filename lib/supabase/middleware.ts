@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { getUserProjects } from "../database/queries/projects";
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
@@ -53,13 +54,23 @@ export async function updateSession(request: NextRequest) {
   }
 
   const isAuthPage = PUBLIC_PATHS.some(
-    (publicPath) => publicPath === "/auth" && (path === "/auth" || path.startsWith("/auth/")),
+    (publicPath) =>
+      publicPath === "/auth" &&
+      path !== "/auth/logout" &&
+      (path === "/auth" || path.startsWith("/auth/")),
   );
 
   // If the user is already logged in and tries to access an auth page (login, signup, etc.), redirect them to the home page
   if (user && isAuthPage) {
+    const userProjects = await getUserProjects(user.id);
+    const hasNoProjects = userProjects.length === 0;
+
     const url = request.nextUrl.clone();
-    url.pathname = "/setup/project"; //
+    if (hasNoProjects) {
+      url.pathname = "/setup/project";
+    } else {
+      url.pathname = `/projects/${userProjects[0].id}/overview`;
+    }
     return NextResponse.redirect(url);
   }
 

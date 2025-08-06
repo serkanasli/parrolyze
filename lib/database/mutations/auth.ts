@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AuthFormData } from "@/types/auth";
 import { ActionResult } from "@/types/common";
+import { getUserProjects } from "../queries/projects";
 
 /**
  * Logs in a user with Supabase Auth.
@@ -23,8 +24,19 @@ export async function login(values: AuthFormData): Promise<ActionResult> {
     return { success: false, message: error.message, code: error.code };
   }
 
-  revalidatePath(values.redirectTo || "/projects", "layout");
-  redirect(values.redirectTo || "/projects");
+  const session = await supabase.auth.getSession();
+  const userId = session.data.session?.user?.id ?? "";
+  const projects = await getUserProjects(userId);
+
+  let redirectUrl: string;
+  if (projects.length < 1) {
+    redirectUrl = "/setup/project";
+  } else {
+    redirectUrl = `/projects/${projects[0].id}/overview`;
+  }
+
+  revalidatePath(values.redirectTo || redirectUrl, "layout");
+  redirect(values.redirectTo || redirectUrl);
 }
 
 /**
@@ -32,7 +44,7 @@ export async function login(values: AuthFormData): Promise<ActionResult> {
  * Returns `{ error: string }` if failed, otherwise redirects to /projects.
  */
 
-export async function signup(values: AuthFormData): Promise<ActionResult> {
+export async function signUp(values: AuthFormData): Promise<ActionResult> {
   const supabase = await createClient();
 
   const { error } = await supabase.auth.signUp({
@@ -45,4 +57,9 @@ export async function signup(values: AuthFormData): Promise<ActionResult> {
   }
 
   return { success: true };
+}
+
+export async function signOut() {
+  const supabase = await createClient();
+  return await supabase.auth.signOut();
 }

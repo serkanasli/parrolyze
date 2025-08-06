@@ -4,7 +4,7 @@ import Image from "next/image";
 export default function Page() {
   return (
     <div className="flex flex-col items-center justify-center space-y-5">
-      <div className="flex flex-col items-center justify-center gap-y-5">
+      <div className="flex flex-col items-center justify-center gap-y-2.5">
         <div className="flex h-14 w-14 items-center justify-center rounded-md p-2.5">
           <Image src="/images/parrot.svg" width={50} height={50} alt="logo" />
         </div>

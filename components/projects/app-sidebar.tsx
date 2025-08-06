@@ -9,8 +9,9 @@ import {
   SidebarHeader,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { sidebarItems } from "@/data/sidebar";
+import { getSidebarItems } from "@/data/sidebar";
 import { cn } from "@/lib/utils";
+import { useParams } from "next/navigation";
 import AppLogo from "../app-logo";
 import ThemeSwitcher from "../theme-switcher";
 import AppSidebarGroup from "./app-sidebar-group";
@@ -20,6 +21,10 @@ import SidebarToggle from "./sidebar-toggle";
 
 export default function AppSidebar() {
   const { state } = useSidebar();
+
+  const params = useParams();
+  const projectId = typeof params?.projectId === "string" ? params.projectId : "";
+  const sidebarItems = getSidebarItems(projectId);
 
   return (
     <Sidebar collapsible="icon" className="top-(--header-height) border-0 border-none">

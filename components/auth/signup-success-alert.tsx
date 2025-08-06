@@ -9,7 +9,7 @@ type SignupSuccessAlertProps = {
 export function SignupSuccessAlert({ className }: SignupSuccessAlertProps) {
   return (
     <Alert className={className}>
-      <CheckCircle2Icon className="h-6 w-6 text-green-600" />
+      <CheckCircle2Icon className="text-green-primary h-6 w-6" />
       <AlertTitle>Check your email to confirm</AlertTitle>
       <AlertDescription>
         You&apos;ve successfully signed up to Parrolyze. Please check your email to confirm your

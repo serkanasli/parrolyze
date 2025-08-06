@@ -16,14 +16,23 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { STORE_TYPES } from "@/constants";
+import { useUser } from "@/hooks/use-user";
+import { createProjectWithIcon } from "@/lib/database/transactions/projects";
 import { cn } from "@/lib/utils";
 import { StoreType } from "@/types/common";
+import { CreateProjectData } from "@/types/projects";
 import { projectNewSchema } from "@/validations/project-new-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 export default function ProjectForm() {
+  const { user } = useUser();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const router = useRouter();
   const form = useForm<z.infer<typeof projectNewSchema>>({
     resolver: zodResolver(projectNewSchema),
     defaultValues: {
@@ -46,7 +55,30 @@ export default function ProjectForm() {
   const showPlayStoreField = storeType === "both" || storeType === "play_store";
 
   const onSubmit = async (values: z.infer<typeof projectNewSchema>) => {
-    console.log("Form values:", values);
+    const toastId = toast.loading("Creating project...");
+    try {
+      const payload: CreateProjectData = {
+        name: values.name,
+        short_description: values.short_description,
+        store_type: values.store_type,
+        app_store_url: values.app_store_url ?? "",
+        play_store_url: values.play_store_url ?? "",
+        user_id: user?.id ?? "",
+        icon_file: values.icon_file || undefined,
+      };
+      setIsLoading(true);
+
+      const response = await createProjectWithIcon(payload);
+      if (response.project) {
+        toast.success("Project created successfully!", { id: toastId });
+        router.replace(`/projects/${response.project.id}/overview`);
+      }
+    } catch (error) {
+      console.log("error", error);
+      toast.error("An error occurred while creating the project.", { id: toastId });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -174,7 +206,7 @@ export default function ProjectForm() {
                 />
               )}
 
-              <Button type="submit" size="lg" variant="default">
+              <Button disabled={isLoading} type="submit" size="lg" variant="default">
                 Create my project
               </Button>
             </form>

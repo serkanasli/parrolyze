@@ -1,5 +1,3 @@
-"use client";
-
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -18,7 +16,7 @@ type SidebarItem = {
 
 interface AppSidebarGroupProps extends React.ComponentPropsWithoutRef<typeof SidebarGroup> {
   items: SidebarItem[];
-  hideText?: boolean; // icon-only
+  hideText?: boolean;
 }
 
 export default function AppSidebarGroup({
