@@ -1,6 +1,6 @@
-interface DividerProps {
+type DividerProps = {
   text?: string;
-}
+};
 
 function Divider({ text }: DividerProps) {
   return (

@@ -14,9 +14,9 @@ import { useThemeAssets } from "@/hooks/use-theme-assets";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 
-interface ThemeSwitcherProps {
+type ThemeSwitcherProps = {
   className?: string;
-}
+};
 
 export default function ThemeSwitcher({ className }: ThemeSwitcherProps) {
   const { theme, setTheme, themes } = useTheme();

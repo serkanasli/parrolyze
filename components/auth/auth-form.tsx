@@ -9,14 +9,7 @@ import { z } from "zod";
 import { login, signup } from "@/app/auth/login/actions";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormField } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { mapSupabaseAuthError } from "@/lib/supabase/errors";
 import { cn } from "@/lib/utils";
@@ -25,6 +18,7 @@ import { Loader2Icon } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import Divider from "../divider";
+import FormFieldItem from "../form/form-field-item";
 import PasswordRequirements from "../password-requirements";
 import TermsNotice from "../terms-notice";
 import { GoogleAuthButton } from "./google-auth-button";
@@ -51,10 +45,10 @@ const formModes = {
   },
 };
 
-interface AuthFormProps {
+type AuthFormProps = {
   className?: string;
   mode: "login" | "signup";
-}
+};
 
 export default function AuthForm({ className, mode }: AuthFormProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -139,13 +133,9 @@ export default function AuthForm({ className, mode }: AuthFormProps) {
                     control={form.control}
                     name="email"
                     render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email</FormLabel>
-                        <FormControl>
-                          <Input placeholder="email@example.com" {...field} disabled={isLoading} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
+                      <FormFieldItem label="Email">
+                        <Input placeholder="email@example.com" {...field} disabled={isLoading} />
+                      </FormFieldItem>
                     )}
                   />
 
@@ -154,19 +144,20 @@ export default function AuthForm({ className, mode }: AuthFormProps) {
                     control={form.control}
                     name="password"
                     render={({ field }) => (
-                      <FormItem>
-                        <div className="flex items-center justify-between">
-                          <FormLabel>Password</FormLabel>
-                          {isLogin && (
-                            <Link
-                              href="/auth/forgot-password"
-                              className="text-blue text-sm underline-offset-4 hover:underline"
-                            >
-                              Forgot your password?
-                            </Link>
-                          )}
-                        </div>
-                        <FormControl>
+                      <>
+                        <FormFieldItem
+                          label="Password"
+                          labelRightComponent={
+                            isLogin && (
+                              <Link
+                                href="/auth/forgot-password"
+                                className="text-blue text-sm underline-offset-4 hover:underline"
+                              >
+                                Forgot your password?
+                              </Link>
+                            )
+                          }
+                        >
                           <Input
                             type="password"
                             placeholder="password"
@@ -174,12 +165,11 @@ export default function AuthForm({ className, mode }: AuthFormProps) {
                             disabled={isLoading}
                             onFocus={() => setIsPasswordFocused(true)}
                           />
-                        </FormControl>
-                        <FormMessage />
+                        </FormFieldItem>
                         {!isLogin && isPasswordFocused && (
                           <PasswordRequirements password={form.watch("password")} />
                         )}
-                      </FormItem>
+                      </>
                     )}
                   />
 

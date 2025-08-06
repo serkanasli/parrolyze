@@ -10,11 +10,11 @@ import {
 import { LucideIcon } from "lucide-react";
 import Link from "next/link";
 
-interface SidebarItem {
+type SidebarItem = {
   title: string;
   url: string;
   icon?: LucideIcon;
-}
+};
 
 interface AppSidebarGroupProps extends React.ComponentPropsWithoutRef<typeof SidebarGroup> {
   items: SidebarItem[];

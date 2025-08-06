@@ -33,7 +33,7 @@ export async function updateSession(request: NextRequest) {
 
   // IMPORTANT: DO NOT REMOVE auth.getUser()
 
-  const PUBLIC_PATHS = ["/", "/about", "/contact", "/auth"];
+  const PUBLIC_PATHS = ["/", "/about", "/auth/logout", "/auth"];
 
   const {
     data: { user },

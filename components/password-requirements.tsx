@@ -1,9 +1,9 @@
 import { cn } from "@/lib/utils";
 import { Circle, CircleCheck } from "lucide-react";
 
-interface PasswordRequirementsProps {
+type PasswordRequirementsProps = {
   password: string;
-}
+};
 
 function PasswordRequirements({ password }: PasswordRequirementsProps) {
   const hasUppercase = /[A-Z]/.test(password);
@@ -21,7 +21,7 @@ function PasswordRequirements({ password }: PasswordRequirementsProps) {
   ];
 
   return (
-    <div className="mt-2.5 flex flex-col gap-1">
+    <div className="flex flex-col gap-1">
       {requirements.map((req, index) => (
         <div key={index}>
           <div className="text-muted-foreground flex items-center gap-1 text-sm">

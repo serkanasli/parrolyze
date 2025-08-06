@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
-interface GoogleAuthButtonProps {
+type GoogleAuthButtonProps = {
   text?: string;
   disabled?: boolean;
-}
+};
 
 export function GoogleAuthButton({
   text = "Continue with Google",

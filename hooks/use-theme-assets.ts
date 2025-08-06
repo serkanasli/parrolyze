@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 
 type ThemeKey = "light" | "dark";
 
-interface ThemeAssets {
+type ThemeAssets = {
   logoSrc: string;
-}
+};
 
 const themeAssets: Record<ThemeKey, ThemeAssets> = {
   light: {
