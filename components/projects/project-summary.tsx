@@ -1,10 +1,8 @@
 "use client";
-import type { Database } from "@/types/database.types";
+import { ProjectRow } from "@/types/projects";
 import { LayoutGrid } from "lucide-react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-
-type ProjectRow = Database["public"]["Tables"]["projects"]["Row"];
 
 type ProjectSummaryProps = {
   projects: ProjectRow[];

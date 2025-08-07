@@ -1,7 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import { Database } from "@/types/database.types";
-
-type ProjectRow = Database["public"]["Tables"]["projects"]["Row"];
+import { ProjectRow } from "@/types/projects";
 
 export async function getUserProjects(userId: string): Promise<ProjectRow[]> {
   const supabase = await createClient();

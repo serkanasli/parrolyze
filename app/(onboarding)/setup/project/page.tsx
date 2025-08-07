@@ -1,15 +1,15 @@
 "use client";
 import ProjectForm from "@/components/projects/new/project-form";
-import { CreateProjectResult } from "@/lib/database/transactions/projects";
+import { OnSubmitSuccessType } from "@/types/projects";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 export default function Page() {
   const router = useRouter();
 
-  const onSubmitSuccess = (response: CreateProjectResult) => {
-    if (response.project) {
-      router.replace(`/projects/${response.project.id}/overview`);
+  const onSubmitSuccess: OnSubmitSuccessType = (response) => {
+    if (response) {
+      router.replace(`/projects/${response.id}/overview`);
     }
   };
 

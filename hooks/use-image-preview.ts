@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
 
-export function useImagePreview(file?: File) {
+export function useImagePreview(file?: File | string) {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   useEffect(() => {
     if (!file) {
       setPreviewUrl(null);
+      return;
+    }
+
+    if (typeof file === "string") {
+      setPreviewUrl(file);
       return;
     }
 
@@ -15,5 +20,5 @@ export function useImagePreview(file?: File) {
     return () => URL.revokeObjectURL(objectUrl);
   }, [file]);
 
-  return previewUrl;
+  return { previewUrl, setPreviewUrl };
 }

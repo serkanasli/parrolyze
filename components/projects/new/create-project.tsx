@@ -1,14 +1,14 @@
 "use client";
 
-import { CreateProjectResult } from "@/lib/database/transactions/projects";
+import { OnSubmitSuccessType } from "@/types/projects";
 import { useRouter } from "next/navigation";
 import ProjectForm from "./project-form";
 
 export default function CreateProject() {
   const router = useRouter();
-  const onSubmitSuccess = (response: CreateProjectResult) => {
-    if (response.project) {
-      router.replace(`/projects/${response.project.id}/overview`);
+  const onSubmitSuccess: OnSubmitSuccessType = (response) => {
+    if (response) {
+      router.replace(`/projects/${response.id || ""}/overview`);
     }
   };
 

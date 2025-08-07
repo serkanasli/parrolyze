@@ -1,4 +1,5 @@
 import { StoreType } from "./common";
+import { Database } from "./database.types";
 
 export interface CreateProjectData {
   name: string;
@@ -9,3 +10,9 @@ export interface CreateProjectData {
   user_id: string;
   icon_file?: File;
 }
+
+export type ProjectRow = Database["public"]["Tables"]["projects"]["Row"];
+export type ProjectInsert = Database["public"]["Tables"]["projects"]["Insert"];
+export type ProjectUpdate = Database["public"]["Tables"]["projects"]["Update"];
+
+export type OnSubmitSuccessType = (response: ProjectInsert | ProjectUpdate) => void;

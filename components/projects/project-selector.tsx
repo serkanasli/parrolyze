@@ -46,11 +46,11 @@ export default async function ProjectSelector() {
                 <Image
                   src={project?.icon_url || ""}
                   alt={project.name}
-                  width={28}
-                  height={28}
+                  width={20}
+                  height={20}
                   className="rounded-sm bg-white"
                 />
-                <span className="text-base font-medium">{project.name}</span>
+                <span className="text-sm font-medium">{project.name}</span>
               </Link>
             </DropdownMenuItem>
           ))}

@@ -1,4 +1,4 @@
-import CreateProject from "@/components/projects/new/create";
+import CreateProject from "@/components/projects/new/create-project";
 
 function Page() {
   return (

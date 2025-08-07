@@ -1,12 +1,10 @@
-import { PageProps } from "@/types/common";
+import EditProject from "@/components/projects/settings/edit-project";
+import { getProject } from "@/lib/database/queries/projects";
 
-export default async function Page({ params }: PageProps) {
-  const resolvedParams = await params;
-  const { projectId } = resolvedParams;
+export default async function Page(props: { params: { projectId: string } }) {
+  const { projectId } = await props.params;
 
-  return (
-    <div className="p-4">
-      <h1 className="text-xl font-semibold">Settings for Project ID: {projectId}</h1>
-    </div>
-  );
+  const project = await getProject(projectId);
+
+  return <EditProject project={project!} />;
 }

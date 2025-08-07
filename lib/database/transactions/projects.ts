@@ -1,17 +1,13 @@
 import { uploadProjectIcon } from "@/lib/storage/project-files";
 import { createClient } from "@/lib/supabase/client";
 
-import type { Database } from "@/types/database.types";
-import { CreateProjectData } from "@/types/projects";
-
-type ProjectInsert = Database["public"]["Tables"]["projects"]["Insert"];
+import { CreateProjectData, ProjectInsert, ProjectRow, ProjectUpdate } from "@/types/projects";
 
 export interface CreateProjectResult {
-  project: Database["public"]["Tables"]["projects"]["Row"];
-  iconUrl?: string;
+  project: ProjectRow;
 }
 
-export async function createProjectWithIcon(data: CreateProjectData): Promise<CreateProjectResult> {
+export async function createProjectWithIcon(data: CreateProjectData): Promise<ProjectInsert> {
   const supabase = await createClient();
 
   try {
@@ -88,15 +84,93 @@ export async function createProjectWithIcon(data: CreateProjectData): Promise<Cr
 
     // 4. Could add more operations here (notifications, analytics, etc.)
 
-    return {
-      project: {
-        ...project,
-        icon_url: iconUrl || null,
-      },
-      iconUrl,
-    };
+    return project;
   } catch (error) {
     // Clean up any uploaded files if something goes wrong
+    throw error;
+  }
+}
+
+export async function editProject(data: ProjectUpdate) {
+  const supabase = await createClient();
+
+  try {
+    if (!data.id) {
+      throw new Error("Project ID is required for update.");
+    }
+
+    const { id, ...updateData } = data;
+
+    const { error } = await supabase.from("projects").update(updateData).eq("id", id).single();
+
+    if (error) {
+      throw new Error(`Failed to update project: ${error.message}`);
+    }
+
+    return true;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function deleteProject(id: string): Promise<boolean> {
+  const supabase = await createClient();
+
+  try {
+    if (!id) {
+      throw new Error("Project ID is required for deletion.");
+    }
+
+    const { error } = await supabase.from("projects").delete().eq("id", id).single();
+
+    if (error) {
+      throw new Error(`Failed to delete project: ${error.message}`);
+    }
+
+    return true;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function updateProjectIconWithUpload(
+  projectId: string,
+  iconFile: File,
+): Promise<string> {
+  const supabase = await createClient();
+
+  try {
+    if (!projectId) {
+      throw new Error("Project ID is required.");
+    }
+
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
+
+    if (authError || !user?.id) {
+      throw new Error(`User auth failed: ${authError?.message}`);
+    }
+
+    const userId = user.id;
+
+    const { url } = await uploadProjectIcon(iconFile, projectId, userId);
+
+    const { error: updateError } = await supabase
+      .from("projects")
+      .update({
+        icon_url: url,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", projectId);
+
+    if (updateError) {
+      throw new Error(`Failed to update icon URL: ${updateError.message}`);
+    }
+
+    return url;
+  } catch (error) {
     throw error;
   }
 }
