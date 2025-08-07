@@ -14,11 +14,20 @@ interface ImageUploadProps {
   name?: string;
   value?: File;
   invalid?: boolean;
+  hideDeleteButton?: boolean;
 }
 
-function ImageUpload({ onChange, onBlur, name, value, invalid, ...rest }: ImageUploadProps) {
+function ImageUpload({
+  onChange,
+  onBlur,
+  name,
+  value,
+  invalid,
+  hideDeleteButton,
+  ...rest
+}: ImageUploadProps) {
   const inputRef = useRef<HTMLInputElement>(null);
-  const preview = useImagePreview(value);
+  const { previewUrl, setPreviewUrl } = useImagePreview(value);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -32,28 +41,31 @@ function ImageUpload({ onChange, onBlur, name, value, invalid, ...rest }: ImageU
     event.stopPropagation();
     onChange(undefined);
     if (inputRef.current) {
+      setPreviewUrl(null);
       inputRef.current.value = "";
     }
   };
 
   const renderImagePreview = () => {
-    if (!preview) {
+    if (!previewUrl) {
       return <Upload size={32} className="text-muted-foreground" />;
     }
 
     return (
       <>
-        <Button
-          type="button"
-          variant="destructive"
-          size="icon"
-          onClick={handleRemove}
-          className="absolute -top-2.5 -right-2.5 z-10 hidden h-5 w-5 rounded-full p-1 text-white group-hover:flex"
-        >
-          <X size={12} />
-        </Button>
+        {hideDeleteButton ? null : (
+          <Button
+            type="button"
+            variant="destructive"
+            size="icon"
+            onClick={handleRemove}
+            className="absolute -top-2.5 -right-2.5 z-10 hidden h-5 w-5 rounded-full p-1 text-white group-hover:flex"
+          >
+            <X size={12} />
+          </Button>
+        )}
         <Image
-          src={preview}
+          src={previewUrl}
           width={200}
           height={200}
           alt="preview"

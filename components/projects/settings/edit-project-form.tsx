@@ -1,9 +1,7 @@
 "use client";
 
 import FormFieldItem from "@/components/form/form-field-item";
-import ImageUpload from "@/components/form/image-upload";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Form, FormField } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
@@ -16,60 +14,41 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { STORE_TYPES } from "@/constants";
-import { useProjectForm } from "@/hooks/use-project-form";
-import { useUser } from "@/hooks/use-user";
+import { useEditProjectForm } from "@/hooks/use-project-form";
 import { cn } from "@/lib/utils";
-import { OnSubmitSuccessType } from "@/types/projects";
-import { Loader2 } from "lucide-react";
+import { ProjectRow } from "@/types/projects";
+import { useEffect } from "react";
 
-type ProjectFormProps = {
-  onSubmitSuccess?: OnSubmitSuccessType;
-  className?: string;
-  cardTitle?: string;
-  cardDescription?: string;
-  submitButtonText?: string;
-  submitButtonClassName?: string;
-  submitButtonIcon?: React.ReactNode;
+type EditProjectFormProps = {
+  project: ProjectRow;
+  isFormDirty: (isDirty: boolean) => void;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function ProjectForm({
-  onSubmitSuccess,
-  className,
-  cardTitle,
-  cardDescription,
-  submitButtonText,
-  submitButtonClassName,
-  submitButtonIcon,
-}: ProjectFormProps) {
-  const { user } = useUser();
+const EditProjectForm = ({ project, isFormDirty, setIsLoading }: EditProjectFormProps) => {
+  const { form, formSubmit, showAppStoreField, showPlayStoreField, isLoading } = useEditProjectForm(
+    {
+      initialValues: project,
+    },
+  );
 
-  const { form, formSubmit, showAppStoreField, showPlayStoreField, isLoading } = useProjectForm({
-    userId: user?.id ?? "",
-    onSubmitSuccess: onSubmitSuccess,
-  });
+  useEffect(() => {
+    isFormDirty(form.formState.isDirty);
+  }, [form.formState.isDirty, isFormDirty]);
+
+  useEffect(() => {
+    setIsLoading(isLoading);
+  }, [isLoading, setIsLoading]);
 
   return (
-    <Card className={cn("border-0 shadow-none md:min-w-md", className)}>
-      {(cardTitle || cardDescription) && (
-        <CardHeader className="text-center">
-          <CardTitle>{cardTitle}</CardTitle>
-          <CardDescription>{cardDescription}</CardDescription>
-        </CardHeader>
-      )}
+    <Card className="border-0 shadow-none">
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(formSubmit)} className="grid gap-6">
-            {/*App Icon */}
-            <FormField
-              control={form.control}
-              name="icon_file"
-              render={({ field, fieldState }) => (
-                <FormFieldItem label="Project Icon">
-                  <ImageUpload {...field} invalid={fieldState.invalid} />
-                </FormFieldItem>
-              )}
-            />
-
+          <form
+            onSubmit={form.handleSubmit(formSubmit)}
+            className="grid gap-6"
+            id="edit-project-form"
+          >
             {/* Project Name */}
             <FormField
               control={form.control}
@@ -171,24 +150,11 @@ export default function ProjectForm({
                 )}
               />
             )}
-
-            <Button
-              disabled={isLoading}
-              type="submit"
-              size="lg"
-              variant="default"
-              className={cn("w-full", submitButtonClassName)}
-            >
-              {isLoading ? (
-                <Loader2 className="animate-spin" />
-              ) : (
-                submitButtonIcon && submitButtonIcon
-              )}
-              {submitButtonText || "Create my project"}
-            </Button>
           </form>
         </Form>
       </CardContent>
     </Card>
   );
-}
+};
+
+export default EditProjectForm;

@@ -1,8 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import type { Database } from "@/types/database.types";
-
-type ProjectInsert = Database["public"]["Tables"]["projects"]["Insert"];
-type ProjectUpdate = Database["public"]["Tables"]["projects"]["Update"];
+import { ProjectInsert, ProjectUpdate } from "@/types/projects";
 
 export async function createProject(project: ProjectInsert) {
   const supabase = await createClient();

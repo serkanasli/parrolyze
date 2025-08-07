@@ -24,7 +24,7 @@ export default async function ProjectSelector() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="bg-background hover:bg-muted data-[state=open]:bg-blue/10 flex cursor-pointer items-center justify-between gap-x-2.5 rounded-md p-1.5 lg:p-2">
+      <DropdownMenuTrigger className="bg-surface-primary hover:bg-muted data-[state=open]:bg-blue/10 flex cursor-pointer items-center justify-between gap-x-2.5 rounded-md p-1.5 lg:p-2 dark:border">
         <ProjectSummary projects={projects} />
         <ChevronDown className="text-muted-foreground" size={18} />
       </DropdownMenuTrigger>
@@ -46,11 +46,11 @@ export default async function ProjectSelector() {
                 <Image
                   src={project?.icon_url || ""}
                   alt={project.name}
-                  width={28}
-                  height={28}
+                  width={20}
+                  height={20}
                   className="rounded-sm bg-white"
                 />
-                <span className="text-base font-medium">{project.name}</span>
+                <span className="text-sm font-medium">{project.name}</span>
               </Link>
             </DropdownMenuItem>
           ))}

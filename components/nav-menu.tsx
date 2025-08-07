@@ -4,7 +4,7 @@ import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
-export function NavMenu() {
+export default function MobileNavMenu() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
@@ -13,7 +13,7 @@ export function NavMenu() {
         {!isOpen ? <Menu className="h-9 w-9" /> : <X className="h-9 w-9" />}
       </button>
       {isOpen && (
-        <div className="bg-background absolute top-(--header-height) right-0 mt-2 h-[calc(100vh-var(--header-height))] w-full rounded-md">
+        <div className="bg-surface absolute top-(--header-height) right-0 mt-2 h-[calc(100vh-var(--header-height))] w-full rounded-md">
           <nav className="flex flex-col items-start gap-2.5 py-4">
             <Button asChild variant="link" size="lg">
               <Link href="/auth/login">

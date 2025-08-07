@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap");
+@import url("https://fonts.google.com/share?selection.family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900");
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -8,7 +8,8 @@
   --radius: 0.625rem;
   --header-height: 5rem;
 
-  --font-bricolage: "Bricolage Grotesque", sans-serif;
+  --font-inter: "Inter", sans-serif;
+  --transparent: transparent;
   --primary: oklch(0.205 0 0);
   --secondary: oklch(0.97 0 0);
   --accent: oklch(0.97 0 0);
@@ -43,6 +44,7 @@
 
   /* Custom colors */
   --surface: oklch(0.98 0.01 80);
+  --surface-primary: oklch(1 0 0);
   --ink: oklch(0.18 0 0);
   --green-primary: oklch(0.55 0.2 145);
   --green-secondary: oklch(0.7 0.17 135);
@@ -53,6 +55,7 @@
 
 .dark {
   --background: oklch(0.145 0 0);
+  --transparent: transparent;
   --primary: oklch(0.922 0 0);
   --secondary: oklch(0.269 0 0);
   --accent: oklch(0.269 0 0);
@@ -85,7 +88,8 @@
   --sidebar-ring: oklch(0.556 0 0);
 
   /* Custom colors */
-  --surface: oklch(0.14 0.005 80);
+  --surface: oklch(0.21 0.004 260);
+  --surface-primary: oklch(0.205 0 0);
   --ink: oklch(0.95 0 0);
   --green-primary: oklch(0.65 0.22 145);
   --green-secondary: oklch(0.75 0.17 135);
@@ -95,13 +99,14 @@
 }
 
 @theme inline {
-  --font-bricolage: "Bricolage Grotesque", sans-serif;
+  --font-inter: "Inter", sans-serif;
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
+  --color-transparent: var(--transparent);
   --color-background: var(--background);
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);
@@ -136,6 +141,7 @@
 
   /* Custom colors */
   --color-surface: var(--surface);
+  --color-surface-primary: var(--surface-primary);
   --color-ink: var(--ink);
   --color-green-primary: var(--green-primary);
   --color-green-secondary: var(--green-secondary);
@@ -145,8 +151,8 @@
 }
 
 body {
-  font-family: var(--font-bricolage);
-  background-color: var(--background);
+  font-family: var(--font-inter);
+  background-color: var(--surface);
   color: var(--text);
   transition:
     background-color 0.3s,
@@ -185,6 +191,11 @@ body {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+  .scrollbar {
+    scrollbar-width: auto;
+    scrollbar-color: var(--border) var(--transparent);
+  }
 }
 
 @layer base {
@@ -192,6 +203,6 @@ body {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-surface text-foreground;
   }
 }
