@@ -10,9 +10,9 @@ import SidebarToggle from "./sidebar-toggle";
 
 export default function Navbar() {
   return (
-    <nav className="flex h-(--header-height) items-center">
-      <AppLogo className="hidden w-3xs p-5 md:flex" />
-      <div className="mx-1 flex flex-1 items-center justify-between sm:mx-2.5">
+    <header className="section-wide flex h-(--header-height) items-center">
+      <AppLogo className="hidden pb-5 md:flex lg:w-3xs lg:p-5" href="/projects/overview" />
+      <nav className="mx-1 flex flex-1 items-center justify-between sm:mx-2.5">
         {/* Header: Project Selector */}
         <div className="ml-2 flex items-center gap-2 sm:ml-0">
           <SidebarToggle />
@@ -20,7 +20,7 @@ export default function Navbar() {
         </div>
         {/* Header: User Account */}
         <div className="flex items-center gap-2.5">
-          <ThemeSwitcher className="hidden sm:flex" />
+          <ThemeSwitcher />
           <Button asChild variant="outline" className="hidden sm:flex">
             <Link
               href="https://github.com/serkanasli/parrolyze"
@@ -34,7 +34,7 @@ export default function Navbar() {
           <FeedbackDialog />
           <AccountMenu />
         </div>
-      </div>
-    </nav>
+      </nav>
+    </header>
   );
 }

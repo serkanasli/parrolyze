@@ -3,13 +3,13 @@ import ThemeSwitcher from "@/components/theme-switcher";
 import { Button } from "@/components/ui/button";
 import { Github } from "lucide-react";
 import Link from "next/link";
-import { NavMenu } from "../nav-menu";
+import MobileNavMenu from "../nav-menu";
 
 export default function Navbar() {
   return (
     <header className="flex h-20 items-center justify-between p-2.5">
       <AppLogo />
-      <NavMenu />
+      <MobileNavMenu />
       <nav className="hidden h-20 items-center gap-2.5 sm:flex">
         <ThemeSwitcher />
         <Button asChild variant="outline" className="border-border">

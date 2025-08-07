@@ -5,18 +5,20 @@ export function getSidebarItems(projectId: string) {
     navMain: [
       {
         title: "Overview",
-        url: `/projects/${projectId}/overview`,
+        url: projectId ? `/projects/${projectId}/overview` : "/projects/overview",
         icon: LayoutDashboard,
       },
       {
         title: "Store Localization",
         url: `/projects/${projectId}/localization/store`,
         icon: Globe,
+        hideIfMobileAndNoProject: true,
       },
       {
         title: "App Localization",
         url: `/projects/${projectId}/localization/app`,
         icon: AppWindow,
+        hideIfMobileAndNoProject: true,
       },
     ],
     navSecondary: [
@@ -29,6 +31,7 @@ export function getSidebarItems(projectId: string) {
         title: "Project Settings",
         url: `/projects/${projectId}/settings`,
         icon: Settings,
+        hideIfMobileAndNoProject: true,
       },
     ],
   };

@@ -1,7 +1,18 @@
+"use client";
 import ProjectForm from "@/components/projects/new/project-form";
+import { CreateProjectResult } from "@/lib/database/transactions/projects";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
+  const router = useRouter();
+
+  const onSubmitSuccess = (response: CreateProjectResult) => {
+    if (response.project) {
+      router.replace(`/projects/${response.project.id}/overview`);
+    }
+  };
+
   return (
     <div className="flex flex-col items-center justify-center space-y-5">
       <div className="flex flex-col items-center justify-center gap-y-2.5">
@@ -18,7 +29,11 @@ export default function Page() {
         </div>
       </div>
       <p className="text-muted-foreground text-base">This will only take a minute to complete</p>
-      <ProjectForm />
+      <ProjectForm
+        onSubmitSuccess={onSubmitSuccess}
+        cardDescription="Fill in the details below to get started with your mobile app project."
+        cardTitle="Create Your First Project"
+      />
     </div>
   );
 }
