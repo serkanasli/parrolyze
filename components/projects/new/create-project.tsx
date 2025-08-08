@@ -9,6 +9,7 @@ export default function CreateProject() {
   const onSubmitSuccess: OnSubmitSuccessType = (response) => {
     if (response) {
       router.replace(`/projects/${response.id || ""}/overview`);
+      router.refresh();
     }
   };
 

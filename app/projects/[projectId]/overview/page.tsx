@@ -1,12 +1,12 @@
+import ProjectOverview from "@/components/projects/overview/project-overview";
+import { getUserProjects } from "@/lib/database/queries/projects";
 import { PageProps } from "@/types/common";
 
 export default async function Page({ params }: PageProps) {
   const resolvedParams = await params;
   const { projectId } = resolvedParams;
 
-  return (
-    <div className="p-4">
-      <h1 className="text-xl font-semibold">Overview for Project ID: {projectId}</h1>
-    </div>
-  );
+  const projects = await getUserProjects();
+
+  return <ProjectOverview projectId={projectId} projects={projects} />;
 }

@@ -24,9 +24,7 @@ export async function login(values: AuthFormData): Promise<ActionResult> {
     return { success: false, message: error.message, code: error.code };
   }
 
-  const session = await supabase.auth.getSession();
-  const userId = session.data.session?.user?.id ?? "";
-  const projects = await getUserProjects(userId);
+  const projects = await getUserProjects();
 
   let redirectUrl: string;
   if (projects.length < 1) {

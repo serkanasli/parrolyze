@@ -49,7 +49,7 @@ export default function AppSidebarGroup({
                   asChild
                   isActive={isActive}
                   className={cn(
-                    "transition-shadow duration-300",
+                    "transition-shadow duration-200",
                     "data-[active=true]:bg-blue/10",
                     "data-[active=true]:shadow-sm",
                     "data-[active=true]:font-semibold",
@@ -58,7 +58,7 @@ export default function AppSidebarGroup({
                   <Link href={url} className="flex h-9 items-center gap-2">
                     {Icon && <Icon size={20} className="shrink-0" />}
                     {!hideText && (
-                      <span className="text-sm transition-opacity duration-300">{title}</span>
+                      <span className="text-sm transition-opacity duration-200">{title}</span>
                     )}
                   </Link>
                 </SidebarMenuButton>

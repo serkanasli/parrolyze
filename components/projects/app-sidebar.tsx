@@ -52,6 +52,7 @@ export default function AppSidebar() {
 
   return (
     <Sidebar
+      variant="inset"
       collapsible={projectId ? "icon" : "offcanvas"}
       className="top-(--header-height) border-0 border-none"
     >

@@ -22,8 +22,8 @@ export default function EditProject({ project }: EditProjectPros) {
   };
 
   return (
-    <div>
-      <div className="mr-10 mb-5 flex flex-col justify-between md:flex-row">
+    <>
+      <div className="flex flex-col justify-between md:flex-row">
         <h1 className="mb-5 text-xl font-semibold lg:text-2xl">Project settings</h1>
         <div className="mr-auto flex flex-row-reverse gap-y-2 md:mr-0 md:flex-row md:gap-x-2.5">
           <DeleteProject projectName={project?.name} projectId={project.id} />
@@ -33,8 +33,8 @@ export default function EditProject({ project }: EditProjectPros) {
           </Button>
         </div>
       </div>
-      <Separator />
-      <div className="mt-5 grid grid-cols-12 gap-4">
+      <Separator className="mb-5" />
+      <div className="grid grid-cols-12 gap-4">
         <div className="order-2 col-span-12 lg:order-1 lg:col-span-6">
           <IconEditForm project={project} />
         </div>
@@ -46,6 +46,6 @@ export default function EditProject({ project }: EditProjectPros) {
           />
         </div>
       </div>
-    </div>
+    </>
   );
 }

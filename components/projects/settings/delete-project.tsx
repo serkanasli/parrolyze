@@ -41,6 +41,7 @@ export function DeleteProject({ projectName, projectId, className }: DeleteProje
       await deleteProject(projectId);
       toast.success("Project deleted successfully!", { id: toastId });
       router.push("/projects/overview");
+      router.refresh();
     } catch {
       const errorMessage = "An error occurred while deleting the project.";
       toast.error(errorMessage, { id: toastId });

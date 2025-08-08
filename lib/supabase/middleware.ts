@@ -62,7 +62,7 @@ export async function updateSession(request: NextRequest) {
 
   // If the user is already logged in and tries to access an auth page (login, signup, etc.), redirect them to the home page
   if (user && isAuthPage) {
-    const userProjects = await getUserProjects(user.id);
+    const userProjects = await getUserProjects();
     const hasNoProjects = userProjects.length === 0;
 
     const url = request.nextUrl.clone();

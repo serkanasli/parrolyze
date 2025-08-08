@@ -8,19 +8,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { getUserProjects } from "@/lib/database/queries/projects";
-import { createClient } from "@/lib/supabase/server";
 import { ChevronDown, Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import ProjectSummary from "./project-summary";
 
 export default async function ProjectSelector() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  const projects = await getUserProjects(user?.id ?? "");
+  const projects = await getUserProjects();
 
   return (
     <DropdownMenu>
@@ -33,33 +27,37 @@ export default async function ProjectSelector() {
         <DropdownMenuLabel className="text-muted-foreground text-xs">
           Your Projects
         </DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup className="gap-y-1 py-1">
-          {projects.map((project) => (
-            <DropdownMenuItem asChild key={project.name} className="cursor-pointer">
-              <Link
-                href={{
-                  pathname: `/projects/${project.id}/overview`,
-                }}
-                className="w-full items-center justify-start gap-2"
-              >
-                <Image
-                  src={project?.icon_url || ""}
-                  alt={project.name}
-                  width={20}
-                  height={20}
-                  className="rounded-sm bg-white"
-                />
-                <span className="text-sm font-medium">{project.name}</span>
-              </Link>
-            </DropdownMenuItem>
-          ))}
-        </DropdownMenuGroup>
+        {projects.length > 0 && (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuGroup className="gap-y-1 py-1">
+              {projects.map((project) => (
+                <DropdownMenuItem asChild key={project.name} className="cursor-pointer">
+                  <Link
+                    href={{
+                      pathname: `/projects/${project.id}/overview`,
+                    }}
+                    className="w-full items-center justify-start gap-2"
+                  >
+                    <Image
+                      src={project?.icon_url || ""}
+                      alt={project.name}
+                      width={20}
+                      height={20}
+                      className="rounded-sm bg-white"
+                    />
+                    <span className="text-sm font-medium">{project.name}</span>
+                  </Link>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuGroup>
+          </>
+        )}
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild className="cursor-pointer">
           <Link href="/projects/new" className="w-full items-center justify-start gap-2">
             <Plus size={20} className="text-green-primary" />
-            <span className="text-green-primary font-medium">Create New Project</span>
+            <span className="text-green-primary font-medium">Create a new project</span>
           </Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
