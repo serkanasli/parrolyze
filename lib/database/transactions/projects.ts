@@ -1,43 +1,22 @@
+"use server";
+
 import { uploadProjectIcon } from "@/lib/storage/project-files";
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from "@/lib/supabase/server";
+import { ProjectInsertType, ProjectRowType } from "@/types/projects";
 
-import { CreateProjectData, ProjectInsert, ProjectRow, ProjectUpdate } from "@/types/projects";
+import { createProject, deleteProject, updateProject } from "../mutations/projects";
 
-export interface CreateProjectResult {
-  project: ProjectRow;
-}
-
-export async function createProjectWithIcon(data: CreateProjectData): Promise<ProjectInsert> {
+export async function createProjectWithIcon(
+  data: ProjectInsertType,
+  iconFile: File,
+): Promise<ProjectRowType> {
   const supabase = await createClient();
 
   try {
-    // 1. First create project without icon
-    const projectData: ProjectInsert = {
-      name: data.name,
-      short_description: data.short_description,
-      store_type: data.store_type,
-      app_store_url: data.app_store_url,
-      play_store_url: data.play_store_url,
-      user_id: data.user_id,
-      icon_url: null, // Will be updated after file upload
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    };
-
-    const { data: project, error: projectError } = await supabase
-      .from("projects")
-      .insert(projectData)
-      .select()
-      .single();
-
-    if (projectError) {
-      throw new Error(`Failed to create project: ${projectError.message}`);
-    }
-
-    let iconUrl: string | undefined;
+    const project = await createProject(data);
 
     // 2. Upload icon if provided
-    if (data.icon_file) {
+    if (iconFile) {
       try {
         const {
           data: { user },
@@ -50,17 +29,17 @@ export async function createProjectWithIcon(data: CreateProjectData): Promise<Pr
 
         const userId = user?.id ?? "";
 
-        const { url } = await uploadProjectIcon(data.icon_file, project.id, userId);
-        iconUrl = url;
+        console.log("project", project);
+        console.log("userId", userId);
+
+        const { url } = await uploadProjectIcon(iconFile, project.id, userId);
 
         // 3. Update project with icon URL
-        const { error: updateError } = await supabase
-          .from("projects")
-          .update({
-            icon_url: url,
-            updated_at: new Date().toISOString(),
-          })
-          .eq("id", project.id);
+
+        const { error: updateError } = await updateProject(project.id, {
+          icon_url: url,
+          updated_at: new Date().toISOString(),
+        });
 
         if (updateError) {
           throw new Error(`Failed to update project with icon: ${updateError.message}`);
@@ -74,7 +53,7 @@ export async function createProjectWithIcon(data: CreateProjectData): Promise<Pr
         // 2. Keep project without icon (lenient)
 
         // Option 1: Strict - rollback
-        await supabase.from("projects").delete().eq("id", project.id);
+        await deleteProject(project.id);
         throw uploadError;
 
         // Option 2: Lenient - keep project, log error
@@ -87,48 +66,6 @@ export async function createProjectWithIcon(data: CreateProjectData): Promise<Pr
     return project;
   } catch (error) {
     // Clean up any uploaded files if something goes wrong
-    throw error;
-  }
-}
-
-export async function editProject(data: ProjectUpdate) {
-  const supabase = await createClient();
-
-  try {
-    if (!data.id) {
-      throw new Error("Project ID is required for update.");
-    }
-
-    const { id, ...updateData } = data;
-
-    const { error } = await supabase.from("projects").update(updateData).eq("id", id).single();
-
-    if (error) {
-      throw new Error(`Failed to update project: ${error.message}`);
-    }
-
-    return true;
-  } catch (error) {
-    throw error;
-  }
-}
-
-export async function deleteProject(id: string): Promise<boolean> {
-  const supabase = await createClient();
-
-  try {
-    if (!id) {
-      throw new Error("Project ID is required for deletion.");
-    }
-
-    const { error } = await supabase.from("projects").delete().eq("id", id).single();
-
-    if (error) {
-      throw new Error(`Failed to delete project: ${error.message}`);
-    }
-
-    return true;
-  } catch (error) {
     throw error;
   }
 }
@@ -157,13 +94,10 @@ export async function updateProjectIconWithUpload(
 
     const { url } = await uploadProjectIcon(iconFile, projectId, userId);
 
-    const { error: updateError } = await supabase
-      .from("projects")
-      .update({
-        icon_url: url,
-        updated_at: new Date().toISOString(),
-      })
-      .eq("id", projectId);
+    const { error: updateError } = await updateProject(projectId, {
+      icon_url: url,
+      updated_at: new Date().toISOString(),
+    });
 
     if (updateError) {
       throw new Error(`Failed to update icon URL: ${updateError.message}`);

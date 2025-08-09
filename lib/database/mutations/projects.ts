@@ -1,16 +1,19 @@
 import { createClient } from "@/lib/supabase/server";
-import { ProjectInsert, ProjectUpdate } from "@/types/projects";
+import { ProjectInsertType, ProjectUpdateType } from "@/types/projects";
 
-export async function createProject(project: ProjectInsert) {
+export async function createProject(project: ProjectInsertType) {
   const supabase = await createClient();
 
   const { data, error } = await supabase.from("projects").insert(project).select().single();
 
-  if (error) throw error;
+  if (error) {
+    throw new Error(`Failed to create project: ${error.message}`);
+  }
+
   return data;
 }
 
-export async function updateProject(id: string, updates: ProjectUpdate) {
+export async function updateProject(id: string, updates: ProjectUpdateType) {
   const supabase = await createClient();
 
   const { data, error } = await supabase

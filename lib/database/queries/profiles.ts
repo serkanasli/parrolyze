@@ -1,14 +1,16 @@
 import { createClient } from "@/lib/supabase/server";
-import { Database } from "@/types/database.types";
+import { ProfileRowType } from "@/types/profiles";
 
-type ProfileRow = Database["public"]["Tables"]["profiles"]["Row"];
-
-export async function getUserProfile(userId: string): Promise<ProfileRow> {
+export async function getUserProfile(): Promise<ProfileRowType> {
   const supabase = await createClient();
 
-  const { data, error } = await supabase.from("profiles").select().eq("id", userId).single();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const { data, error } = await supabase.from("profiles").select().eq("id", user?.id).single();
 
   if (error) throw error;
 
-  return data as ProfileRow;
+  return data as ProfileRowType;
 }

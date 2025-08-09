@@ -1,3 +1,4 @@
+import { getUserProfile } from "@/actions/profiles";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,18 +8,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { getUserProfile } from "@/lib/database/queries/profiles";
-import { createClient } from "@/lib/supabase/server";
 import { LogOut, Settings } from "lucide-react";
 import Link from "next/link";
 import { Avatar, AvatarImage } from "../ui/avatar";
 
 export default async function AccountMenu() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  const profile = await getUserProfile(user?.id || "");
+  const { data: profile } = await getUserProfile();
 
   return (
     <DropdownMenu>

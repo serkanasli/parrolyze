@@ -1,11 +1,11 @@
 import { createClient } from "@/lib/supabase/server";
 import { StoreType } from "@/types/common";
-import { StoreLocalizationRow } from "@/types/store-localizations";
+import { StoreLocalizationRowType } from "@/types/store-localizations";
 
-export async function getProjectStoreLocalizations(
+export async function getStoreLocalizationsByProject(
   projectId: string,
   platform: StoreType,
-): Promise<StoreLocalizationRow[]> {
+): Promise<StoreLocalizationRowType[]> {
   const supabase = await createClient();
 
   // Get the authenticated user

@@ -10,12 +10,12 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { ComboBoxItem } from "@/types/common";
+import { ComboBoxItemType } from "@/types/common";
 import { Check, ChevronsUpDown } from "lucide-react";
 import * as React from "react";
 
 interface ComboBoxProps {
-  items: ComboBoxItem[];
+  items: ComboBoxItemType[];
   defaultValue?: string;
   placeholder?: string;
   className?: string;

@@ -17,8 +17,8 @@ import { Form, FormField } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
-import { ComboBoxItem, StoreFieldType } from "@/types/common";
-import { SupportedLanguagesRow } from "@/types/supported-languages";
+import { ComboBoxItemType, StoreFieldType } from "@/types/common";
+import { SupportedLanguagesRowType } from "@/types/supported-languages";
 import { appStoreFormSchema, AppStoreFormValues } from "@/validations/app-store-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus } from "lucide-react";
@@ -70,7 +70,7 @@ const appStoreFormFields: StoreFieldType[] = [
 ];
 
 type AppStoreFormProps = {
-  supportedLanguages: SupportedLanguagesRow[];
+  supportedLanguages: SupportedLanguagesRowType[];
 };
 
 function AppStoreForm({ supportedLanguages }: AppStoreFormProps) {
@@ -87,7 +87,7 @@ function AppStoreForm({ supportedLanguages }: AppStoreFormProps) {
     },
   });
 
-  const comboboxItems: ComboBoxItem[] = supportedLanguages.map((language) => ({
+  const comboboxItems: ComboBoxItemType[] = supportedLanguages.map((language) => ({
     label: language.name_en,
     value: `${language.code}-${language.name_en}`,
     flag: language?.flag_emoji || "",

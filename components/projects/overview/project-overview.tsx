@@ -1,13 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { ProjectRow } from "@/types/projects";
+import { ProjectRowType } from "@/types/projects";
 import { Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 type ProjectOverviewProps = {
-  projects: ProjectRow[];
+  projects: ProjectRowType[];
   projectId?: string;
 };
 

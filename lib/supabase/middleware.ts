@@ -1,6 +1,6 @@
+import { getUserProjects } from "@/actions/projects";
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
-import { getUserProjects } from "../database/queries/projects";
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({

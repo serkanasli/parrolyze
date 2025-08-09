@@ -1,10 +1,13 @@
 import { FEEDBACK_TYPES, STORE_TYPES } from "@/constants";
 
-export type ActionResult = {
+export type ActionResultType<T = unknown> = {
   success: boolean;
   message?: string;
   code?: string;
+  data?: T;
 };
+
+export type OnSubmitSuccessType<T = unknown> = (response: T) => void;
 
 export type PageProps = {
   params: {
@@ -18,7 +21,7 @@ export type PageProps = {
 export type StoreType = (typeof STORE_TYPES)[number]["value"];
 export type FeedbackType = (typeof FEEDBACK_TYPES)[number]["value"];
 
-export type ComboBoxItem = {
+export type ComboBoxItemType = {
   value: string;
   label: string;
   flag?: string;

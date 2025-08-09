@@ -1,4 +1,4 @@
-import { createClient } from "../supabase/client";
+import { createClient } from "../supabase/server";
 
 export interface UploadOptions {
   bucket: string;
@@ -11,7 +11,7 @@ export async function uploadFile(
   file: File,
   options: UploadOptions,
 ): Promise<{ url: string; path: string }> {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   // Generate unique filename if not provided
   const fileName = options.fileName || `${Date.now()}-${file.name}`;
@@ -28,7 +28,7 @@ export async function uploadFile(
   // Get public URL
   const {
     data: { publicUrl },
-  } = supabase.storage.from(options.bucket).getPublicUrl(data.path);
+  } = await supabase.storage.from(options.bucket).getPublicUrl(data.path);
 
   return {
     url: publicUrl,
@@ -37,7 +37,7 @@ export async function uploadFile(
 }
 
 export async function deleteFile(bucket: string, path: string): Promise<void> {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { error } = await supabase.storage.from(bucket).remove([path]);
 

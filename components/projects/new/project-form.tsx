@@ -19,11 +19,12 @@ import { STORE_TYPES } from "@/constants";
 import { useProjectForm } from "@/hooks/use-project-form";
 import { useUser } from "@/hooks/use-user";
 import { cn } from "@/lib/utils";
-import { OnSubmitSuccessType } from "@/types/projects";
+import { ActionResultType, OnSubmitSuccessType } from "@/types/common";
+import { ProjectRowType } from "@/types/projects";
 import { Loader2 } from "lucide-react";
 
 type ProjectFormProps = {
-  onSubmitSuccess?: OnSubmitSuccessType;
+  onSubmitSuccess?: OnSubmitSuccessType<ActionResultType<ProjectRowType>>;
   className?: string;
   cardTitle?: string;
   cardDescription?: string;

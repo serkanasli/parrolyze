@@ -1,15 +1,17 @@
 "use client";
 import ProjectForm from "@/components/projects/new/project-form";
-import { OnSubmitSuccessType } from "@/types/projects";
+import { ActionResultType, OnSubmitSuccessType } from "@/types/common";
+import { ProjectRowType } from "@/types/projects";
+
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 export default function Page() {
   const router = useRouter();
 
-  const onSubmitSuccess: OnSubmitSuccessType = (response) => {
-    if (response) {
-      router.replace(`/projects/${response.id}/overview`);
+  const onSubmitSuccess: OnSubmitSuccessType<ActionResultType<ProjectRowType>> = (response) => {
+    if (response.success) {
+      router.replace(`/projects/${response.data?.id}/overview`);
     }
   };
 

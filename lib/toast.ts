@@ -1,21 +1,23 @@
+import { ActionResultType } from "@/types/common";
 import { toast } from "sonner";
 
-export async function withLoadingToast<T>(
+export async function withLoadingToast<T extends object | object[] = object | object[]>(
   loading: string,
   success: string,
   error: string,
   setLoading: (v: boolean) => void,
-  fn: () => Promise<T>,
-): Promise<T | undefined> {
+  fn: () => Promise<ActionResultType<T> | ActionResultType>,
+): Promise<ActionResultType<T> | ActionResultType | undefined> {
   const toastId = toast.loading(loading);
   setLoading(true);
   try {
-    const result = await fn();
+    const response = await fn();
     toast.success(success, { id: toastId });
-    return result;
+    return response;
   } catch (err) {
     toast.error(error, { id: toastId });
     console.error(err);
+    return undefined;
   } finally {
     setLoading(false);
   }

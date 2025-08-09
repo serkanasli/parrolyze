@@ -6,11 +6,11 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { login, signUp } from "@/actions/auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormField } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { login, signUp } from "@/lib/database/mutations/auth";
 import { mapSupabaseAuthError } from "@/lib/supabase/errors";
 import { cn } from "@/lib/utils";
 import { loginSchema, signUpSchema } from "@/validations/auth-schema";

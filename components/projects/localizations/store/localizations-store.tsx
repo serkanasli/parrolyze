@@ -1,23 +1,23 @@
+import { getStoreLocalizationsByProject } from "@/actions/store-localizations";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { STORE_TYPES } from "@/constants";
-import { getProjectStoreLocalizations } from "@/lib/database/queries/store-localizations";
 import { getSupportedLanguages } from "@/lib/database/queries/supported-languages";
 import { cn } from "@/lib/utils";
 import { StoreType } from "@/types/common";
-import { ProjectRow } from "@/types/projects";
+import { ProjectRowType } from "@/types/projects";
 import Image from "next/image";
 import Link from "next/link";
 import AppStoreView from "./views/app-store-view";
 import PlayStoreView from "./views/play-store-view";
 
 type LocalizationStoreProps = {
-  project: ProjectRow;
+  project: ProjectRowType;
   platform: StoreType;
 };
 
 async function LocalizationStore({ project, platform }: LocalizationStoreProps) {
-  const storeLocalizations = await getProjectStoreLocalizations(project.id, platform);
+  const storeLocalizations = await getStoreLocalizationsByProject(project.id, platform);
   const supportedLanguages = await getSupportedLanguages();
 
   const renderStoreButtons = () => {
