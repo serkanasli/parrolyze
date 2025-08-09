@@ -1,5 +1,14 @@
-function AppStoreForm() {
-  return <span>App store form</span>;
+"use client";
+
+import { SupportedLanguagesRow } from "@/types/supported-languages";
+import AppStoreForm from "./forms/app-store-form";
+
+type AppStoreViewProps = {
+  supportedLanguages: SupportedLanguagesRow[];
+};
+
+function AppStoreView({ supportedLanguages }: AppStoreViewProps) {
+  return <AppStoreForm supportedLanguages={supportedLanguages} />;
 }
 
-export default AppStoreForm;
+export default AppStoreView;

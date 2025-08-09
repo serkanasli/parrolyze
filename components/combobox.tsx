@@ -60,7 +60,7 @@ export function ComboBox({
         </Button>
       </PopoverTrigger>
 
-      <PopoverContent className="w-[250px] p-0">
+      <PopoverContent className="w-[250px] p-0" side="bottom" align="start">
         <Command className="scrollbar">
           <CommandInput placeholder={searchPlaceholder} autoFocus />
           <CommandList>

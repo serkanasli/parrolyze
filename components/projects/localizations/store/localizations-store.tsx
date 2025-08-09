@@ -55,7 +55,7 @@ async function LocalizationStore({ project, platform }: LocalizationStoreProps) 
         <div className="flex gap-3">{renderStoreButtons()}</div>
       </div>
       <Separator className="my-5" />
-      {platform === "app_store" && <AppStoreView />}
+      {platform === "app_store" && <AppStoreView supportedLanguages={supportedLanguages} />}
       {platform === "play_store" && <PlayStoreView />}
     </>
   );

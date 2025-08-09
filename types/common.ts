@@ -23,3 +23,11 @@ export type ComboBoxItem = {
   label: string;
   flag?: string;
 };
+
+export type StoreFieldType = {
+  name: string;
+  label: string;
+  maxLength?: number;
+  type: "textarea" | "text" | "combobox";
+  placeholder: string;
+};
