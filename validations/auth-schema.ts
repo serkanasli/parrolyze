@@ -29,3 +29,6 @@ export const loginSchema = z.object({
     error: "Password is required.",
   }),
 });
+
+export type LoginFormValues = z.infer<typeof loginSchema>;
+export type SignUpFormValues = z.infer<typeof signUpSchema>;

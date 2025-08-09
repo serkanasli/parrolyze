@@ -1,13 +1,17 @@
 import { createClient } from "@/lib/supabase/server";
-import { ProjectRow } from "@/types/projects";
+import { ProjectRowType } from "@/types/projects";
 
-export async function getUserProjects(userId: string): Promise<ProjectRow[]> {
+export async function getUserProjects(): Promise<ProjectRowType[]> {
   const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   const { data, error } = await supabase
     .from("projects")
     .select("*")
-    .eq("user_id", userId)
+    .eq("user_id", user?.id)
     .order("created_at", { ascending: false });
 
   if (error) throw error;
@@ -15,7 +19,7 @@ export async function getUserProjects(userId: string): Promise<ProjectRow[]> {
   return data ?? [];
 }
 
-export async function getProject(projectId: string): Promise<ProjectRow | null> {
+export async function getProject(projectId: string): Promise<ProjectRowType> {
   const supabase = await createClient();
 
   const { data, error } = await supabase.from("projects").select("*").eq("id", projectId).single();

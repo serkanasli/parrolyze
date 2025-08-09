@@ -4,16 +4,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
+import { login, signUp } from "@/actions/auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormField } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { login, signUp } from "@/lib/database/mutations/auth";
 import { mapSupabaseAuthError } from "@/lib/supabase/errors";
 import { cn } from "@/lib/utils";
-import { loginSchema, signUpSchema } from "@/validations/auth-schema";
 import { Loader2Icon } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
@@ -23,6 +21,13 @@ import PasswordRequirements from "../password-requirements";
 import TermsNotice from "../terms-notice";
 import { GoogleAuthButton } from "./google-auth-button";
 import { SignupSuccessAlert } from "./signup-success-alert";
+
+import {
+  LoginFormValues,
+  loginSchema,
+  SignUpFormValues,
+  signUpSchema,
+} from "@/validations/auth-schema";
 
 const formModes = {
   login: {
@@ -69,7 +74,7 @@ export default function AuthForm({ className, mode }: AuthFormProps) {
 
   const formSchema = isLogin ? loginSchema : signUpSchema;
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<LoginFormValues | SignUpFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
@@ -78,7 +83,7 @@ export default function AuthForm({ className, mode }: AuthFormProps) {
     mode: "onChange",
   });
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: LoginFormValues | SignUpFormValues) => {
     setIsLoading(true);
 
     const redirectTo = searchParams.get("redirect_to") || undefined;

@@ -16,11 +16,11 @@ import {
 import { STORE_TYPES } from "@/constants";
 import { useEditProjectForm } from "@/hooks/use-project-form";
 import { cn } from "@/lib/utils";
-import { ProjectRow } from "@/types/projects";
+import { ProjectRowType } from "@/types/projects";
 import { useEffect } from "react";
 
 type EditProjectFormProps = {
-  project: ProjectRow;
+  project: ProjectRowType;
   isFormDirty: (isDirty: boolean) => void;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };

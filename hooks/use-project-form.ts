@@ -2,24 +2,24 @@
 
 import {
   createProjectWithIcon,
-  editProject,
+  updateProject,
   updateProjectIconWithUpload,
-} from "@/lib/database/transactions/projects";
+} from "@/actions/projects";
+
 import { withLoadingToast } from "@/lib/toast";
-import { StoreType } from "@/types/common";
-import { CreateProjectData, OnSubmitSuccessType, ProjectUpdate } from "@/types/projects";
-import { createProjectSchema } from "@/validations/create-project-schema";
-import { editIconSchema } from "@/validations/edit-icon-schema";
-import { editProjectSchema } from "@/validations/edit-project-schema";
+import { ActionResultType, OnSubmitSuccessType, StoreType } from "@/types/common";
+import { CreateProjectDataType, ProjectRowType, ProjectUpdateType } from "@/types/projects";
+import { CreateProjectFormValues, createProjectSchema } from "@/validations/create-project-schema";
+import { EditIconFormValues, editIconSchema } from "@/validations/edit-icon-schema";
+import { EditProjectFormValues, editProjectSchema } from "@/validations/edit-project-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { z } from "zod";
 
 type UseProjectFormProps = {
   userId?: string;
-  onSubmitSuccess?: OnSubmitSuccessType;
-  initialValues?: ProjectUpdate;
+  onSubmitSuccess?: OnSubmitSuccessType<ActionResultType<ProjectRowType>>;
+  initialValues?: ProjectUpdateType;
 };
 
 type UseEditIconFormProps = {
@@ -34,7 +34,7 @@ type UseEditIconFormProps = {
 export function useProjectForm({ userId, onSubmitSuccess }: UseProjectFormProps) {
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const form = useForm<z.infer<typeof createProjectSchema>>({
+  const form = useForm<CreateProjectFormValues>({
     resolver: zodResolver(createProjectSchema),
     defaultValues: {
       name: "",
@@ -49,18 +49,20 @@ export function useProjectForm({ userId, onSubmitSuccess }: UseProjectFormProps)
 
   const storeType = useWatch({ control: form.control, name: "store_type" });
 
-  const formSubmit = async (values: z.infer<typeof createProjectSchema>) => {
-    const payload: CreateProjectData = {
-      name: values.name,
-      short_description: values.short_description,
-      store_type: values.store_type,
-      app_store_url: values.app_store_url ?? "",
-      play_store_url: values.play_store_url ?? "",
-      user_id: userId ?? "",
+  const formSubmit = async (values: CreateProjectFormValues) => {
+    const payload: CreateProjectDataType = {
+      project: {
+        name: values.name,
+        short_description: values.short_description,
+        store_type: values.store_type,
+        app_store_url: values.app_store_url ?? "",
+        play_store_url: values.play_store_url ?? "",
+        user_id: userId ?? "",
+      },
       icon_file: values.icon_file || undefined,
     };
 
-    const response = await withLoadingToast(
+    const response = await withLoadingToast<ProjectRowType>(
       "Creating project...",
       "Project created successfully!",
       "An error occurred while creating the project.",
@@ -68,7 +70,7 @@ export function useProjectForm({ userId, onSubmitSuccess }: UseProjectFormProps)
       () => createProjectWithIcon(payload),
     );
 
-    if (response && onSubmitSuccess) onSubmitSuccess(response);
+    if (response?.success && onSubmitSuccess) onSubmitSuccess(response);
   };
 
   return {
@@ -80,10 +82,10 @@ export function useProjectForm({ userId, onSubmitSuccess }: UseProjectFormProps)
   };
 }
 
-export function useEditProjectForm({ onSubmitSuccess, initialValues }: UseProjectFormProps) {
+export function useEditProjectForm({ initialValues }: UseProjectFormProps) {
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const form = useForm<z.infer<typeof editProjectSchema>>({
+  const form = useForm<EditProjectFormValues>({
     resolver: zodResolver(editProjectSchema),
     defaultValues: {
       id: initialValues?.id,
@@ -98,8 +100,8 @@ export function useEditProjectForm({ onSubmitSuccess, initialValues }: UseProjec
 
   const storeType = useWatch({ control: form.control, name: "store_type" });
 
-  const formSubmit = async (values: z.infer<typeof editProjectSchema>) => {
-    const payload: ProjectUpdate = {
+  const formSubmit = async (values: EditProjectFormValues) => {
+    const payload: ProjectUpdateType = {
       id: values.id,
       name: values.name,
       short_description: values.short_description,
@@ -108,15 +110,13 @@ export function useEditProjectForm({ onSubmitSuccess, initialValues }: UseProjec
       play_store_url: values.play_store_url,
     };
 
-    const response = await withLoadingToast(
+    await withLoadingToast(
       "Updating project...",
       "Project updated successfully!",
       "An error occurred while updating the project.",
       setIsLoading,
-      () => editProject(payload),
+      () => updateProject(values.id || "", payload),
     );
-
-    if (response && onSubmitSuccess) onSubmitSuccess(response);
   };
 
   return {
@@ -132,7 +132,7 @@ export function useEditIconForm({ initialValues }: UseEditIconFormProps) {
   const [isLoading, setIsLoading] = React.useState(false);
   const [isSuccess, setIsSuccess] = React.useState(false);
 
-  const form = useForm<z.infer<typeof editIconSchema>>({
+  const form = useForm<EditIconFormValues>({
     resolver: zodResolver(editIconSchema),
     defaultValues: {
       id: initialValues?.id ?? "",
@@ -142,7 +142,7 @@ export function useEditIconForm({ initialValues }: UseEditIconFormProps) {
     mode: "onChange",
   });
 
-  const formSubmit = async (values: z.infer<typeof editIconSchema>) => {
+  const formSubmit = async (values: EditIconFormValues) => {
     const response = await withLoadingToast(
       "Updating icon...",
       "Icon updated successfully!",
@@ -151,7 +151,7 @@ export function useEditIconForm({ initialValues }: UseEditIconFormProps) {
       () => updateProjectIconWithUpload(values.id || "", values.icon_file),
     );
 
-    if (response) setIsSuccess(true);
+    if (response?.success) setIsSuccess(true);
   };
 
   return { form, isLoading, formSubmit, isSuccess };

@@ -15,8 +15,8 @@ export default async function Layout({ children }: { children: React.ReactNode }
           {/* Sidebar */}
 
           <AppSidebar />
-          <SidebarInset className="scrollbar bg-surface-primary mx-1.5 mb-2.5 w-full overflow-auto rounded-2xl p-1 shadow-sm dark:border">
-            <div className="bg-surface-primary container mx-auto py-10 md:pl-5">{children}</div>
+          <SidebarInset className="scrollbar bg-surface-primary w-full overflow-auto rounded-2xl p-1 shadow-sm dark:border">
+            <div className="bg-surface-primary container mx-auto py-10 md:px-5">{children}</div>
           </SidebarInset>
         </div>
       </div>

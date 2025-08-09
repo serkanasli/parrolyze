@@ -20,3 +20,5 @@ export const editIconSchema = z.object({
       return file instanceof File && file.size <= MAX_FILE_SIZE;
     }, "Max file size allowed is 1MB."),
 });
+
+export type EditIconFormValues = z.infer<typeof editIconSchema>;

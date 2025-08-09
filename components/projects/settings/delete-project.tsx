@@ -1,5 +1,6 @@
 "use client";
 
+import { deleteProject } from "@/actions/projects";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -13,7 +14,6 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { deleteProject } from "@/lib/database/transactions/projects";
 import { Loader2, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -41,6 +41,7 @@ export function DeleteProject({ projectName, projectId, className }: DeleteProje
       await deleteProject(projectId);
       toast.success("Project deleted successfully!", { id: toastId });
       router.push("/projects/overview");
+      router.refresh();
     } catch {
       const errorMessage = "An error occurred while deleting the project.";
       toast.error(errorMessage, { id: toastId });
