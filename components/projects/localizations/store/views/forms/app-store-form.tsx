@@ -1,5 +1,6 @@
 "use client";
 
+import { createStoreLocalizations } from "@/actions/store-localizations";
 import { ComboBox } from "@/components/combobox";
 import FormFieldItem from "@/components/form/form-field-item";
 import { Button } from "@/components/ui/button";
@@ -16,18 +17,20 @@ import {
 import { Form, FormField } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { withLoadingToast } from "@/lib/toast";
 import { cn } from "@/lib/utils";
 import { ComboBoxItemType, StoreFieldType } from "@/types/common";
 import { SupportedLanguagesRowType } from "@/types/supported-languages";
 import { appStoreFormSchema, AppStoreFormValues } from "@/validations/app-store-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Plus } from "lucide-react";
+import { Loader2, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 const appStoreFormFields: StoreFieldType[] = [
   {
-    name: "sourceLanguage",
+    name: "source_language",
     label: "Source language",
     type: "combobox",
     placeholder: "Select source language",
@@ -47,7 +50,7 @@ const appStoreFormFields: StoreFieldType[] = [
     placeholder: "e.g. Your daily dose of productivity",
   },
   {
-    name: "promotionalText",
+    name: "promotional_text",
     label: "Promotional Text",
     maxLength: 170,
     type: "textarea",
@@ -71,17 +74,20 @@ const appStoreFormFields: StoreFieldType[] = [
 
 type AppStoreFormProps = {
   supportedLanguages: SupportedLanguagesRowType[];
+  projectId: string;
 };
 
-function AppStoreForm({ supportedLanguages }: AppStoreFormProps) {
+function AppStoreForm({ supportedLanguages, projectId }: AppStoreFormProps) {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const form = useForm<AppStoreFormValues>({
     resolver: zodResolver(appStoreFormSchema),
     defaultValues: {
-      sourceLanguage: "",
+      source_language: "",
       name: "",
       subtitle: "",
-      promotionalText: "",
+      promotional_text: "",
       description: "",
       keywords: "",
     },
@@ -93,14 +99,33 @@ function AppStoreForm({ supportedLanguages }: AppStoreFormProps) {
     flag: language?.flag_emoji || "",
   }));
 
-  const onSubmit = (values: AppStoreFormValues) => {
-    console.log("Form values:", values);
+  const onSubmit = async (values: AppStoreFormValues) => {
+    try {
+      const response = await withLoadingToast(
+        "Creating localizations...",
+        "Localization created successfully!",
+        "An error occurred while creating the localization.",
+        setIsLoading,
+        () =>
+          createStoreLocalizations({
+            fields: values,
+            sourceLanguage: values.source_language,
+            projectId,
+            platform: "app_store",
+          }),
+      );
+
+      if (response?.success) {
+        setIsOpen(false);
+        router.refresh();
+      }
+    } catch (error) {}
   };
 
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
       <DialogTrigger asChild>
-        <Button variant="blue">
+        <Button type="button" variant="blue">
           <Plus />
           New Localization
         </Button>
@@ -162,11 +187,14 @@ function AppStoreForm({ supportedLanguages }: AppStoreFormProps) {
 
             <DialogFooter className="mt-6">
               <DialogClose asChild>
-                <Button variant="outline" type="button">
+                <Button disabled={isLoading} variant="outline" type="button">
                   Cancel
                 </Button>
               </DialogClose>
-              <Button type="submit">Save</Button>
+              <Button disabled={isLoading} type="submit">
+                {isLoading && <Loader2 className="animate-spin" />}
+                Save
+              </Button>
             </DialogFooter>
           </form>
         </Form>

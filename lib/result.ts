@@ -6,6 +6,7 @@ export const Result = {
     return { success: true, data, message };
   },
   fail<T>(message?: string, code?: string): ActionResultType<T> {
+    throw message ?? messages.error.generic;
     return { success: false, message: message ?? messages.error.generic, code };
   },
 };

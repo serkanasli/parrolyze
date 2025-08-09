@@ -8,8 +8,9 @@ import { StoreType } from "@/types/common";
 import { ProjectRowType } from "@/types/projects";
 import Image from "next/image";
 import Link from "next/link";
-import AppStoreView from "./views/app-store-view";
-import PlayStoreView from "./views/play-store-view";
+import AppStoreForm from "./views/forms/app-store-form";
+import PlayStoreForm from "./views/forms/play-store-form";
+import StoreLocalizationsTable from "./views/store-localizations-table";
 
 type LocalizationStoreProps = {
   project: ProjectRowType;
@@ -17,7 +18,7 @@ type LocalizationStoreProps = {
 };
 
 async function LocalizationStore({ project, platform }: LocalizationStoreProps) {
-  const storeLocalizations = await getStoreLocalizationsByProject(project.id, platform);
+  const { data: storeLocalizations } = await getStoreLocalizationsByProject(project.id, platform);
   const supportedLanguages = await getSupportedLanguages();
 
   const renderStoreButtons = () => {
@@ -48,6 +49,24 @@ async function LocalizationStore({ project, platform }: LocalizationStoreProps) 
     });
   };
 
+  const renderContent = () => {
+    if (storeLocalizations && storeLocalizations.length > 0) {
+      return (
+        <StoreLocalizationsTable
+          storeLocalizations={storeLocalizations}
+          supportedLanguages={supportedLanguages}
+          projectId={project.id}
+        />
+      );
+    } else if (platform === "app_store") {
+      return <AppStoreForm supportedLanguages={supportedLanguages} projectId={project.id} />;
+    } else if (platform === "play_store") {
+      return <PlayStoreForm />;
+    } else {
+      return null;
+    }
+  };
+
   return (
     <>
       <div className="flex flex-col gap-x-5 gap-y-3 md:flex-row md:items-center">
@@ -55,8 +74,7 @@ async function LocalizationStore({ project, platform }: LocalizationStoreProps) 
         <div className="flex gap-3">{renderStoreButtons()}</div>
       </div>
       <Separator className="my-5" />
-      {platform === "app_store" && <AppStoreView supportedLanguages={supportedLanguages} />}
-      {platform === "play_store" && <PlayStoreView />}
+      {renderContent()}
     </>
   );
 }

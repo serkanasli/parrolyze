@@ -46,3 +46,5 @@ export const createProjectSchema = z.object({
     .transform((val) => (val === "" ? undefined : val))
     .optional(),
 });
+
+export type CreateProjectFormValues = z.infer<typeof createProjectSchema>;

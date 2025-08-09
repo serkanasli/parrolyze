@@ -1,4 +1,5 @@
 import { FEEDBACK_TYPES, STORE_TYPES } from "@/constants";
+import { AppStoreFormValues } from "@/validations/app-store-schema";
 
 export type ActionResultType<T = unknown> = {
   success: boolean;
@@ -28,7 +29,7 @@ export type ComboBoxItemType = {
 };
 
 export type StoreFieldType = {
-  name: string;
+  name: keyof AppStoreFormValues;
   label: string;
   maxLength?: number;
   type: "textarea" | "text" | "combobox";

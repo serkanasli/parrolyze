@@ -31,3 +31,5 @@ export const editProjectSchema = z.object({
     .transform((val) => (val === "" ? undefined : val))
     .optional(),
 });
+
+export type EditProjectFormValues = z.infer<typeof editProjectSchema>;

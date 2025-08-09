@@ -1,5 +1,5 @@
 function PlayStoreForm() {
-  return <div>play-store-view</div>;
+  return <div>play-store-form</div>;
 }
 
 export default PlayStoreForm;

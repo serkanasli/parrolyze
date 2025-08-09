@@ -9,13 +9,12 @@ import {
 import { withLoadingToast } from "@/lib/toast";
 import { ActionResultType, OnSubmitSuccessType, StoreType } from "@/types/common";
 import { CreateProjectDataType, ProjectRowType, ProjectUpdateType } from "@/types/projects";
-import { createProjectSchema } from "@/validations/create-project-schema";
-import { editIconSchema } from "@/validations/edit-icon-schema";
-import { editProjectSchema } from "@/validations/edit-project-schema";
+import { CreateProjectFormValues, createProjectSchema } from "@/validations/create-project-schema";
+import { EditIconFormValues, editIconSchema } from "@/validations/edit-icon-schema";
+import { EditProjectFormValues, editProjectSchema } from "@/validations/edit-project-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { z } from "zod";
 
 type UseProjectFormProps = {
   userId?: string;
@@ -35,7 +34,7 @@ type UseEditIconFormProps = {
 export function useProjectForm({ userId, onSubmitSuccess }: UseProjectFormProps) {
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const form = useForm<z.infer<typeof createProjectSchema>>({
+  const form = useForm<CreateProjectFormValues>({
     resolver: zodResolver(createProjectSchema),
     defaultValues: {
       name: "",
@@ -50,7 +49,7 @@ export function useProjectForm({ userId, onSubmitSuccess }: UseProjectFormProps)
 
   const storeType = useWatch({ control: form.control, name: "store_type" });
 
-  const formSubmit = async (values: z.infer<typeof createProjectSchema>) => {
+  const formSubmit = async (values: CreateProjectFormValues) => {
     const payload: CreateProjectDataType = {
       project: {
         name: values.name,
@@ -86,7 +85,7 @@ export function useProjectForm({ userId, onSubmitSuccess }: UseProjectFormProps)
 export function useEditProjectForm({ initialValues }: UseProjectFormProps) {
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const form = useForm<z.infer<typeof editProjectSchema>>({
+  const form = useForm<EditProjectFormValues>({
     resolver: zodResolver(editProjectSchema),
     defaultValues: {
       id: initialValues?.id,
@@ -101,7 +100,7 @@ export function useEditProjectForm({ initialValues }: UseProjectFormProps) {
 
   const storeType = useWatch({ control: form.control, name: "store_type" });
 
-  const formSubmit = async (values: z.infer<typeof editProjectSchema>) => {
+  const formSubmit = async (values: EditProjectFormValues) => {
     const payload: ProjectUpdateType = {
       id: values.id,
       name: values.name,
@@ -133,7 +132,7 @@ export function useEditIconForm({ initialValues }: UseEditIconFormProps) {
   const [isLoading, setIsLoading] = React.useState(false);
   const [isSuccess, setIsSuccess] = React.useState(false);
 
-  const form = useForm<z.infer<typeof editIconSchema>>({
+  const form = useForm<EditIconFormValues>({
     resolver: zodResolver(editIconSchema),
     defaultValues: {
       id: initialValues?.id ?? "",
@@ -143,7 +142,7 @@ export function useEditIconForm({ initialValues }: UseEditIconFormProps) {
     mode: "onChange",
   });
 
-  const formSubmit = async (values: z.infer<typeof editIconSchema>) => {
+  const formSubmit = async (values: EditIconFormValues) => {
     const response = await withLoadingToast(
       "Updating icon...",
       "Icon updated successfully!",

@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const appStoreFormSchema = z.object({
-  sourceLanguage: z
+  source_language: z
     .string({ error: "Source language is required." })
     .min(1, { message: "Please select a source language." }),
 
@@ -17,7 +17,7 @@ export const appStoreFormSchema = z.object({
     .min(1, { message: "Subtitle is required." })
     .max(30, { message: "Subtitle must be at most 30 characters." }),
 
-  promotionalText: z
+  promotional_text: z
     .string({ error: "Promotional text is required." })
     .trim()
     .min(1, { message: "Promotional text is required." })
