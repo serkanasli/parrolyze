@@ -5,15 +5,17 @@ import {
   updateProject,
   updateProjectIconWithUpload,
 } from "@/actions/projects";
+import { STORE_TYPES } from "@/constants";
 
 import { withLoadingToast } from "@/lib/toast";
-import { ActionResultType, OnSubmitSuccessType, StoreType } from "@/types/common";
+import { ActionResultType, OnSubmitSuccessType } from "@/types/common";
+import { ComboBoxItemType } from "@/types/form";
 import { CreateProjectDataType, ProjectRowType, ProjectUpdateType } from "@/types/projects";
-import { CreateProjectFormValues, createProjectSchema } from "@/validations/create-project-schema";
+import { CreateProjectFormValues } from "@/validations/create-project-schema";
 import { EditIconFormValues, editIconSchema } from "@/validations/edit-icon-schema";
 import { EditProjectFormValues, editProjectSchema } from "@/validations/edit-project-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
+import React, { useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 
 type UseProjectFormProps = {
@@ -32,24 +34,14 @@ type UseEditIconFormProps = {
 };
 
 export function useProjectForm({ userId, onSubmitSuccess }: UseProjectFormProps) {
-  const [isLoading, setIsLoading] = React.useState(false);
-
-  const form = useForm<CreateProjectFormValues>({
-    resolver: zodResolver(createProjectSchema),
-    defaultValues: {
-      name: "",
-      icon_file: undefined,
-      short_description: "",
-      store_type: "both" as StoreType,
-      play_store_url: "",
-      app_store_url: "",
-    },
-    mode: "onChange",
+  const [formOptions] = useState<Record<string, ComboBoxItemType[]>>({
+    platforms: STORE_TYPES.map((platform) => ({
+      label: platform.label,
+      value: platform.value,
+    })),
   });
 
-  const storeType = useWatch({ control: form.control, name: "store_type" });
-
-  const formSubmit = async (values: CreateProjectFormValues) => {
+  const onSubmit = async (values: CreateProjectFormValues) => {
     const payload: CreateProjectDataType = {
       project: {
         name: values.name,
@@ -66,7 +58,7 @@ export function useProjectForm({ userId, onSubmitSuccess }: UseProjectFormProps)
       "Creating project...",
       "Project created successfully!",
       "An error occurred while creating the project.",
-      setIsLoading,
+      null,
       () => createProjectWithIcon(payload),
     );
 
@@ -74,11 +66,8 @@ export function useProjectForm({ userId, onSubmitSuccess }: UseProjectFormProps)
   };
 
   return {
-    form,
-    isLoading,
-    formSubmit,
-    showAppStoreField: storeType === "both" || storeType === "app_store",
-    showPlayStoreField: storeType === "both" || storeType === "play_store",
+    onSubmit,
+    formOptions,
   };
 }
 

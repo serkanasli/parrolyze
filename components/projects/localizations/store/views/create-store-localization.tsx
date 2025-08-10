@@ -21,8 +21,8 @@ import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import z from "zod";
-import { appStoreFormFields } from "./config/app-store-fields";
-import { playStoreFormFields } from "./config/play-store-fields";
+import { appStoreFormFields } from "./config/app-store-form-fields";
+import { playStoreFormFields } from "./config/play-store-form-fields";
 
 type CreateStoreLocalizationProps = {
   supportedLanguages: SupportedLanguagesRowType[];

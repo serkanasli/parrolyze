@@ -29,9 +29,6 @@ export async function createProjectWithIcon(
 
         const userId = user?.id ?? "";
 
-        console.log("project", project);
-        console.log("userId", userId);
-
         const { url } = await uploadProjectIcon(iconFile, project.id, userId);
 
         // 3. Update project with icon URL

@@ -1,4 +1,4 @@
-import { FormFieldType } from "@/types/common";
+import { FormFieldType } from "@/types/form";
 
 export const appStoreFormFields: FormFieldType[] = [
   {
