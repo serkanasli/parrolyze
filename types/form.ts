@@ -22,4 +22,5 @@ export type FormFieldType = {
     field: string;
     equals: string;
   };
+  props?: object;
 };

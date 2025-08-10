@@ -35,7 +35,11 @@ interface DynamicFormProps<T extends z.ZodType<any, any>> {
   isSubmitButtonShow?: boolean;
   dynamicOptions?: Record<string, ComboBoxItemType[]>;
   defaultValues?: z.infer<T>;
-  onStateChange?: (state: { isDirty: boolean; isLoading: boolean }) => void;
+  onStateChange?: (state: {
+    isDirty: boolean;
+    isLoading: boolean;
+    isSubmitSuccessful: boolean;
+  }) => void;
 }
 
 function DynamicForm<T extends z.ZodType<any, any>>({
@@ -60,8 +64,7 @@ function DynamicForm<T extends z.ZodType<any, any>>({
     try {
       setIsLoading(true);
       await onSubmit(data);
-      console.log("data", data);
-      form.reset(data);
+      // form.reset(data);
     } catch (error) {
       console.error("Form submission error:", error);
     } finally {
@@ -75,10 +78,11 @@ function DynamicForm<T extends z.ZodType<any, any>>({
     if (onStateChange) {
       onStateChange({
         isDirty: formState.isDirty,
+        isSubmitSuccessful: formState.isSubmitSuccessful,
         isLoading,
       });
     }
-  }, [formState.isDirty, isLoading, onStateChange]);
+  }, [formState.isDirty, formState.isSubmitSuccessful, isLoading, onStateChange]);
 
   const renderField = (item: FormFieldType, field: any, fieldState: ControllerFieldState) => {
     switch (item.type) {
@@ -102,7 +106,7 @@ function DynamicForm<T extends z.ZodType<any, any>>({
           />
         );
       case "image-upload":
-        return <ImageUpload {...field} invalid={fieldState.invalid} />;
+        return <ImageUpload {...field} {...item?.props} invalid={fieldState.invalid} />;
       case "select":
         const selectOptions =
           item.optionsKey && dynamicOptions ? dynamicOptions[item.optionsKey] : item.options || [];
@@ -159,6 +163,7 @@ function DynamicForm<T extends z.ZodType<any, any>>({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
+        onReset={() => form.reset()}
         className="flex flex-col gap-y-5"
         id={formId}
       >

@@ -15,12 +15,8 @@ type ProjectSettingsPros = {
 
 export default function ProjectSettings({ project }: ProjectSettingsPros) {
   const formId: string = "edit-project-form";
-  const [isDirty, setIsDirty] = useState<boolean>(false);
+  const [disabled, setDisabled] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  const isFormDirty = (value: boolean) => {
-    setIsDirty(value);
-  };
 
   return (
     <>
@@ -28,7 +24,7 @@ export default function ProjectSettings({ project }: ProjectSettingsPros) {
         <h1 className="mb-5 text-xl font-semibold lg:text-2xl">Project settings</h1>
         <div className="mr-auto flex flex-row-reverse gap-y-2 md:mr-0 md:flex-row md:gap-x-2.5">
           <DeleteProject projectName={project?.name} projectId={project.id} />
-          <Button disabled={!isDirty || isLoading} type="submit" form={formId}>
+          <Button disabled={disabled} type="submit" form={formId}>
             {isLoading && <Loader2 className="animate-spin" />}
             Save changes
           </Button>
@@ -43,7 +39,7 @@ export default function ProjectSettings({ project }: ProjectSettingsPros) {
           <EditProjectForm
             formId={formId}
             project={project}
-            isFormDirty={isFormDirty}
+            setDisabled={setDisabled}
             setIsLoading={setIsLoading}
           />
         </div>

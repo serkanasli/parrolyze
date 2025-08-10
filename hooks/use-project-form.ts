@@ -12,25 +12,14 @@ import { ActionResultType, OnSubmitSuccessType } from "@/types/common";
 import { ComboBoxItemType } from "@/types/form";
 import { CreateProjectDataType, ProjectRowType, ProjectUpdateType } from "@/types/projects";
 import { CreateProjectFormValues } from "@/validations/create-project-schema";
-import { EditIconFormValues, editIconSchema } from "@/validations/edit-icon-schema";
+import { EditIconFormValues } from "@/validations/edit-icon-schema";
 import { EditProjectFormValues } from "@/validations/edit-project-schema";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useState } from "react";
 
 type UseProjectFormProps = {
   userId?: string;
   onSubmitSuccess?: OnSubmitSuccessType<ActionResultType<ProjectRowType>>;
-};
-
-type UseEditIconFormProps = {
-  onSubmitSuccess?: OnSubmitSuccessType;
-  initialValues: {
-    id?: string;
-    icon_url?: string;
-    icon_file?: File | string;
-  };
 };
 
 export function useProjectForm({ userId, onSubmitSuccess }: UseProjectFormProps) {
@@ -106,31 +95,19 @@ export function useEditProjectForm() {
   };
 }
 
-export function useEditIconForm({ initialValues }: UseEditIconFormProps) {
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [isSuccess, setIsSuccess] = React.useState(false);
-
-  const form = useForm<EditIconFormValues>({
-    resolver: zodResolver(editIconSchema),
-    defaultValues: {
-      id: initialValues?.id ?? "",
-      icon_url: initialValues?.icon_url,
-      icon_file: initialValues?.icon_url,
-    },
-    mode: "onChange",
-  });
-
-  const formSubmit = async (values: EditIconFormValues) => {
-    const response = await withLoadingToast(
+export function useEditIconForm() {
+  const router = useRouter();
+  const onSubmit = async (values: EditIconFormValues) => {
+    await withLoadingToast(
       "Updating icon...",
       "Icon updated successfully!",
       "An error occurred while updating the icon.",
-      setIsLoading,
+      null,
       () => updateProjectIconWithUpload(values.id || "", values.icon_file),
     );
 
-    if (response?.success) setIsSuccess(true);
+    router.refresh();
   };
 
-  return { form, isLoading, formSubmit, isSuccess };
+  return { onSubmit };
 }

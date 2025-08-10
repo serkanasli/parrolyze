@@ -13,11 +13,11 @@ import z from "zod";
 type EditProjectFormProps = {
   formId: string;
   project: ProjectRowType;
-  isFormDirty: (isDirty: boolean) => void;
+  setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const EditProjectForm = ({ project, formId, isFormDirty, setIsLoading }: EditProjectFormProps) => {
+const EditProjectForm = ({ project, formId, setDisabled, setIsLoading }: EditProjectFormProps) => {
   const { onSubmit, formOptions } = useEditProjectForm();
   const [defaultValues] = useState<z.infer<typeof editProjectSchema>>({
     id: project?.id,
@@ -40,7 +40,7 @@ const EditProjectForm = ({ project, formId, isFormDirty, setIsLoading }: EditPro
           onSubmit={onSubmit}
           onStateChange={({ isDirty, isLoading }) => {
             setIsLoading(isLoading);
-            isFormDirty(isDirty);
+            setDisabled(!isDirty || isLoading);
           }}
           defaultValues={defaultValues}
         />
