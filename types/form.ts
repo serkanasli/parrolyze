@@ -1,3 +1,5 @@
+export type FormType = "edit" | "create";
+
 export type ComboBoxItemType = {
   value: string;
   label: string;

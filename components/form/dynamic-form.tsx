@@ -12,7 +12,7 @@ import { ComboBoxItemType, FormFieldType } from "@/types/form";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ControllerFieldState, Resolver, useForm } from "react-hook-form";
 import { z } from "zod";
 import {
@@ -27,37 +27,58 @@ import {
 import ImageUpload from "./image-upload";
 
 interface DynamicFormProps<T extends z.ZodType<any, any>> {
+  formId?: string;
   schema: T;
   fields: FormFieldType[];
   onSubmit: (data: z.infer<T>) => Promise<void> | void;
   submitButtonText?: string;
+  isSubmitButtonShow?: boolean;
   dynamicOptions?: Record<string, ComboBoxItemType[]>;
+  defaultValues?: z.infer<T>;
+  onStateChange?: (state: { isDirty: boolean; isLoading: boolean }) => void;
 }
 
 function DynamicForm<T extends z.ZodType<any, any>>({
+  formId,
   schema,
   fields,
   onSubmit,
   submitButtonText = "Save",
+  isSubmitButtonShow = true,
   dynamicOptions,
+  defaultValues,
+  onStateChange,
 }: DynamicFormProps<T>) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const form = useForm<z.infer<T>>({
     resolver: zodResolver(schema) as Resolver<z.infer<T>>,
+    defaultValues: defaultValues,
   });
 
   const handleSubmit = async (data: z.infer<T>) => {
     try {
       setIsLoading(true);
       await onSubmit(data);
-      form.reset();
+      console.log("data", data);
+      form.reset(data);
     } catch (error) {
       console.error("Form submission error:", error);
     } finally {
       setIsLoading(false);
     }
   };
+
+  const { formState } = form;
+
+  useEffect(() => {
+    if (onStateChange) {
+      onStateChange({
+        isDirty: formState.isDirty,
+        isLoading,
+      });
+    }
+  }, [formState.isDirty, isLoading, onStateChange]);
 
   const renderField = (item: FormFieldType, field: any, fieldState: ControllerFieldState) => {
     switch (item.type) {
@@ -136,7 +157,11 @@ function DynamicForm<T extends z.ZodType<any, any>>({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-col gap-y-5">
+      <form
+        onSubmit={form.handleSubmit(handleSubmit)}
+        className="flex flex-col gap-y-5"
+        id={formId}
+      >
         {fields.map((item, index) => {
           // Conditionally render the field based on the value of another field.
           // If `showIf` is defined for this field:
@@ -188,12 +213,14 @@ function DynamicForm<T extends z.ZodType<any, any>>({
           );
         })}
 
-        <div className="mt-2.5 ml-auto flex gap-3">
-          <Button disabled={isLoading} type="submit">
-            {isLoading && <Loader2 className="animate-spin" />}
-            {submitButtonText}
-          </Button>
-        </div>
+        {isSubmitButtonShow && (
+          <div className="mt-2.5 ml-auto flex gap-3">
+            <Button disabled={isLoading} type="submit">
+              {isLoading && <Loader2 className="animate-spin" />}
+              {submitButtonText}
+            </Button>
+          </div>
+        )}
       </form>
     </Form>
   );

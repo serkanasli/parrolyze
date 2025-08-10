@@ -2,6 +2,7 @@
 
 import DynamicForm from "@/components/form/dynamic-form";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { createProjectFormFields } from "@/constants/forms/create-project-form-fields";
 import { useProjectForm } from "@/hooks/use-project-form";
 import { useUser } from "@/hooks/use-user";
 import { cn } from "@/lib/utils";
@@ -9,13 +10,13 @@ import { ActionResultType, OnSubmitSuccessType } from "@/types/common";
 import { ProjectRowType } from "@/types/projects";
 
 import { createProjectSchema } from "@/validations/create-project-schema";
-import { createProjectFormFields } from "./create-project-form-fields";
 
 type ProjectFormProps = {
   onSubmitSuccess?: OnSubmitSuccessType<ActionResultType<ProjectRowType>>;
   className?: string;
   cardTitle?: string;
   cardDescription?: string;
+  submitButtonText?: string;
 };
 
 export default function ProjectForm({
@@ -23,6 +24,7 @@ export default function ProjectForm({
   className,
   cardTitle,
   cardDescription,
+  submitButtonText,
 }: ProjectFormProps) {
   const { user } = useUser();
 
@@ -44,7 +46,7 @@ export default function ProjectForm({
           schema={createProjectSchema}
           fields={createProjectFormFields}
           onSubmit={onSubmit}
-          submitButtonText="Create Project"
+          submitButtonText={submitButtonText}
           dynamicOptions={formOptions}
         />
       </CardContent>

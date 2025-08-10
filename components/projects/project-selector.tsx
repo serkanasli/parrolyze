@@ -31,8 +31,12 @@ export default async function ProjectSelector() {
           <>
             <DropdownMenuSeparator />
             <DropdownMenuGroup className="gap-y-1 py-1">
-              {projects.map((project) => (
-                <DropdownMenuItem asChild key={project.name} className="cursor-pointer">
+              {projects.map((project, index) => (
+                <DropdownMenuItem
+                  asChild
+                  key={`${project.name}_${index}`}
+                  className="cursor-pointer"
+                >
                   <Link
                     href={{
                       pathname: `/projects/${project.id}/overview`,

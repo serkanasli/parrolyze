@@ -2,18 +2,19 @@
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { ProjectRow } from "@/types/projects";
+import { ProjectRowType } from "@/types/projects";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { DeleteProject } from "./delete-project";
 import IconEditForm from "./edit-icon-form";
 import EditProjectForm from "./edit-project-form";
 
-type EditProjectPros = {
-  project: ProjectRow;
+type ProjectSettingsPros = {
+  project: ProjectRowType;
 };
 
-export default function EditProject({ project }: EditProjectPros) {
+export default function ProjectSettings({ project }: ProjectSettingsPros) {
+  const formId: string = "edit-project-form";
   const [isDirty, setIsDirty] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -27,7 +28,7 @@ export default function EditProject({ project }: EditProjectPros) {
         <h1 className="mb-5 text-xl font-semibold lg:text-2xl">Project settings</h1>
         <div className="mr-auto flex flex-row-reverse gap-y-2 md:mr-0 md:flex-row md:gap-x-2.5">
           <DeleteProject projectName={project?.name} projectId={project.id} />
-          <Button disabled={!isDirty || isLoading} type="submit" form="edit-project-form">
+          <Button disabled={!isDirty || isLoading} type="submit" form={formId}>
             {isLoading && <Loader2 className="animate-spin" />}
             Save changes
           </Button>
@@ -40,6 +41,7 @@ export default function EditProject({ project }: EditProjectPros) {
         </div>
         <div className="order-1 col-span-12 lg:order-2 lg:col-span-6">
           <EditProjectForm
+            formId={formId}
             project={project}
             isFormDirty={isFormDirty}
             setIsLoading={setIsLoading}

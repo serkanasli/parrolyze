@@ -13,15 +13,15 @@ import { ComboBoxItemType } from "@/types/form";
 import { CreateProjectDataType, ProjectRowType, ProjectUpdateType } from "@/types/projects";
 import { CreateProjectFormValues } from "@/validations/create-project-schema";
 import { EditIconFormValues, editIconSchema } from "@/validations/edit-icon-schema";
-import { EditProjectFormValues, editProjectSchema } from "@/validations/edit-project-schema";
+import { EditProjectFormValues } from "@/validations/edit-project-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { useForm, useWatch } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 type UseProjectFormProps = {
   userId?: string;
   onSubmitSuccess?: OnSubmitSuccessType<ActionResultType<ProjectRowType>>;
-  initialValues?: ProjectUpdateType;
 };
 
 type UseEditIconFormProps = {
@@ -71,25 +71,16 @@ export function useProjectForm({ userId, onSubmitSuccess }: UseProjectFormProps)
   };
 }
 
-export function useEditProjectForm({ initialValues }: UseProjectFormProps) {
-  const [isLoading, setIsLoading] = React.useState(false);
-
-  const form = useForm<EditProjectFormValues>({
-    resolver: zodResolver(editProjectSchema),
-    defaultValues: {
-      id: initialValues?.id,
-      name: initialValues?.name,
-      short_description: initialValues?.short_description,
-      store_type: initialValues?.store_type,
-      play_store_url: initialValues?.play_store_url ?? "",
-      app_store_url: initialValues?.app_store_url ?? "",
-    },
-    mode: "onChange",
+export function useEditProjectForm() {
+  const router = useRouter();
+  const [formOptions] = useState<Record<string, ComboBoxItemType[]>>({
+    platforms: STORE_TYPES.map((platform) => ({
+      label: platform.label,
+      value: platform.value,
+    })),
   });
 
-  const storeType = useWatch({ control: form.control, name: "store_type" });
-
-  const formSubmit = async (values: EditProjectFormValues) => {
+  const onSubmit = async (values: EditProjectFormValues) => {
     const payload: ProjectUpdateType = {
       id: values.id,
       name: values.name,
@@ -103,17 +94,15 @@ export function useEditProjectForm({ initialValues }: UseProjectFormProps) {
       "Updating project...",
       "Project updated successfully!",
       "An error occurred while updating the project.",
-      setIsLoading,
+      null,
       () => updateProject(values.id || "", payload),
     );
+    router.refresh();
   };
 
   return {
-    form,
-    isLoading,
-    formSubmit,
-    showAppStoreField: storeType === "both" || storeType === "app_store",
-    showPlayStoreField: storeType === "both" || storeType === "play_store",
+    formOptions,
+    onSubmit,
   };
 }
 
