@@ -5,11 +5,8 @@ import { ActionResultType, StoreType } from "@/types/common";
 import * as dbMutations from "@/lib/database/mutations/store-localizations";
 import * as dbQueries from "@/lib/database/queries/store-localizations";
 import { Result } from "@/lib/result";
-import {
-  StoreLocalizationData,
-  StoreLocalizationInsertType,
-  StoreLocalizationRowType,
-} from "@/types/store-localizations";
+import { StoreLocalizationInsertType, StoreLocalizationRowType } from "@/types/store-localizations";
+import z from "zod";
 
 export async function getStoreLocalizationsByProject(
   projectId: string,
@@ -24,13 +21,15 @@ export async function getStoreLocalizationsByProject(
   }
 }
 
-export async function createStoreLocalizations(
-  data: StoreLocalizationData,
+export async function createStoreLocalizations<T>(
+  data: z.core.output<T>,
+  sourceLanguage: string,
+  projectId: string,
+  platform: StoreType,
 ): Promise<ActionResultType> {
   try {
-    const { platform, projectId, fields, sourceLanguage } = data;
-
-    const entries = Object.entries(fields);
+    const obj = data as Record<string, string>;
+    const entries = Object.entries(obj);
 
     const mapping: StoreLocalizationInsertType[] = entries.reduce((result, [key, value]) => {
       if (key === "source_language") {
@@ -38,7 +37,7 @@ export async function createStoreLocalizations(
       }
       const item: StoreLocalizationInsertType = {
         field: key,
-        source_text: value,
+        source_text: value || "",
         source_language: sourceLanguage,
         project_id: projectId,
         platform: platform,

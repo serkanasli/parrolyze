@@ -1,3 +1,5 @@
+import { getStoreLocalizationsByProject } from "@/actions/store-localizations";
+import { getSupportedLanguages } from "@/actions/supported-languages";
 import LocalizationStore from "@/components/projects/localizations/store/localizations-store";
 import { getProject } from "@/lib/database/queries/projects";
 import { PageProps, StoreType } from "@/types/common";
@@ -23,5 +25,15 @@ export default async function Page({ params, searchParams }: PageProps) {
     redirect(`/projects/${projectId}/localization/store?platform=${defaultPlatform}`);
   }
 
-  return <LocalizationStore project={project!} platform={platform!} />;
+  const { data: storeLocalizations } = await getStoreLocalizationsByProject(project.id, platform);
+  const { data: supportedLanguages } = await getSupportedLanguages();
+
+  return (
+    <LocalizationStore
+      project={project!}
+      platform={platform!}
+      storeLocalizations={storeLocalizations!}
+      supportedLanguages={supportedLanguages!}
+    />
+  );
 }

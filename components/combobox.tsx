@@ -10,12 +10,13 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { ComboBoxItemType } from "@/types/common";
+import { ComboBoxItemType } from "@/types/form";
+
 import { Check, ChevronsUpDown } from "lucide-react";
 import * as React from "react";
 
 interface ComboBoxProps {
-  items: ComboBoxItemType[];
+  options?: ComboBoxItemType[];
   defaultValue?: string;
   placeholder?: string;
   className?: string;
@@ -25,7 +26,7 @@ interface ComboBoxProps {
 }
 
 export function ComboBox({
-  items,
+  options = [],
   defaultValue = "",
   placeholder = "Select...",
   buttonClassName,
@@ -35,7 +36,7 @@ export function ComboBox({
   const [value, setValue] = React.useState(defaultValue);
   const [open, setOpen] = React.useState(false);
 
-  const selectedItem = items.find((item) => item.value === value);
+  const selectedItem = options.find((item) => item.value === value);
 
   function handleSelect(newValue: string) {
     const val = newValue === value ? "" : newValue;
@@ -66,8 +67,8 @@ export function ComboBox({
           <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup>
-              {items &&
-                items.map((item) => (
+              {options &&
+                options.map((item) => (
                   <CommandItem key={item.value} value={item.value} onSelect={handleSelect}>
                     {item.label}
                     <div className="ml-auto flex flex-row items-center gap-x-1">
