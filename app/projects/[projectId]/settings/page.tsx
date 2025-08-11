@@ -1,4 +1,4 @@
-import EditProject from "@/components/projects/settings/edit-project";
+import ProjectSettings from "@/components/projects/settings/project-settings";
 import { getProject } from "@/lib/database/queries/projects";
 
 export default async function Page(props: { params: { projectId: string } }) {
@@ -6,5 +6,5 @@ export default async function Page(props: { params: { projectId: string } }) {
 
   const project = await getProject(projectId);
 
-  return <EditProject project={project!} />;
+  return <ProjectSettings project={project!} />;
 }

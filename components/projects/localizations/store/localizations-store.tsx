@@ -1,26 +1,30 @@
-import { getStoreLocalizationsByProject } from "@/actions/store-localizations";
+"use client";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { STORE_TYPES } from "@/constants";
-import { getSupportedLanguages } from "@/lib/database/queries/supported-languages";
 import { cn } from "@/lib/utils";
 import { StoreType } from "@/types/common";
 import { ProjectRowType } from "@/types/projects";
+import { StoreLocalizationRowType } from "@/types/store-localizations";
+import { SupportedLanguagesRowType } from "@/types/supported-languages";
 import Image from "next/image";
 import Link from "next/link";
-import AppStoreForm from "./views/forms/app-store-form";
-import PlayStoreForm from "./views/forms/play-store-form";
+import CreateStoreLocalization from "./views/create-store-localization";
 import StoreLocalizationsTable from "./views/store-localizations-table";
 
 type LocalizationStoreProps = {
   project: ProjectRowType;
   platform: StoreType;
+  storeLocalizations: StoreLocalizationRowType[];
+  supportedLanguages: SupportedLanguagesRowType[];
 };
 
-async function LocalizationStore({ project, platform }: LocalizationStoreProps) {
-  const { data: storeLocalizations } = await getStoreLocalizationsByProject(project.id, platform);
-  const supportedLanguages = await getSupportedLanguages();
-
+function LocalizationStore({
+  project,
+  platform,
+  supportedLanguages,
+  storeLocalizations,
+}: LocalizationStoreProps) {
   const renderStoreButtons = () => {
     const storesToShow =
       project.store_type === "both" ? ["app_store", "play_store"] : [project.store_type];
@@ -55,15 +59,16 @@ async function LocalizationStore({ project, platform }: LocalizationStoreProps) 
         <StoreLocalizationsTable
           storeLocalizations={storeLocalizations}
           supportedLanguages={supportedLanguages}
-          projectId={project.id}
         />
       );
-    } else if (platform === "app_store") {
-      return <AppStoreForm supportedLanguages={supportedLanguages} projectId={project.id} />;
-    } else if (platform === "play_store") {
-      return <PlayStoreForm />;
     } else {
-      return null;
+      return (
+        <CreateStoreLocalization
+          platform={platform}
+          projectId={project.id}
+          supportedLanguages={supportedLanguages}
+        />
+      );
     }
   };
 

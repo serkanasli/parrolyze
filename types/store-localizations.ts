@@ -1,5 +1,3 @@
-import { AppStoreFormValues } from "@/validations/app-store-schema";
-import { StoreType } from "./common";
 import { Database } from "./database.types";
 
 export type StoreLocalizationRowType = Database["public"]["Tables"]["store_localizations"]["Row"];
@@ -8,9 +6,7 @@ export type StoreLocalizationInsertType =
 export type StoreLocalizationUpdateType =
   Database["public"]["Tables"]["store_localizations"]["Update"];
 
-export type StoreLocalizationData = {
-  fields: AppStoreFormValues;
-  platform: StoreType;
-  projectId: string;
-  sourceLanguage: string;
+export type StoreLocalizationTableRowType = {
+  source: StoreLocalizationRowType;
+  locales: StoreLocalizationRowType[];
 };

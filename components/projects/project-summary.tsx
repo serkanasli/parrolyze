@@ -1,11 +1,11 @@
 "use client";
-import { ProjectRow } from "@/types/projects";
+import { ProjectRowType } from "@/types/projects";
 import { LayoutGrid } from "lucide-react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 
 type ProjectSummaryProps = {
-  projects: ProjectRow[];
+  projects: ProjectRowType[];
 };
 
 export default function ProjectSummary({ projects }: ProjectSummaryProps) {

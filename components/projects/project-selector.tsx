@@ -27,12 +27,25 @@ export default async function ProjectSelector() {
         <DropdownMenuLabel className="text-muted-foreground text-xs">
           Your Projects
         </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem asChild className="cursor-pointer">
+            <Link href="/projects/new" className="w-full items-center justify-start gap-2">
+              <Plus size={20} className="text-green-primary" />
+              <span className="text-green-primary font-medium">Create a new project</span>
+            </Link>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
         {projects.length > 0 && (
           <>
             <DropdownMenuSeparator />
             <DropdownMenuGroup className="gap-y-1 py-1">
-              {projects.map((project) => (
-                <DropdownMenuItem asChild key={project.name} className="cursor-pointer">
+              {projects.map((project, index) => (
+                <DropdownMenuItem
+                  asChild
+                  key={`${project.name}_${index}`}
+                  className="cursor-pointer"
+                >
                   <Link
                     href={{
                       pathname: `/projects/${project.id}/overview`,
@@ -53,13 +66,6 @@ export default async function ProjectSelector() {
             </DropdownMenuGroup>
           </>
         )}
-        <DropdownMenuSeparator />
-        <DropdownMenuItem asChild className="cursor-pointer">
-          <Link href="/projects/new" className="w-full items-center justify-start gap-2">
-            <Plus size={20} className="text-green-primary" />
-            <span className="text-green-primary font-medium">Create a new project</span>
-          </Link>
-        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

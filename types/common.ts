@@ -1,5 +1,4 @@
 import { FEEDBACK_TYPES, STORE_TYPES } from "@/constants";
-import { AppStoreFormValues } from "@/validations/app-store-schema";
 
 export type ActionResultType<T = unknown> = {
   success: boolean;
@@ -22,16 +21,5 @@ export type PageProps = {
 export type StoreType = (typeof STORE_TYPES)[number]["value"];
 export type FeedbackType = (typeof FEEDBACK_TYPES)[number]["value"];
 
-export type ComboBoxItemType = {
-  value: string;
-  label: string;
-  flag?: string;
-};
-
-export type StoreFieldType = {
-  name: keyof AppStoreFormValues;
-  label: string;
-  maxLength?: number;
-  type: "textarea" | "text" | "combobox";
-  placeholder: string;
-};
+export type SideType = "top" | "right" | "bottom" | "left" | undefined;
+export type AlignType = "start" | "center" | "end" | undefined;

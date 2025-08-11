@@ -5,51 +5,32 @@ import {
   updateProject,
   updateProjectIconWithUpload,
 } from "@/actions/projects";
+import { STORE_TYPES } from "@/constants";
 
 import { withLoadingToast } from "@/lib/toast";
-import { ActionResultType, OnSubmitSuccessType, StoreType } from "@/types/common";
+import { ActionResultType, OnSubmitSuccessType } from "@/types/common";
+import { ComboBoxItemType } from "@/types/form";
 import { CreateProjectDataType, ProjectRowType, ProjectUpdateType } from "@/types/projects";
-import { CreateProjectFormValues, createProjectSchema } from "@/validations/create-project-schema";
-import { EditIconFormValues, editIconSchema } from "@/validations/edit-icon-schema";
-import { EditProjectFormValues, editProjectSchema } from "@/validations/edit-project-schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
-import { useForm, useWatch } from "react-hook-form";
+import { CreateProjectFormValues } from "@/validations/create-project-schema";
+import { EditIconFormValues } from "@/validations/edit-icon-schema";
+import { EditProjectFormValues } from "@/validations/edit-project-schema";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 type UseProjectFormProps = {
   userId?: string;
   onSubmitSuccess?: OnSubmitSuccessType<ActionResultType<ProjectRowType>>;
-  initialValues?: ProjectUpdateType;
-};
-
-type UseEditIconFormProps = {
-  onSubmitSuccess?: OnSubmitSuccessType;
-  initialValues: {
-    id?: string;
-    icon_url?: string;
-    icon_file?: File | string;
-  };
 };
 
 export function useProjectForm({ userId, onSubmitSuccess }: UseProjectFormProps) {
-  const [isLoading, setIsLoading] = React.useState(false);
-
-  const form = useForm<CreateProjectFormValues>({
-    resolver: zodResolver(createProjectSchema),
-    defaultValues: {
-      name: "",
-      icon_file: undefined,
-      short_description: "",
-      store_type: "both" as StoreType,
-      play_store_url: "",
-      app_store_url: "",
-    },
-    mode: "onChange",
+  const [formOptions] = useState<Record<string, ComboBoxItemType[]>>({
+    platforms: STORE_TYPES.map((platform) => ({
+      label: platform.label,
+      value: platform.value,
+    })),
   });
 
-  const storeType = useWatch({ control: form.control, name: "store_type" });
-
-  const formSubmit = async (values: CreateProjectFormValues) => {
+  const onSubmit = async (values: CreateProjectFormValues) => {
     const payload: CreateProjectDataType = {
       project: {
         name: values.name,
@@ -66,7 +47,7 @@ export function useProjectForm({ userId, onSubmitSuccess }: UseProjectFormProps)
       "Creating project...",
       "Project created successfully!",
       "An error occurred while creating the project.",
-      setIsLoading,
+      null,
       () => createProjectWithIcon(payload),
     );
 
@@ -74,33 +55,21 @@ export function useProjectForm({ userId, onSubmitSuccess }: UseProjectFormProps)
   };
 
   return {
-    form,
-    isLoading,
-    formSubmit,
-    showAppStoreField: storeType === "both" || storeType === "app_store",
-    showPlayStoreField: storeType === "both" || storeType === "play_store",
+    onSubmit,
+    formOptions,
   };
 }
 
-export function useEditProjectForm({ initialValues }: UseProjectFormProps) {
-  const [isLoading, setIsLoading] = React.useState(false);
-
-  const form = useForm<EditProjectFormValues>({
-    resolver: zodResolver(editProjectSchema),
-    defaultValues: {
-      id: initialValues?.id,
-      name: initialValues?.name,
-      short_description: initialValues?.short_description,
-      store_type: initialValues?.store_type,
-      play_store_url: initialValues?.play_store_url ?? "",
-      app_store_url: initialValues?.app_store_url ?? "",
-    },
-    mode: "onChange",
+export function useEditProjectForm() {
+  const router = useRouter();
+  const [formOptions] = useState<Record<string, ComboBoxItemType[]>>({
+    platforms: STORE_TYPES.map((platform) => ({
+      label: platform.label,
+      value: platform.value,
+    })),
   });
 
-  const storeType = useWatch({ control: form.control, name: "store_type" });
-
-  const formSubmit = async (values: EditProjectFormValues) => {
+  const onSubmit = async (values: EditProjectFormValues) => {
     const payload: ProjectUpdateType = {
       id: values.id,
       name: values.name,
@@ -114,45 +83,31 @@ export function useEditProjectForm({ initialValues }: UseProjectFormProps) {
       "Updating project...",
       "Project updated successfully!",
       "An error occurred while updating the project.",
-      setIsLoading,
+      null,
       () => updateProject(values.id || "", payload),
     );
+    router.refresh();
   };
 
   return {
-    form,
-    isLoading,
-    formSubmit,
-    showAppStoreField: storeType === "both" || storeType === "app_store",
-    showPlayStoreField: storeType === "both" || storeType === "play_store",
+    formOptions,
+    onSubmit,
   };
 }
 
-export function useEditIconForm({ initialValues }: UseEditIconFormProps) {
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [isSuccess, setIsSuccess] = React.useState(false);
-
-  const form = useForm<EditIconFormValues>({
-    resolver: zodResolver(editIconSchema),
-    defaultValues: {
-      id: initialValues?.id ?? "",
-      icon_url: initialValues?.icon_url,
-      icon_file: initialValues?.icon_url,
-    },
-    mode: "onChange",
-  });
-
-  const formSubmit = async (values: EditIconFormValues) => {
-    const response = await withLoadingToast(
+export function useEditIconForm() {
+  const router = useRouter();
+  const onSubmit = async (values: EditIconFormValues) => {
+    await withLoadingToast(
       "Updating icon...",
       "Icon updated successfully!",
       "An error occurred while updating the icon.",
-      setIsLoading,
+      null,
       () => updateProjectIconWithUpload(values.id || "", values.icon_file),
     );
 
-    if (response?.success) setIsSuccess(true);
+    router.refresh();
   };
 
-  return { form, isLoading, formSubmit, isSuccess };
+  return { onSubmit };
 }

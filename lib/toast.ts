@@ -5,11 +5,13 @@ export async function withLoadingToast<T = unknown>(
   loading: string,
   success: string,
   error: string,
-  setLoading: (v: boolean) => void,
+  setLoading: ((v: boolean) => void) | null = null, // null da kabul edilir
   fn: () => Promise<ActionResultType<T>>,
 ): Promise<ActionResultType<T> | undefined> {
   const toastId = toast.loading(loading);
-  setLoading(true);
+
+  if (setLoading) setLoading(true);
+
   try {
     const response = await fn();
     toast.success(success, { id: toastId });
@@ -19,6 +21,6 @@ export async function withLoadingToast<T = unknown>(
     console.error(err);
     return undefined;
   } finally {
-    setLoading(false);
+    if (setLoading) setLoading(false);
   }
 }
