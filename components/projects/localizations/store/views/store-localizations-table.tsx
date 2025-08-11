@@ -20,7 +20,7 @@ import { getLanguageLabel } from "@/lib/store-localization-helpers";
 import { StoreLocalizationRowType } from "@/types/store-localizations";
 import { SupportedLanguagesRowType } from "@/types/supported-languages";
 import { ChevronDown, Plus, Trash } from "lucide-react";
-import { AITranslateButton } from "../AITranslateButton";
+import { AITranslateButton } from "../ai-translate-button";
 
 type StoreLocalizationsTableProps = {
   storeLocalizations: StoreLocalizationRowType[];
