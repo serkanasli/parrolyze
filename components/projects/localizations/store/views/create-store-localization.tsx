@@ -1,6 +1,6 @@
 "use client";
 
-import { createStoreLocalizations } from "@/actions/store-localizations";
+import { saveStoreLocalizationsFromData } from "@/actions/store-localizations";
 import DynamicForm from "@/components/form/dynamic-form";
 import { Button } from "@/components/ui/button";
 import {
@@ -51,7 +51,14 @@ function CreateStoreLocalization({
         "Localization created successfully!",
         "An error occurred while creating the localization.",
         null,
-        () => createStoreLocalizations<typeof schema>(values, sourceLanguage, projectId, platform),
+        () =>
+          saveStoreLocalizationsFromData<typeof schema>({
+            data: values,
+            sourceLanguage: sourceLanguage,
+            targetLanguage: sourceLanguage,
+            platform,
+            projectId,
+          }),
       );
 
       if (response?.success) {
@@ -66,7 +73,7 @@ function CreateStoreLocalization({
       setDynamicOptions({
         languages: supportedLanguages.map((lang) => ({
           label: lang.name_en,
-          value: `${lang.code}-${lang.name_en}`,
+          value: lang.code,
           flag: lang.flag_emoji || "",
         })),
       });

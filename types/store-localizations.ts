@@ -5,3 +5,8 @@ export type StoreLocalizationInsertType =
   Database["public"]["Tables"]["store_localizations"]["Insert"];
 export type StoreLocalizationUpdateType =
   Database["public"]["Tables"]["store_localizations"]["Update"];
+
+export type StoreLocalizationTableRowType = {
+  source: StoreLocalizationRowType;
+  locales: StoreLocalizationRowType[];
+};

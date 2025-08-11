@@ -59,7 +59,6 @@ function LocalizationStore({
         <StoreLocalizationsTable
           storeLocalizations={storeLocalizations}
           supportedLanguages={supportedLanguages}
-          projectId={project.id}
         />
       );
     } else {

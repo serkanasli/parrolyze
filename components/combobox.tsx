@@ -10,6 +10,7 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { AlignType, SideType } from "@/types/common";
 import { ComboBoxItemType } from "@/types/form";
 
 import { Check, ChevronsUpDown } from "lucide-react";
@@ -23,6 +24,9 @@ interface ComboBoxProps {
   buttonClassName?: string;
   searchPlaceholder?: string;
   onValueChange?: (value: string) => void;
+  trigger?: React.ReactNode;
+  side?: SideType;
+  align?: AlignType;
 }
 
 export function ComboBox({
@@ -32,6 +36,9 @@ export function ComboBox({
   buttonClassName,
   searchPlaceholder = "Search...",
   onValueChange,
+  trigger,
+  side,
+  align,
 }: ComboBoxProps) {
   const [value, setValue] = React.useState(defaultValue);
   const [open, setOpen] = React.useState(false);
@@ -48,20 +55,23 @@ export function ComboBox({
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className={`w-[250px] justify-between ${buttonClassName || ""}`}
-        >
-          {selectedItem ? selectedItem.label : placeholder}
-          {selectedItem?.flag && <span className="ml-auto">{selectedItem?.flag}</span>}
-
-          <ChevronsUpDown className="ml-2 opacity-50" />
-        </Button>
+        {trigger ? (
+          trigger
+        ) : (
+          <Button
+            variant="outline"
+            role="combobox"
+            aria-expanded={open}
+            className={`w-[250px] justify-between ${buttonClassName || ""}`}
+          >
+            {selectedItem ? selectedItem.label : placeholder}
+            {selectedItem?.flag && <span className="ml-auto">{selectedItem?.flag}</span>}
+            <ChevronsUpDown className="ml-2 opacity-50" />
+          </Button>
+        )}
       </PopoverTrigger>
 
-      <PopoverContent className="w-[250px] p-0" side="bottom" align="start">
+      <PopoverContent className="w-[250px] p-0" side={side || "bottom"} align={align || "start"}>
         <Command className="scrollbar">
           <CommandInput placeholder={searchPlaceholder} autoFocus />
           <CommandList>

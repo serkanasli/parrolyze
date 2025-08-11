@@ -20,3 +20,6 @@ export type PageProps = {
 
 export type StoreType = (typeof STORE_TYPES)[number]["value"];
 export type FeedbackType = (typeof FEEDBACK_TYPES)[number]["value"];
+
+export type SideType = "top" | "right" | "bottom" | "left" | undefined;
+export type AlignType = "start" | "center" | "end" | undefined;
