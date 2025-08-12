@@ -5,31 +5,36 @@ import {
 import { SupportedLanguagesRowType } from "@/types/supported-languages";
 
 export function getLanguageLabel(
-  languages: SupportedLanguagesRowType[] = [],
+  languages: SupportedLanguagesRowType[] | null,
   code: string,
 ): string {
+  if (!languages) return "";
+
   const language = languages.find((lang) => lang.code === code);
   return language ? `${language.name_en ?? ""} ${language.flag_emoji ?? ""}`.trim() : "";
 }
 
 // Source localizations filter
-export function getSourceLocalizations(storeLocalizations: StoreLocalizationRowType[]) {
+export function getSourceLocalizations(storeLocalizations: StoreLocalizationRowType[] | null) {
+  if (!storeLocalizations) return [];
+
   return storeLocalizations.filter((loc) => loc.source_language === loc.target_language);
 }
 
 // Map source localizations to rows with their translations
 export function mapToLocalizationRows(
-  storeLocalizations: StoreLocalizationRowType[],
+  storeLocalizations: StoreLocalizationRowType[] | null,
   sourceLocalizations: StoreLocalizationRowType[],
 ): StoreLocalizationTableRowType[] {
-  if (!storeLocalizations.length) return [];
+  if (!storeLocalizations) return [];
 
   return sourceLocalizations.map((sourceItem) => {
     const locales = storeLocalizations.filter(
       (loc) =>
         loc.source_language === sourceItem.source_language &&
         loc.target_language !== sourceItem.source_language &&
-        loc.project_id === sourceItem.project_id,
+        loc.project_id === sourceItem.project_id &&
+        loc.field === sourceItem.field,
     );
     return { source: sourceItem, locales };
   });

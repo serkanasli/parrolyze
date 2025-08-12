@@ -4,8 +4,8 @@ import { SupportedLanguagesRowType } from "@/types/supported-languages";
 import { useMemo } from "react";
 
 type Props = {
-  supportedLanguages: SupportedLanguagesRowType[];
-  storeLocalizations: StoreLocalizationRowType[];
+  supportedLanguages?: SupportedLanguagesRowType[] | null;
+  storeLocalizations?: StoreLocalizationRowType[] | null;
 };
 
 export default function useAvailableLanguageOptions({
@@ -15,6 +15,9 @@ export default function useAvailableLanguageOptions({
   // Collect all used languages (both source and target)
   const usedLanguages = useMemo(() => {
     const langs = new Set<string>();
+
+    if (!storeLocalizations) return;
+
     storeLocalizations.forEach(({ source_language, target_language }) => {
       langs.add(source_language);
       langs.add(target_language);
@@ -24,6 +27,8 @@ export default function useAvailableLanguageOptions({
 
   // Prepare language options for ComboBox excluding used languages
   const languageOptions: ComboBoxItemType[] = useMemo(() => {
+    if (!supportedLanguages || !usedLanguages) return [];
+
     return supportedLanguages
       .filter((lang) => !usedLanguages.has(lang.code))
       .map((lang) => ({

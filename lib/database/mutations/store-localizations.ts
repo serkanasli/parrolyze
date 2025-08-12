@@ -41,3 +41,21 @@ export async function bulkDeleteStoreLocalizations(ids: string[]): Promise<numbe
     throw error;
   }
 }
+
+export async function bulkUpsertStoreLocalizations(
+  data: StoreLocalizationInsertType[],
+): Promise<StoreLocalizationInsertType[]> {
+  const supabase = await createClient();
+
+  try {
+    const { data: upsertedData, error } = await supabase
+      .from(Entities.StoreLocalizations)
+      .upsert(data, { onConflict: "id" })
+      .select();
+
+    if (error) throw error;
+    return upsertedData ?? [];
+  } catch (error) {
+    throw error;
+  }
+}

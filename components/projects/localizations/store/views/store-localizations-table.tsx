@@ -1,7 +1,7 @@
 "use client";
 
 import { ComboBox } from "@/components/combobox";
-import { CopyButton } from "@/components/CopyButton";
+import { CopyButton } from "@/components/copy-button";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -13,36 +13,31 @@ import {
 } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
 
+import { AIModelCombobox } from "@/components/ai-model-combobox";
 import useAvailableLanguageOptions from "@/hooks/use-available-language-options";
 import useStoreLocalizationRows from "@/hooks/use-store-localization-rows";
 import useStoreLocalizationsActions from "@/hooks/use-store-localizations-actions";
-import { getLanguageLabel } from "@/lib/store-localization-helpers";
-import { StoreLocalizationRowType } from "@/types/store-localizations";
-import { SupportedLanguagesRowType } from "@/types/supported-languages";
+import { getLanguageLabel } from "@/lib/store-localization";
+import { useStoreLocalizations } from "@/providers/store-localizations-provider";
 import { ChevronDown, Plus, Trash } from "lucide-react";
 import { AITranslateButton } from "../ai-translate-button";
 
-type StoreLocalizationsTableProps = {
-  storeLocalizations: StoreLocalizationRowType[];
-  supportedLanguages: SupportedLanguagesRowType[];
-};
+function StoreLocalizationsTable() {
+  const { storeLocalizations, supportedLanguages, aiModels } = useStoreLocalizations();
 
-function StoreLocalizationsTable({
-  storeLocalizations,
-  supportedLanguages,
-}: StoreLocalizationsTableProps) {
   const { localizations, sourceLocalizations, uniqueTargetLanguages } = useStoreLocalizationRows({
-    storeLocalizations,
+    storeLocalizations: storeLocalizations!,
   });
+  console.log("localizations", localizations);
 
   const { languageOptions } = useAvailableLanguageOptions({
     storeLocalizations,
-    supportedLanguages,
+    supportedLanguages: supportedLanguages!,
   });
 
   const { handleAddStoreLocalizations, handleRemoveStoreLocalizations } =
     useStoreLocalizationsActions({
-      sourceLocalizations,
+      sourceLocalizations: sourceLocalizations,
       storeLocalizations,
     });
 
@@ -52,7 +47,8 @@ function StoreLocalizationsTable({
   return (
     <div className="flex flex-col gap-y-5">
       {/* Locale Add ComboBox */}
-      <div className="ml-auto">
+      <div className="ml-auto flex flex-row gap-x-2.5">
+        <AIModelCombobox models={aiModels} />
         <ComboBox
           align="end"
           options={languageOptions}
@@ -91,6 +87,7 @@ function StoreLocalizationsTable({
                     <div className="flex items-center gap-1">
                       {/* AI Translate and Delete buttons */}
                       <AITranslateButton
+                        translateScope="column"
                         langCode={lang}
                         storeLocalizations={storeLocalizations}
                         variant="blue"
@@ -134,6 +131,7 @@ function StoreLocalizationsTable({
                         <div className="flex justify-between p-1">
                           <div className="flex gap-2">
                             <AITranslateButton
+                              translateScope="cell"
                               locale={locale}
                               variant="ghost"
                               className="text-blue hover:text-blue"

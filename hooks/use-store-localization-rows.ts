@@ -2,12 +2,12 @@ import {
   extractUniqueTargetLanguages,
   getSourceLocalizations,
   mapToLocalizationRows,
-} from "@/lib/store-localization-helpers";
+} from "@/lib/store-localization";
 import { StoreLocalizationRowType } from "@/types/store-localizations";
 import { useMemo } from "react";
 
 type Props = {
-  storeLocalizations: StoreLocalizationRowType[];
+  storeLocalizations: StoreLocalizationRowType[] | null;
 };
 
 export default function useStoreLocalizationRows({ storeLocalizations }: Props) {

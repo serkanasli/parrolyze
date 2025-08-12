@@ -14,9 +14,8 @@ import {
 import { appStoreFormFields } from "@/constants/forms/app-store-form-fields";
 import { playStoreFormFields } from "@/constants/forms/play-store-form-fields";
 import { withLoadingToast } from "@/lib/toast";
-import { StoreType } from "@/types/common";
+import { useStoreLocalizations } from "@/providers/store-localizations-provider";
 import { ComboBoxItemType } from "@/types/form";
-import { SupportedLanguagesRowType } from "@/types/supported-languages";
 import { appStoreFormSchema } from "@/validations/app-store-schema";
 import { playStoreFormSchema } from "@/validations/play-store-schema";
 import { Plus } from "lucide-react";
@@ -24,17 +23,9 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import z from "zod";
 
-type CreateStoreLocalizationProps = {
-  supportedLanguages: SupportedLanguagesRowType[];
-  platform: StoreType;
-  projectId: string;
-};
+function CreateStoreLocalization() {
+  const { platform, project, supportedLanguages } = useStoreLocalizations();
 
-function CreateStoreLocalization({
-  supportedLanguages,
-  platform,
-  projectId,
-}: CreateStoreLocalizationProps) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [dynamicOptions, setDynamicOptions] = useState<Record<string, ComboBoxItemType[]>>({});
@@ -56,8 +47,8 @@ function CreateStoreLocalization({
             data: values,
             sourceLanguage: sourceLanguage,
             targetLanguage: sourceLanguage,
-            platform,
-            projectId,
+            platform: platform!,
+            projectId: project?.id || "",
           }),
       );
 
