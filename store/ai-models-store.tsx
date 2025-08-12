@@ -3,16 +3,18 @@ import { create } from "zustand";
 
 type AiModelsState = {
   selectedModel: string;
-  setSelectedModel: (selectedModel: string) => void;
   systemPrompt: string;
   isAIFetching: boolean;
+  setSelectedModel: (selectedModel: string) => void;
   setIsAIFetching: (isAIFetching: boolean) => void;
+  setSystemPrompt: (systemPrompt: string) => void;
 };
 
 export const useAiModelsStore = create<AiModelsState>((set) => ({
   selectedModel: "",
+  isAIFetching: false,
   systemPrompt: SYSTEM_PROMPT,
   setSelectedModel: (selectedModel) => set({ selectedModel }),
-  isAIFetching: false,
   setIsAIFetching: (isAIFetching) => set({ isAIFetching }),
+  setSystemPrompt: (systemPrompt) => set({ systemPrompt }),
 }));

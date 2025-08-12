@@ -103,6 +103,7 @@ function DynamicForm<T extends z.ZodType<any, any>>({
             placeholder={item.placeholder}
             className="h-24"
             maxLength={item.maxLength}
+            {...item.props}
           />
         );
       case "image-upload":

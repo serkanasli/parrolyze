@@ -28,7 +28,7 @@ export function AIModelCombobox({ models }: { models: any[] }) {
       side="bottom"
       align="end"
       trigger={
-        <Button variant="outline">
+        <Button variant="blue">
           {selectedModel || "Select AI model"}
           <ChevronDown />
         </Button>

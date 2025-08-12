@@ -94,7 +94,7 @@ export async function bulkDeleteStoreLocalizations({
 export async function bulkUpsertStoreLocalizations({
   storeLocalizations,
 }: {
-  storeLocalizations: StoreLocalizationInsertType[];
+  storeLocalizations: StoreLocalizationInsertType[] | StoreLocalizationInsertType;
 }): Promise<ActionResultType> {
   try {
     await dbMutations.bulkUpsertStoreLocalizations(storeLocalizations);

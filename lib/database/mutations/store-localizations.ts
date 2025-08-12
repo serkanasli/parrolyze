@@ -43,7 +43,7 @@ export async function bulkDeleteStoreLocalizations(ids: string[]): Promise<numbe
 }
 
 export async function bulkUpsertStoreLocalizations(
-  data: StoreLocalizationInsertType[],
+  data: StoreLocalizationInsertType[] | StoreLocalizationInsertType,
 ): Promise<StoreLocalizationInsertType[]> {
   const supabase = await createClient();
 

@@ -5,4 +5,5 @@ export enum Entities {
   AppLocalizations = "app_localizations",
   SupportedLanguages = "supported_languages",
   Feedbacks = "feedbacks",
+  AIConfigs = "ai_configs",
 }

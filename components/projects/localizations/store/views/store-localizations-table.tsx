@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
 
+import { AIConfigSheet } from "@/components/ai-config-sheet";
 import { AIModelCombobox } from "@/components/ai-model-combobox";
 import useAvailableLanguageOptions from "@/hooks/use-available-language-options";
 import useStoreLocalizationRows from "@/hooks/use-store-localization-rows";
@@ -28,7 +29,6 @@ function StoreLocalizationsTable() {
   const { localizations, sourceLocalizations, uniqueTargetLanguages } = useStoreLocalizationRows({
     storeLocalizations: storeLocalizations!,
   });
-  console.log("localizations", localizations);
 
   const { languageOptions } = useAvailableLanguageOptions({
     storeLocalizations,
@@ -49,12 +49,13 @@ function StoreLocalizationsTable() {
       {/* Locale Add ComboBox */}
       <div className="ml-auto flex flex-row gap-x-2.5">
         <AIModelCombobox models={aiModels} />
+        <AIConfigSheet />
         <ComboBox
           align="end"
           options={languageOptions}
           onValueChange={handleAddStoreLocalizations}
           trigger={
-            <Button variant="outline" className="flex items-center gap-1">
+            <Button variant="green" className="flex items-center gap-1">
               <Plus />
               Add locale
               <ChevronDown />

@@ -32,6 +32,7 @@ export type ButtonVariantType =
   | "secondary"
   | "ghost"
   | "blue"
+  | "green"
   | null
   | undefined;
 

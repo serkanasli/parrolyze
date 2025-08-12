@@ -28,23 +28,30 @@ export async function fetchChatCompletions({
     if (!model) throw new Error("No model selected");
 
     const url = `${process.env.OPENROUTER_BASE_URL}/chat/completions`;
-    console.log("url", url);
     const res = await fetch(url, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        model,
-        messages,
-      }),
-      cache: "no-store",
+      body: JSON.stringify({ model, messages }),
+      cache: "force-cache",
     });
-    if (!res.ok) throw new Error("Failed to fetch models");
-    const data = await res.json();
 
-    console.log("fetchChatCompletions data", data);
+    if (!res.ok) {
+      const errorBody = await res.text();
+
+      let errorMessage = `Request failed with status ${res.status}`;
+      try {
+        const parsed = JSON.parse(errorBody);
+        errorMessage = parsed?.error?.message || parsed?.message || errorMessage;
+      } catch {
+        errorMessage = errorBody || errorMessage;
+      }
+      throw new Error(errorMessage);
+    }
+
+    const data = await res.json();
     return Result.ok(data);
   } catch (error) {
     const message = (error as Error).message || "Unknown error";
