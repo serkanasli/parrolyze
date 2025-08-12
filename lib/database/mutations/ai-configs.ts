@@ -59,8 +59,6 @@ export async function upsertAIConfigs(
     if (error) throw error;
     return upsertedData;
   } catch (error) {
-    const message = (error as Error).message;
-    console.log("message", message);
     throw error;
   }
 }
