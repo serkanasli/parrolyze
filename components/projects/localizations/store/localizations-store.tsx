@@ -3,31 +3,18 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { STORE_TYPES } from "@/constants";
 import { cn } from "@/lib/utils";
-import { StoreType } from "@/types/common";
-import { ProjectRowType } from "@/types/projects";
-import { StoreLocalizationRowType } from "@/types/store-localizations";
-import { SupportedLanguagesRowType } from "@/types/supported-languages";
+import { useStoreLocalizations } from "@/providers/store-localizations-provider";
 import Image from "next/image";
 import Link from "next/link";
 import CreateStoreLocalization from "./views/create-store-localization";
 import StoreLocalizationsTable from "./views/store-localizations-table";
 
-type LocalizationStoreProps = {
-  project: ProjectRowType;
-  platform: StoreType;
-  storeLocalizations: StoreLocalizationRowType[];
-  supportedLanguages: SupportedLanguagesRowType[];
-};
+function LocalizationStore() {
+  const { project, storeLocalizations, platform } = useStoreLocalizations();
 
-function LocalizationStore({
-  project,
-  platform,
-  supportedLanguages,
-  storeLocalizations,
-}: LocalizationStoreProps) {
   const renderStoreButtons = () => {
     const storesToShow =
-      project.store_type === "both" ? ["app_store", "play_store"] : [project.store_type];
+      project?.store_type === "both" ? ["app_store", "play_store"] : [project?.store_type];
 
     return storesToShow.map((storeValue) => {
       const store = STORE_TYPES.find((s) => s.value === storeValue);
@@ -44,7 +31,7 @@ function LocalizationStore({
               isActive,
           })}
         >
-          <Link href={`/projects/${project.id}/localization/store?platform=${storeValue}`}>
+          <Link href={`/projects/${project?.id}/localization/store?platform=${storeValue}`}>
             <Image src={store.icon} width={20} height={20} alt="icon" />
             <span className="font-medium">{store.label}</span>
           </Link>
@@ -55,20 +42,9 @@ function LocalizationStore({
 
   const renderContent = () => {
     if (storeLocalizations && storeLocalizations.length > 0) {
-      return (
-        <StoreLocalizationsTable
-          storeLocalizations={storeLocalizations}
-          supportedLanguages={supportedLanguages}
-        />
-      );
+      return <StoreLocalizationsTable />;
     } else {
-      return (
-        <CreateStoreLocalization
-          platform={platform}
-          projectId={project.id}
-          supportedLanguages={supportedLanguages}
-        />
-      );
+      return <CreateStoreLocalization />;
     }
   };
 

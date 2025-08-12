@@ -9,8 +9,8 @@ export function CopyButton({ text }: { text: string }) {
   const handleCopy = async (text: string) => {
     if (!text) return;
     setCopied(true);
-    await delay(2000);
     navigator.clipboard.writeText(text);
+    await delay(2000);
     setCopied(false);
   };
 

@@ -90,3 +90,16 @@ export async function bulkDeleteStoreLocalizations({
     return Result.fail();
   }
 }
+
+export async function bulkUpsertStoreLocalizations({
+  storeLocalizations,
+}: {
+  storeLocalizations: StoreLocalizationInsertType[] | StoreLocalizationInsertType;
+}): Promise<ActionResultType> {
+  try {
+    await dbMutations.bulkUpsertStoreLocalizations(storeLocalizations);
+    return Result.ok();
+  } catch (error) {
+    return Result.fail();
+  }
+}

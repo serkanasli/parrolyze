@@ -8,8 +8,8 @@ import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 
 type Props = {
-  sourceLocalizations: StoreLocalizationRowType[];
-  storeLocalizations: StoreLocalizationRowType[];
+  sourceLocalizations?: StoreLocalizationRowType[] | null;
+  storeLocalizations?: StoreLocalizationRowType[] | null;
 };
 
 export default function useStoreLocalizationsActions({
@@ -20,6 +20,8 @@ export default function useStoreLocalizationsActions({
   // Handler to add a new locale for all source localizations
   const handleAddStoreLocalizations = useCallback(
     async (targetLanguageCode: string) => {
+      if (!sourceLocalizations) return;
+
       try {
         const newLocales: StoreLocalizationInsertType[] = sourceLocalizations.map((sourceItem) => ({
           project_id: sourceItem.project_id,
@@ -53,6 +55,7 @@ export default function useStoreLocalizationsActions({
   const handleRemoveStoreLocalizations = useCallback(
     async (langCode: string) => {
       try {
+        if (!storeLocalizations) return;
         // Collect all IDs of store localizations to be deleted for the language
         const removeItemIds = storeLocalizations
           .filter((loc) => loc.target_language === langCode)
