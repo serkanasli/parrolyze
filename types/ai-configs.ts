@@ -1,5 +1,5 @@
 import { Database } from "@/database.types";
 
-export type AIConfigsRowType = Database["public"]["Tables"]["ai_configs"]["Row"];
-export type AIConfigsInsertType = Database["public"]["Tables"]["ai_configs"]["Insert"];
-export type AIConfigsUpdateType = Database["public"]["Tables"]["ai_configs"]["Update"];
+export type AIConfigsRow = Database["public"]["Tables"]["ai_configs"]["Row"];
+export type AIConfigsInsert = Database["public"]["Tables"]["ai_configs"]["Insert"];
+export type AIConfigsUpdate = Database["public"]["Tables"]["ai_configs"]["Update"];

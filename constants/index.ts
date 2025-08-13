@@ -1,10 +1,10 @@
-export const STORE_TYPES = [
+export const STORE_PLATFORM_OPTIONS = [
   { label: "App Store", value: "app_store", icon: "/icons/apple.svg" },
   { label: "Play Store", value: "play_store", icon: "/icons/google.svg" },
   { label: "Both", value: "both", icon: "" },
 ] as const;
 
-export const FEEDBACK_TYPES = [
+export const FEEDBACK_OPTIONS = [
   { label: "Bug", value: "bug" },
   { label: "Issue", value: "issue" },
   { label: "Idea", value: "idea" },

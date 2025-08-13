@@ -50,10 +50,10 @@ const formModes = {
   },
 };
 
-type AuthFormProps = {
+interface AuthFormProps {
   className?: string;
   mode: "login" | "signup";
-};
+}
 
 export default function AuthForm({ className, mode }: AuthFormProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false);

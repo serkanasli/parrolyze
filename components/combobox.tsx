@@ -10,14 +10,14 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { AlignType, SideType } from "@/types/common";
-import { ComboBoxItemType } from "@/types/form";
+import { Align, Side } from "@/types/common";
+import { ComboBoxItem } from "@/types/form";
 
 import { Check, ChevronsUpDown } from "lucide-react";
 import * as React from "react";
 
 interface ComboBoxProps {
-  options?: ComboBoxItemType[];
+  options?: ComboBoxItem[];
   defaultValue?: string;
   placeholder?: string;
   className?: string;
@@ -25,8 +25,8 @@ interface ComboBoxProps {
   searchPlaceholder?: string;
   onValueChange?: (value: string) => void;
   trigger?: React.ReactNode;
-  side?: SideType;
-  align?: AlignType;
+  side?: Side;
+  align?: Align;
 }
 
 export function ComboBox({

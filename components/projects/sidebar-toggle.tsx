@@ -3,17 +3,9 @@
 import { Button } from "@/components/ui/button";
 import { useSidebar } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
+import { ButtonVariant } from "@/types/common";
 import { LucideIcon, Menu } from "lucide-react";
 import type { ComponentPropsWithoutRef } from "react";
-
-type ButtonVariant =
-  | "default"
-  | "outline"
-  | "secondary"
-  | "destructive"
-  | "ghost"
-  | "link"
-  | "blue"; //custom variant
 
 interface SidebarToggleProps extends Omit<ComponentPropsWithoutRef<typeof Button>, "children"> {
   icon?: LucideIcon;

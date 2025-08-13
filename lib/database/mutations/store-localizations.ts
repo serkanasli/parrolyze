@@ -1,10 +1,10 @@
 import { Entities } from "@/lib/enum";
 import { createClient } from "@/lib/supabase/server";
-import { StoreLocalizationInsertType } from "@/types/store-localizations";
+import { StoreLocalizationInsert } from "@/types/store-localizations";
 
 export async function bulkCreateStoreLocalizations(
-  data: StoreLocalizationInsertType[],
-): Promise<StoreLocalizationInsertType[]> {
+  data: StoreLocalizationInsert[],
+): Promise<StoreLocalizationInsert[]> {
   const supabase = await createClient();
 
   try {
@@ -43,8 +43,8 @@ export async function bulkDeleteStoreLocalizations(ids: string[]): Promise<numbe
 }
 
 export async function bulkUpsertStoreLocalizations(
-  data: StoreLocalizationInsertType[] | StoreLocalizationInsertType,
-): Promise<StoreLocalizationInsertType[]> {
+  data: StoreLocalizationInsert[] | StoreLocalizationInsert,
+): Promise<StoreLocalizationInsert[]> {
   const supabase = await createClient();
 
   try {

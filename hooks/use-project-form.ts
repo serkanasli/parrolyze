@@ -5,33 +5,33 @@ import {
   updateProject,
   updateProjectIconWithUpload,
 } from "@/actions/projects";
-import { STORE_TYPES } from "@/constants";
+import { STORE_PLATFORM_OPTIONS } from "@/constants";
 
 import { withLoadingToast } from "@/lib/toast";
-import { ActionResultType, OnSubmitSuccessType } from "@/types/common";
-import { ComboBoxItemType } from "@/types/form";
-import { CreateProjectDataType, ProjectRowType, ProjectUpdateType } from "@/types/projects";
+import { ActionResult, OnSubmitSuccess } from "@/types/common";
+import { ComboBoxItem } from "@/types/form";
+import { CreateProjectData, ProjectRow, ProjectUpdate } from "@/types/projects";
 import { CreateProjectFormValues } from "@/validations/create-project-schema";
 import { EditIconFormValues } from "@/validations/edit-icon-schema";
 import { EditProjectFormValues } from "@/validations/edit-project-schema";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-type UseProjectFormProps = {
+interface UseProjectFormProps {
   userId?: string;
-  onSubmitSuccess?: OnSubmitSuccessType<ActionResultType<ProjectRowType>>;
-};
+  onSubmitSuccess?: OnSubmitSuccess<ActionResult<ProjectRow>>;
+}
 
 export function useProjectForm({ userId, onSubmitSuccess }: UseProjectFormProps) {
-  const [formOptions] = useState<Record<string, ComboBoxItemType[]>>({
-    platforms: STORE_TYPES.map((platform) => ({
+  const [formOptions] = useState<Record<string, ComboBoxItem[]>>({
+    platforms: STORE_PLATFORM_OPTIONS.map((platform) => ({
       label: platform.label,
       value: platform.value,
     })),
   });
 
   const onSubmit = async (values: CreateProjectFormValues) => {
-    const payload: CreateProjectDataType = {
+    const payload: CreateProjectData = {
       project: {
         name: values.name,
         short_description: values.short_description,
@@ -43,7 +43,7 @@ export function useProjectForm({ userId, onSubmitSuccess }: UseProjectFormProps)
       icon_file: values.icon_file || undefined,
     };
 
-    const response = await withLoadingToast<ProjectRowType>(
+    const response = await withLoadingToast<ProjectRow>(
       "Creating project...",
       "Project created successfully!",
       "An error occurred while creating the project.",
@@ -62,15 +62,15 @@ export function useProjectForm({ userId, onSubmitSuccess }: UseProjectFormProps)
 
 export function useEditProjectForm() {
   const router = useRouter();
-  const [formOptions] = useState<Record<string, ComboBoxItemType[]>>({
-    platforms: STORE_TYPES.map((platform) => ({
+  const [formOptions] = useState<Record<string, ComboBoxItem[]>>({
+    platforms: STORE_PLATFORM_OPTIONS.map((platform) => ({
       label: platform.label,
       value: platform.value,
     })),
   });
 
   const onSubmit = async (values: EditProjectFormValues) => {
-    const payload: ProjectUpdateType = {
+    const payload: ProjectUpdate = {
       id: values.id,
       name: values.name,
       short_description: values.short_description,

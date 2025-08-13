@@ -2,9 +2,9 @@ import { CheckCircle2Icon } from "lucide-react";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
-type SignupSuccessAlertProps = {
+interface SignupSuccessAlertProps {
   className?: string;
-};
+}
 
 export function SignupSuccessAlert({ className }: SignupSuccessAlertProps) {
   return (

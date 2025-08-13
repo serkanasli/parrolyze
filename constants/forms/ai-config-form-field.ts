@@ -1,6 +1,6 @@
-import { FormFieldType } from "@/types/form";
+import { FormField } from "@/types/form";
 
-export const aiConfigFormFields: FormFieldType[] = [
+export const aiConfigFormFields: FormField[] = [
   {
     name: "system_prompt",
     label: "System Prompt",

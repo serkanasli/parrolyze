@@ -1,6 +1,6 @@
 "use server";
 import { Result } from "@/lib/result";
-import { ActionResultType, AIMessageType } from "@/types/common";
+import { ActionResult, AIChatMessage } from "@/types/common";
 
 export async function fetchModels() {
   const res = await fetch(`${process.env.OPENROUTER_BASE_URL}/models`, {
@@ -15,15 +15,15 @@ export async function fetchModels() {
   return data.data;
 }
 
-type ChatCompletionsType = {
+interface ChatCompletions {
   model: string;
-  messages: AIMessageType[];
-};
+  messages: AIChatMessage[];
+}
 
 export async function fetchChatCompletions({
   model,
   messages,
-}: ChatCompletionsType): Promise<ActionResultType> {
+}: ChatCompletions): Promise<ActionResult> {
   try {
     if (!model) throw new Error("No model selected");
 

@@ -1,12 +1,12 @@
 import { ReactNode } from "react";
 import { FormControl, FormItem, FormLabel, FormMessage } from "../ui/form";
 
-type FormFieldItemProps = {
+interface FormFieldItemProps {
   label: string;
   labelRightComponent?: ReactNode;
   required?: boolean;
   children: ReactNode;
-};
+}
 
 export default function FormFieldItem({
   label,

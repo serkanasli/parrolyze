@@ -6,7 +6,7 @@ export default async function Page({ params }: PageProps) {
   const resolvedParams = await params;
   const { projectId } = resolvedParams;
 
-  const { success, data } = await getUserProjects();
+  const { data } = await getUserProjects();
 
   return <ProjectOverview projectId={projectId} projects={data || []} />;
 }

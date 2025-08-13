@@ -1,30 +1,34 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FEEDBACK_TYPES, STORE_TYPES } from "@/constants";
+import { FEEDBACK_OPTIONS, STORE_PLATFORM_OPTIONS } from "@/constants";
 
-export type ActionResultType<T = unknown> = {
+export interface ActionResult<T = unknown> {
   success: boolean;
   message?: string;
   code?: string;
   data?: T | any;
-};
+}
 
-export type OnSubmitSuccessType<T = unknown> = (response: T) => void;
+export type OnSubmitSuccess<T = unknown> = (response: T) => void;
 
-export type PageProps = {
+export interface PageProps {
   params: {
     projectId: string;
   };
   searchParams: {
     platform?: "app_store" | "play_store";
   };
-};
+}
 
-export type StoreType = (typeof STORE_TYPES)[number]["value"];
-export type FeedbackType = (typeof FEEDBACK_TYPES)[number]["value"];
+export interface AIChatMessage {
+  role: "user" | "system";
+  content: string;
+}
 
-export type SideType = "top" | "right" | "bottom" | "left" | undefined;
-export type AlignType = "start" | "center" | "end" | undefined;
-export type ButtonVariantType =
+export type StorePlatform = (typeof STORE_PLATFORM_OPTIONS)[number]["value"];
+export type Feedback = (typeof FEEDBACK_OPTIONS)[number]["value"];
+export type Side = "top" | "right" | "bottom" | "left" | undefined;
+export type Align = "start" | "center" | "end" | undefined;
+export type ButtonVariant =
   | "default"
   | "link"
   | "destructive"
@@ -36,9 +40,4 @@ export type ButtonVariantType =
   | null
   | undefined;
 
-export type ButtonSizeType = "default" | "sm" | "lg" | "icon" | null | undefined;
-
-export type AIMessageType = {
-  role: "user" | "system";
-  content: string;
-};
+export type ButtonSize = "default" | "sm" | "lg" | "icon" | null | undefined;

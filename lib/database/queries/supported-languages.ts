@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
-import { SupportedLanguagesRowType } from "@/types/supported-languages";
+import { SupportedLanguagesRow } from "@/types/supported-languages";
 
-export async function getSupportedLanguages(): Promise<SupportedLanguagesRowType[]> {
+export async function getSupportedLanguages(): Promise<SupportedLanguagesRow[]> {
   const supabase = await createClient(); // Eğer senin fonksiyon async değilse await gereksiz
 
   const { data, error } = await supabase.from("supported_languages").select("*");

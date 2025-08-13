@@ -1,4 +1,4 @@
-import { ActionResultType, AIMessageType } from "@/types/common";
+import { ActionResult, AIChatMessage } from "@/types/common";
 
 export function cleanAIResponse(text: string) {
   // Remove markdown code fences (```json ... ```)
@@ -16,8 +16,8 @@ export function createMessages({
   sourceLang: string;
   targetLang: string;
   systemPrompt: string;
-}): AIMessageType[] {
-  const messages: AIMessageType[] = [];
+}): AIChatMessage[] {
+  const messages: AIChatMessage[] = [];
 
   if (systemPrompt) {
     const systemContent = systemPrompt
@@ -39,9 +39,7 @@ export function createMessages({
   return messages;
 }
 
-export function processAIResponse(
-  response: ActionResultType,
-): Promise<Record<string, string> | null> {
+export function processAIResponse(response: ActionResult): Promise<Record<string, string> | null> {
   if (!response?.success) {
     throw new Error(response.message || "AI translation failed");
   }

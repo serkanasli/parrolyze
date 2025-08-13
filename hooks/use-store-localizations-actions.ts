@@ -3,14 +3,14 @@ import {
   bulkDeleteStoreLocalizations,
 } from "@/actions/store-localizations";
 import { withLoadingToast } from "@/lib/toast";
-import { StoreLocalizationInsertType, StoreLocalizationRowType } from "@/types/store-localizations";
+import { StoreLocalizationInsert, StoreLocalizationRow } from "@/types/store-localizations";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 
-type Props = {
-  sourceLocalizations?: StoreLocalizationRowType[] | null;
-  storeLocalizations?: StoreLocalizationRowType[] | null;
-};
+interface Props {
+  sourceLocalizations?: StoreLocalizationRow[] | null;
+  storeLocalizations?: StoreLocalizationRow[] | null;
+}
 
 export default function useStoreLocalizationsActions({
   sourceLocalizations,
@@ -23,7 +23,7 @@ export default function useStoreLocalizationsActions({
       if (!sourceLocalizations) return;
 
       try {
-        const newLocales: StoreLocalizationInsertType[] = sourceLocalizations.map((sourceItem) => ({
+        const newLocales: StoreLocalizationInsert[] = sourceLocalizations.map((sourceItem) => ({
           project_id: sourceItem.project_id,
           source_text: sourceItem.source_text,
           source_language: sourceItem.source_language,

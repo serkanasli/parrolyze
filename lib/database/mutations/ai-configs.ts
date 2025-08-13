@@ -1,8 +1,8 @@
 import { Entities } from "@/lib/enum";
 import { createClient } from "@/lib/supabase/server";
-import { AIConfigsInsertType, AIConfigsUpdateType } from "@/types/ai-configs";
+import { AIConfigsInsert, AIConfigsUpdate } from "@/types/ai-configs";
 
-export async function createAIConfigs(aiConfigs: AIConfigsInsertType) {
+export async function createAIConfigs(aiConfigs: AIConfigsInsert) {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from(Entities.AIConfigs)
@@ -17,7 +17,7 @@ export async function createAIConfigs(aiConfigs: AIConfigsInsertType) {
   return data;
 }
 
-export async function updateAIConfigs(id: string, updates: AIConfigsUpdateType) {
+export async function updateAIConfigs(id: string, updates: AIConfigsUpdate) {
   const supabase = await createClient();
 
   const { data, error } = await supabase
@@ -40,8 +40,8 @@ export async function deleteAIConfigs(id: string) {
 }
 
 export async function upsertAIConfigs(
-  data: AIConfigsInsertType[] | AIConfigsUpdateType,
-): Promise<AIConfigsInsertType> {
+  data: AIConfigsInsert[] | AIConfigsUpdate,
+): Promise<AIConfigsInsert> {
   const supabase = await createClient();
   const { data: userData, error: userError } = await supabase.auth.getUser();
 

@@ -1,13 +1,7 @@
-import {
-  StoreLocalizationRowType,
-  StoreLocalizationTableRowType,
-} from "@/types/store-localizations";
-import { SupportedLanguagesRowType } from "@/types/supported-languages";
+import { StoreLocalizationRow, StoreLocalizationTableRow } from "@/types/store-localizations";
+import { SupportedLanguagesRow } from "@/types/supported-languages";
 
-export function getLanguageLabel(
-  languages: SupportedLanguagesRowType[] | null,
-  code: string,
-): string {
+export function getLanguageLabel(languages: SupportedLanguagesRow[] | null, code: string): string {
   if (!languages) return "";
 
   const language = languages.find((lang) => lang.code === code);
@@ -15,7 +9,7 @@ export function getLanguageLabel(
 }
 
 // Source localizations filter
-export function getSourceLocalizations(storeLocalizations: StoreLocalizationRowType[] | null) {
+export function getSourceLocalizations(storeLocalizations: StoreLocalizationRow[] | null) {
   if (!storeLocalizations) return [];
 
   return storeLocalizations.filter((loc) => loc.source_language === loc.target_language);
@@ -23,9 +17,9 @@ export function getSourceLocalizations(storeLocalizations: StoreLocalizationRowT
 
 // Map source localizations to rows with their translations
 export function mapToLocalizationRows(
-  storeLocalizations: StoreLocalizationRowType[] | null,
-  sourceLocalizations: StoreLocalizationRowType[],
-): StoreLocalizationTableRowType[] {
+  storeLocalizations: StoreLocalizationRow[] | null,
+  sourceLocalizations: StoreLocalizationRow[],
+): StoreLocalizationTableRow[] {
   if (!storeLocalizations) return [];
 
   return sourceLocalizations.map((sourceItem) => {
@@ -41,7 +35,7 @@ export function mapToLocalizationRows(
 }
 
 // Extract unique target languages from localization rows
-export function extractUniqueTargetLanguages(localizations: StoreLocalizationTableRowType[]) {
+export function extractUniqueTargetLanguages(localizations: StoreLocalizationTableRow[]) {
   const langs = new Set<string>();
   localizations.forEach(({ locales }) => locales.forEach((l) => langs.add(l.target_language)));
   return Array.from(langs);

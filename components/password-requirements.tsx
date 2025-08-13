@@ -1,9 +1,9 @@
 import { cn } from "@/lib/utils";
 import { Circle, CircleCheck } from "lucide-react";
 
-type PasswordRequirementsProps = {
+interface PasswordRequirementsProps {
   password: string;
-};
+}
 
 function PasswordRequirements({ password }: PasswordRequirementsProps) {
   const hasUppercase = /[A-Z]/.test(password);

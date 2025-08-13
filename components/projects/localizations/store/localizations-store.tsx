@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { STORE_TYPES } from "@/constants";
+import { STORE_PLATFORM_OPTIONS } from "@/constants";
 import { cn } from "@/lib/utils";
 import { useStoreLocalizations } from "@/providers/store-localizations-provider";
 import Image from "next/image";
@@ -17,7 +17,7 @@ function LocalizationStore() {
       project?.store_type === "both" ? ["app_store", "play_store"] : [project?.store_type];
 
     return storesToShow.map((storeValue) => {
-      const store = STORE_TYPES.find((s) => s.value === storeValue);
+      const store = STORE_PLATFORM_OPTIONS.find((s) => s.value === storeValue);
       if (!store) return null;
       const isActive = platform === storeValue;
 

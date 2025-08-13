@@ -1,7 +1,7 @@
 import { Database } from "./database.types";
 
-export type SupportedLanguagesRowType = Database["public"]["Tables"]["supported_languages"]["Row"];
-export type SupportedLanguagesInsertType =
+export type SupportedLanguagesRow = Database["public"]["Tables"]["supported_languages"]["Row"];
+export type SupportedLanguagesInsert =
   Database["public"]["Tables"]["supported_languages"]["Insert"];
-export type SupportedLanguagesUpdateType =
+export type SupportedLanguagesUpdate =
   Database["public"]["Tables"]["supported_languages"]["Update"];

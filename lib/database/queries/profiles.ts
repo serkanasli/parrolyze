@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
-import { ProfileRowType } from "@/types/profiles";
+import { ProfileRow } from "@/types/profiles";
 
-export async function getUserProfile(): Promise<ProfileRowType> {
+export async function getUserProfile(): Promise<ProfileRow> {
   const supabase = await createClient();
 
   const {
@@ -12,5 +12,5 @@ export async function getUserProfile(): Promise<ProfileRowType> {
 
   if (error) throw error;
 
-  return data as ProfileRowType;
+  return data as ProfileRow;
 }

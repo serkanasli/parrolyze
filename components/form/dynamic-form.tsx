@@ -8,7 +8,7 @@ import { Form, FormField } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
-import { ComboBoxItemType, FormFieldType } from "@/types/form";
+import { ComboBoxItem } from "@/types/form";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
@@ -29,11 +29,11 @@ import ImageUpload from "./image-upload";
 interface DynamicFormProps<T extends z.ZodType<any, any>> {
   formId?: string;
   schema: T;
-  fields: FormFieldType[];
+  fields: FormField[];
   onSubmit: (data: z.infer<T>) => Promise<void> | void;
   submitButtonText?: string;
   isSubmitButtonShow?: boolean;
-  dynamicOptions?: Record<string, ComboBoxItemType[]>;
+  dynamicOptions?: Record<string, ComboBoxItem[]>;
   defaultValues?: z.infer<T>;
   onStateChange?: (state: {
     isDirty: boolean;
@@ -84,7 +84,7 @@ function DynamicForm<T extends z.ZodType<any, any>>({
     }
   }, [formState.isDirty, formState.isSubmitSuccessful, isLoading, onStateChange]);
 
-  const renderField = (item: FormFieldType, field: any, fieldState: ControllerFieldState) => {
+  const renderField = (item: FormField, field: any, fieldState: ControllerFieldState) => {
     switch (item.type) {
       case "text":
         return (

@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
-import { ProjectRowType } from "@/types/projects";
+import { ProjectRow } from "@/types/projects";
 
-export async function getUserProjects(): Promise<ProjectRowType[]> {
+export async function getUserProjects(): Promise<ProjectRow[]> {
   const supabase = await createClient();
 
   const {
@@ -19,7 +19,7 @@ export async function getUserProjects(): Promise<ProjectRowType[]> {
   return data ?? [];
 }
 
-export async function getProject(projectId: string): Promise<ProjectRowType> {
+export async function getProject(projectId: string): Promise<ProjectRow> {
   const supabase = await createClient();
 
   const { data, error } = await supabase.from("projects").select("*").eq("id", projectId).single();

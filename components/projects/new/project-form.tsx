@@ -6,18 +6,18 @@ import { createProjectFormFields } from "@/constants/forms/create-project-form-f
 import { useProjectForm } from "@/hooks/use-project-form";
 import { useUser } from "@/hooks/use-user";
 import { cn } from "@/lib/utils";
-import { ActionResultType, OnSubmitSuccessType } from "@/types/common";
-import { ProjectRowType } from "@/types/projects";
+import { ActionResult, OnSubmitSuccess } from "@/types/common";
+import { ProjectRow } from "@/types/projects";
 
 import { createProjectSchema } from "@/validations/create-project-schema";
 
-type ProjectFormProps = {
-  onSubmitSuccess?: OnSubmitSuccessType<ActionResultType<ProjectRowType>>;
+interface ProjectFormProps {
+  onSubmitSuccess?: OnSubmitSuccess<ActionResult<ProjectRow>>;
   className?: string;
   cardTitle?: string;
   cardDescription?: string;
   submitButtonText?: string;
-};
+}
 
 export default function ProjectForm({
   onSubmitSuccess,
