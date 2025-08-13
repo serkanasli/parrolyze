@@ -1,15 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { ProjectRowType } from "@/types/projects";
+import { ProjectRow } from "@/types/projects";
 import { Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-type ProjectOverviewProps = {
-  projects: ProjectRowType[];
+interface ProjectOverviewProps {
+  projects: ProjectRow[];
   projectId?: string;
-};
+}
 
 function ProjectOverview({ projects, projectId }: ProjectOverviewProps) {
   return (

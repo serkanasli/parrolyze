@@ -1,12 +1,10 @@
 import { Database } from "./database.types";
 
-export type StoreLocalizationRowType = Database["public"]["Tables"]["store_localizations"]["Row"];
-export type StoreLocalizationInsertType =
-  Database["public"]["Tables"]["store_localizations"]["Insert"];
-export type StoreLocalizationUpdateType =
-  Database["public"]["Tables"]["store_localizations"]["Update"];
+export type StoreLocalizationRow = Database["public"]["Tables"]["store_localizations"]["Row"];
+export type StoreLocalizationInsert = Database["public"]["Tables"]["store_localizations"]["Insert"];
+export type StoreLocalizationUpdate = Database["public"]["Tables"]["store_localizations"]["Update"];
 
-export type StoreLocalizationTableRowType = {
-  source: StoreLocalizationRowType;
-  locales: StoreLocalizationRowType[];
-};
+export interface StoreLocalizationTableRow {
+  source: StoreLocalizationRow;
+  locales: StoreLocalizationRow[];
+}

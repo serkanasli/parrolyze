@@ -1,8 +1,8 @@
 import { Entities } from "@/lib/enum";
 import { createClient } from "@/lib/supabase/server";
-import { ProjectInsertType, ProjectUpdateType } from "@/types/projects";
+import { ProjectInsert, ProjectUpdate } from "@/types/projects";
 
-export async function createProject(project: ProjectInsertType) {
+export async function createProject(project: ProjectInsert) {
   const supabase = await createClient();
 
   const { data, error } = await supabase.from(Entities.Projects).insert(project).select().single();
@@ -14,7 +14,7 @@ export async function createProject(project: ProjectInsertType) {
   return data;
 }
 
-export async function updateProject(id: string, updates: ProjectUpdateType) {
+export async function updateProject(id: string, updates: ProjectUpdate) {
   const supabase = await createClient();
 
   const { data, error } = await supabase

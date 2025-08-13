@@ -18,7 +18,7 @@ import { MessageSquareText } from "lucide-react";
 import { useState } from "react";
 
 export default function FeedbackDialog() {
-  const [feedbackType, setFeedbackType] = useState<"issue" | "idea">("issue");
+  const [Feedback, setFeedback] = useState<"issue" | "idea">("issue");
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -48,7 +48,7 @@ export default function FeedbackDialog() {
               <RadioGroup
                 defaultValue="issue"
                 name="type"
-                onValueChange={(value) => setFeedbackType(value as "issue" | "idea")}
+                onValueChange={(value) => setFeedback(value as "issue" | "idea")}
                 className="flex gap-4"
               >
                 <div className="flex items-center space-x-2">
@@ -69,14 +69,14 @@ export default function FeedbackDialog() {
 
             <div className="grid gap-2">
               <Label htmlFor="message">
-                {feedbackType === "idea" ? "What's your idea?" : "What's the issue?"}
+                {Feedback === "idea" ? "What's your idea?" : "What's the issue?"}
               </Label>
               <Textarea
                 id="message"
                 name="message"
                 required
                 placeholder={
-                  feedbackType === "idea"
+                  Feedback === "idea"
                     ? "Share your improvement suggestion..."
                     : "Describe the bug or issue..."
                 }

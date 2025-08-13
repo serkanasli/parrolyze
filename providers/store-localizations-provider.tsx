@@ -1,16 +1,16 @@
 "use client";
-import { StoreType } from "@/types/common";
-import { ProjectRowType } from "@/types/projects";
-import { StoreLocalizationRowType } from "@/types/store-localizations";
-import { SupportedLanguagesRowType } from "@/types/supported-languages";
+import { StorePlatform } from "@/types/common";
+import { ProjectRow } from "@/types/projects";
+import { StoreLocalizationRow } from "@/types/store-localizations";
+import { SupportedLanguagesRow } from "@/types/supported-languages";
 import { createContext, ReactNode, useContext } from "react";
 
 // Context tipini doğru belirtelim
 type StoreLocalizationsContextType = {
-  project: ProjectRowType | null;
-  platform: StoreType | null;
-  storeLocalizations: StoreLocalizationRowType[] | null;
-  supportedLanguages: SupportedLanguagesRowType[] | null;
+  project: ProjectRow | null;
+  platform: StorePlatform | null;
+  storeLocalizations: StoreLocalizationRow[] | null;
+  supportedLanguages: SupportedLanguagesRow[] | null;
   aiModels: object[];
 };
 
@@ -23,10 +23,10 @@ const StoreLocalizationsContext = createContext<StoreLocalizationsContextType>({
 });
 
 type StoreLocalizationsProviderProps = {
-  project: ProjectRowType;
-  platform: StoreType;
-  storeLocalizations: StoreLocalizationRowType[] | undefined;
-  supportedLanguages: SupportedLanguagesRowType[] | undefined;
+  project: ProjectRow;
+  platform: StorePlatform;
+  storeLocalizations: StoreLocalizationRow[] | undefined;
+  supportedLanguages: SupportedLanguagesRow[] | undefined;
   aiModels: object[];
   children: ReactNode;
 };

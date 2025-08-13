@@ -6,8 +6,8 @@ import { Result } from "@/lib/result";
 import { withLoadingToast } from "@/lib/toast";
 import { cn } from "@/lib/utils";
 import { useAiModelsStore } from "@/store/ai-models-store";
-import { ActionResultType, ButtonSizeType, ButtonVariantType } from "@/types/common";
-import { StoreLocalizationRowType } from "@/types/store-localizations";
+import { ActionResult, ButtonSize, ButtonVariant } from "@/types/common";
+import { StoreLocalizationRow } from "@/types/store-localizations";
 import { Sparkles } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
@@ -15,10 +15,10 @@ import { toast } from "sonner";
 
 interface AITranslateButtonProps {
   langCode?: string;
-  storeLocalizations?: StoreLocalizationRowType[] | null;
-  locale?: StoreLocalizationRowType;
-  size?: ButtonSizeType;
-  variant?: ButtonVariantType;
+  storeLocalizations?: StoreLocalizationRow[] | null;
+  locale?: StoreLocalizationRow;
+  size?: ButtonSize;
+  variant?: ButtonVariant;
   translateScope: "column" | "cell";
   className?: string;
 }
@@ -42,8 +42,8 @@ export function AITranslateButton({
       sourceTexts: Record<string, string>,
       sourceLang: string,
       targetLang: string,
-      updateFn: (parsed: Record<string, string>) => StoreLocalizationRowType[],
-    ): Promise<ActionResultType> => {
+      updateFn: (parsed: Record<string, string>) => StoreLocalizationRow[],
+    ): Promise<ActionResult> => {
       try {
         const messages = createMessages({
           sourceText: sourceTexts,
@@ -75,7 +75,7 @@ export function AITranslateButton({
   );
 
   // Translates all fields in a given column for a specific language
-  const translateColumn = useCallback(async (): Promise<ActionResultType> => {
+  const translateColumn = useCallback(async (): Promise<ActionResult> => {
     if (!storeLocalizations || !langCode) {
       return Result.fail("Missing storeLocalizations or langCode");
     }
@@ -103,7 +103,7 @@ export function AITranslateButton({
   }, [storeLocalizations, langCode, runTranslation]);
 
   // Translates a single cell using AI, saves result, and refreshes the page
-  const translateCell = useCallback(async (): Promise<ActionResultType> => {
+  const translateCell = useCallback(async (): Promise<ActionResult> => {
     if (!locale?.source_language || !locale?.target_language || !locale?.field) {
       return Result.fail("Missing required locale data for cell translation");
     }

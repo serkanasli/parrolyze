@@ -1,21 +1,22 @@
-export type FormType = "edit" | "create";
+// Union literal → type
+export type FormAction = "edit" | "create";
+type Field = "text" | "textarea" | "combobox" | "select" | "image-upload";
 
-export type ComboBoxItemType = {
+// Obje tipi → interface
+export interface ComboBoxItem {
   value: string;
   label: string;
   flag?: string;
-};
+}
 
-type FieldType = "text" | "textarea" | "combobox" | "select" | "image-upload";
-
-export type FormFieldType = {
+export interface FormField {
   name: string;
   label: string;
-  type: FieldType;
+  type: Field;
   placeholder?: string;
   defaultValue?: string;
   maxLength?: number;
-  options?: ComboBoxItemType[];
+  options?: ComboBoxItem[];
   optionsKey?: string;
   selectLabel?: string;
   showIf?: {
@@ -23,4 +24,4 @@ export type FormFieldType = {
     equals: string;
   };
   props?: object;
-};
+}

@@ -14,7 +14,7 @@ import {
 import { aiConfigFormFields } from "@/constants/forms/ai-config-form-field";
 import { withLoadingToast } from "@/lib/toast";
 import { useAiModelsStore } from "@/store/ai-models-store";
-import { AIConfigsInsertType, AIConfigsRowType } from "@/types/ai-configs";
+import { AIConfigsInsert, AIConfigsRow } from "@/types/ai-configs";
 import { aiConfigFormSchema } from "@/validations/ai-config-schema";
 import { Edit2, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -22,7 +22,7 @@ import DynamicForm from "./form/dynamic-form";
 
 export function AIConfigSheet() {
   const formId = "ai-configs-form";
-  const [config, setConfig] = useState<AIConfigsRowType>();
+  const [config, setConfig] = useState<AIConfigsRow>();
   const { systemPrompt, setSystemPrompt } = useAiModelsStore();
   const [disabled, setDisabled] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -37,9 +37,9 @@ export function AIConfigSheet() {
     fetchAIConfigs();
   }, []);
 
-  const onSubmit = async (values: AIConfigsInsertType) => {
+  const onSubmit = async (values: AIConfigsInsert) => {
     try {
-      const response = await withLoadingToast<AIConfigsRowType>(
+      const response = await withLoadingToast<AIConfigsRow>(
         "Updating AI configs...",
         "AI Configs updating successfully!",
         "An error occurred while creating the AI configs.",

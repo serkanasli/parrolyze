@@ -1,4 +1,4 @@
-import { StoreType } from "@/types/common";
+import { StorePlatform } from "@/types/common";
 import { z } from "zod";
 
 const MAX_FILE_SIZE = 1024 * 1024; // 1MB in bytes
@@ -26,7 +26,7 @@ export const createProjectSchema = z.object({
     .string()
     .min(3, { message: "Short description must be at least 3 characters long." })
     .max(30, { message: "Short description must be at most 30 characters long." }),
-  store_type: z.custom<StoreType>(),
+  store_type: z.custom<StorePlatform>(),
   play_store_url: z
     .union([
       z.string().url({

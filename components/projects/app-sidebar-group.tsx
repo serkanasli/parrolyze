@@ -13,11 +13,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-type SidebarItem = {
+interface SidebarItem {
   title: string;
   url: string;
   icon?: LucideIcon;
-};
+}
 
 interface AppSidebarGroupProps extends React.ComponentPropsWithoutRef<typeof SidebarGroup> {
   items: SidebarItem[];

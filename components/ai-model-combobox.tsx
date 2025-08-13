@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useAiModelsStore } from "@/store/ai-models-store";
-import { ComboBoxItemType } from "@/types/form";
+import { ComboBoxItem } from "@/types/form";
 import { ChevronDown } from "lucide-react";
 import { ComboBox } from "./combobox";
 import { Button } from "./ui/button";
@@ -8,7 +8,7 @@ import { Button } from "./ui/button";
 export function AIModelCombobox({ models }: { models: any[] }) {
   const { selectedModel, setSelectedModel } = useAiModelsStore();
 
-  const modelsOptions: ComboBoxItemType[] = (models || []).map((model: any) => ({
+  const modelsOptions: ComboBoxItem[] = (models || []).map((model: any) => ({
     label: model.name,
     value: model.id,
   }));

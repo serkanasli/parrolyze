@@ -15,7 +15,7 @@ import { appStoreFormFields } from "@/constants/forms/app-store-form-fields";
 import { playStoreFormFields } from "@/constants/forms/play-store-form-fields";
 import { withLoadingToast } from "@/lib/toast";
 import { useStoreLocalizations } from "@/providers/store-localizations-provider";
-import { ComboBoxItemType } from "@/types/form";
+import { ComboBoxItem } from "@/types/form";
 import { appStoreFormSchema } from "@/validations/app-store-schema";
 import { playStoreFormSchema } from "@/validations/play-store-schema";
 import { Plus } from "lucide-react";
@@ -28,7 +28,7 @@ function CreateStoreLocalization() {
 
   const router = useRouter();
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [dynamicOptions, setDynamicOptions] = useState<Record<string, ComboBoxItemType[]>>({});
+  const [dynamicOptions, setDynamicOptions] = useState<Record<string, ComboBoxItem[]>>({});
 
   const schema = platform === "app_store" ? appStoreFormSchema : playStoreFormSchema;
   const fields = platform === "app_store" ? appStoreFormFields : playStoreFormFields;

@@ -3,11 +3,11 @@ import {
   getSourceLocalizations,
   mapToLocalizationRows,
 } from "@/lib/store-localization";
-import { StoreLocalizationRowType } from "@/types/store-localizations";
+import { StoreLocalizationRow } from "@/types/store-localizations";
 import { useMemo } from "react";
 
 type Props = {
-  storeLocalizations: StoreLocalizationRowType[] | null;
+  storeLocalizations: StoreLocalizationRow[] | null;
 };
 
 export default function useStoreLocalizationRows({ storeLocalizations }: Props) {

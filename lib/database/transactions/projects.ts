@@ -2,14 +2,14 @@
 
 import { uploadProjectIcon } from "@/lib/storage/project-files";
 import { createClient } from "@/lib/supabase/server";
-import { ProjectInsertType, ProjectRowType } from "@/types/projects";
+import { ProjectInsert, ProjectRow } from "@/types/projects";
 
 import { createProject, deleteProject, updateProject } from "../mutations/projects";
 
 export async function createProjectWithIcon(
-  data: ProjectInsertType,
+  data: ProjectInsert,
   iconFile: File,
-): Promise<ProjectRowType> {
+): Promise<ProjectRow> {
   const supabase = await createClient();
 
   try {

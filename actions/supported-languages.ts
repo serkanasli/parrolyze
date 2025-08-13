@@ -2,12 +2,10 @@
 
 import * as dbQueries from "@/lib/database/queries/supported-languages";
 import { Result } from "@/lib/result";
-import { ActionResultType } from "@/types/common";
-import { SupportedLanguagesRowType } from "@/types/supported-languages";
+import { ActionResult } from "@/types/common";
+import { SupportedLanguagesRow } from "@/types/supported-languages";
 
-export async function getSupportedLanguages(): Promise<
-  ActionResultType<SupportedLanguagesRowType[]>
-> {
+export async function getSupportedLanguages(): Promise<ActionResult<SupportedLanguagesRow[]>> {
   try {
     const response = await dbQueries.getSupportedLanguages();
     return Result.ok(response);

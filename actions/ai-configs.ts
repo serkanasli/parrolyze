@@ -4,13 +4,13 @@ import { messages } from "@/constants/messages";
 import * as dbMutations from "@/lib/database/mutations/ai-configs";
 import * as dbQueries from "@/lib/database/queries/ai-configs";
 import { Result } from "@/lib/result";
-import { AIConfigsInsertType, AIConfigsRowType, AIConfigsUpdateType } from "@/types/ai-configs";
-import { ActionResultType } from "@/types/common";
+import { AIConfigsInsert, AIConfigsRow, AIConfigsUpdate } from "@/types/ai-configs";
+import { ActionResult } from "@/types/common";
 
 const subject = "AI Config";
 
 //queries
-export async function getAIConfigs(): Promise<ActionResultType<AIConfigsRowType[]>> {
+export async function getAIConfigs(): Promise<ActionResult<AIConfigsRow[]>> {
   try {
     const response = await dbQueries.getAIConfigs();
     return Result.ok(response);
@@ -21,8 +21,8 @@ export async function getAIConfigs(): Promise<ActionResultType<AIConfigsRowType[
 
 //mutations
 export async function createAIConfigs(
-  aiConfigs: AIConfigsInsertType,
-): Promise<ActionResultType<AIConfigsRowType>> {
+  aiConfigs: AIConfigsInsert,
+): Promise<ActionResult<AIConfigsRow>> {
   try {
     const response = await dbMutations.createAIConfigs(aiConfigs);
 
@@ -34,8 +34,8 @@ export async function createAIConfigs(
 
 export async function updateAIConfigs(
   configId: string,
-  updateData: AIConfigsUpdateType,
-): Promise<ActionResultType<AIConfigsRowType>> {
+  updateData: AIConfigsUpdate,
+): Promise<ActionResult<AIConfigsRow>> {
   try {
     const response = await dbMutations.updateAIConfigs(configId, updateData);
 
@@ -45,7 +45,7 @@ export async function updateAIConfigs(
   }
 }
 
-export async function deleteAIConfigs(configId: string): Promise<ActionResultType> {
+export async function deleteAIConfigs(configId: string): Promise<ActionResult> {
   try {
     await dbMutations.deleteAIConfigs(configId);
     return Result.ok();
@@ -55,8 +55,8 @@ export async function deleteAIConfigs(configId: string): Promise<ActionResultTyp
 }
 
 export async function upsertAIConfigs(
-  data: AIConfigsInsertType[] | AIConfigsUpdateType,
-): Promise<ActionResultType> {
+  data: AIConfigsInsert[] | AIConfigsUpdate,
+): Promise<ActionResult> {
   try {
     const response = await dbMutations.upsertAIConfigs(data);
 

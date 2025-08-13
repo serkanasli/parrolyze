@@ -19,11 +19,11 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "sonner";
 
-type DeleteProjectProps = {
+interface DeleteProjectProps {
   projectName: string;
   projectId: string;
   className?: string;
-};
+}
 
 export function DeleteProject({ projectName, projectId, className }: DeleteProjectProps) {
   const router = useRouter();

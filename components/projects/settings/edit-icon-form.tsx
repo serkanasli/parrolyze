@@ -5,14 +5,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { editProjectIconFormFields } from "@/constants/forms/edit-project-icon-form-fields";
 import { useEditIconForm } from "@/hooks/use-project-form";
-import { ProjectRowType } from "@/types/projects";
+import { ProjectRow } from "@/types/projects";
 import { editIconSchema } from "@/validations/edit-icon-schema";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 
-type EditIconFormProps = {
-  project: ProjectRowType;
-};
+interface EditIconFormProps {
+  project: ProjectRow;
+}
 
 const EditIconForm = ({ project }: EditIconFormProps) => {
   const formId = "edit-project-icon-form";

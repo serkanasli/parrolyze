@@ -3,19 +3,19 @@
 import DynamicForm from "@/components/form/dynamic-form";
 import { Card, CardContent } from "@/components/ui/card";
 import { useEditProjectForm } from "@/hooks/use-project-form";
-import { ProjectRowType } from "@/types/projects";
+import { ProjectRow } from "@/types/projects";
 
 import { editProjectFormFields } from "@/constants/forms/edit-project-form-fields";
 import { editProjectSchema } from "@/validations/edit-project-schema";
 import { useState } from "react";
 import z from "zod";
 
-type EditProjectFormProps = {
+interface EditProjectFormProps {
   formId: string;
-  project: ProjectRowType;
+  project: ProjectRow;
   setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-};
+}
 
 const EditProjectForm = ({ project, formId, setDisabled, setIsLoading }: EditProjectFormProps) => {
   const { onSubmit, formOptions } = useEditProjectForm();

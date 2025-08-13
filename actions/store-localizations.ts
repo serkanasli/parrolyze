@@ -1,17 +1,17 @@
 "use server";
 
-import { ActionResultType, StoreType } from "@/types/common";
+import { ActionResult, StorePlatform } from "@/types/common";
 
 import * as dbMutations from "@/lib/database/mutations/store-localizations";
 import * as dbQueries from "@/lib/database/queries/store-localizations";
 import { Result } from "@/lib/result";
-import { StoreLocalizationInsertType, StoreLocalizationRowType } from "@/types/store-localizations";
+import { StoreLocalizationInsert, StoreLocalizationRow } from "@/types/store-localizations";
 import z from "zod";
 
 export async function getStoreLocalizationsByProject(
   projectId: string,
-  platform: StoreType,
-): Promise<ActionResultType<StoreLocalizationRowType[]>> {
+  platform: StorePlatform,
+): Promise<ActionResult<StoreLocalizationRow[]>> {
   try {
     const response = await dbQueries.getStoreLocalizationsByProject(projectId, platform);
 
@@ -21,13 +21,13 @@ export async function getStoreLocalizationsByProject(
   }
 }
 
-type SaveStoreLocalizationsProps<T> = {
+interface SaveStoreLocalizationsParams<T> {
   data: z.core.output<T>;
   sourceLanguage: string;
   projectId: string;
-  platform: StoreType;
+  platform: StorePlatform;
   targetLanguage?: string;
-};
+}
 
 export async function saveStoreLocalizationsFromData<T>({
   data,
@@ -35,16 +35,16 @@ export async function saveStoreLocalizationsFromData<T>({
   targetLanguage,
   projectId,
   platform,
-}: SaveStoreLocalizationsProps<T>): Promise<ActionResultType> {
+}: SaveStoreLocalizationsParams<T>): Promise<ActionResult> {
   try {
     const obj = data as Record<string, string>;
     const entries = Object.entries(obj);
 
-    const mapping: StoreLocalizationInsertType[] = entries.reduce((result, [key, value]) => {
+    const mapping: StoreLocalizationInsert[] = entries.reduce((result, [key, value]) => {
       if (key === "source_language") {
         return result;
       }
-      const item: StoreLocalizationInsertType = {
+      const item: StoreLocalizationInsert = {
         field: key,
         source_text: value || "",
         source_language: sourceLanguage,
@@ -55,7 +55,7 @@ export async function saveStoreLocalizationsFromData<T>({
       };
 
       return [...result, item];
-    }, [] as StoreLocalizationInsertType[]);
+    }, [] as StoreLocalizationInsert[]);
 
     await dbMutations.bulkCreateStoreLocalizations(mapping);
 
@@ -68,8 +68,8 @@ export async function saveStoreLocalizationsFromData<T>({
 export async function bulkCreateStoreLocalizations({
   storeLocalizations,
 }: {
-  storeLocalizations: StoreLocalizationInsertType[];
-}): Promise<ActionResultType> {
+  storeLocalizations: StoreLocalizationInsert[];
+}): Promise<ActionResult> {
   try {
     await dbMutations.bulkCreateStoreLocalizations(storeLocalizations);
     return Result.ok();
@@ -82,7 +82,7 @@ export async function bulkDeleteStoreLocalizations({
   ids,
 }: {
   ids: string[];
-}): Promise<ActionResultType> {
+}): Promise<ActionResult> {
   try {
     const count = await dbMutations.bulkDeleteStoreLocalizations(ids);
     return Result.ok(count);
@@ -94,8 +94,8 @@ export async function bulkDeleteStoreLocalizations({
 export async function bulkUpsertStoreLocalizations({
   storeLocalizations,
 }: {
-  storeLocalizations: StoreLocalizationInsertType[] | StoreLocalizationInsertType;
-}): Promise<ActionResultType> {
+  storeLocalizations: StoreLocalizationInsert[] | StoreLocalizationInsert;
+}): Promise<ActionResult> {
   try {
     await dbMutations.bulkUpsertStoreLocalizations(storeLocalizations);
     return Result.ok();

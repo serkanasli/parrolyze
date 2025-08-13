@@ -1,4 +1,4 @@
-import { ActionResultType } from "@/types/common";
+import { ActionResult } from "@/types/common";
 import { toast } from "sonner";
 
 export async function withLoadingToast<T = unknown>(
@@ -6,8 +6,8 @@ export async function withLoadingToast<T = unknown>(
   success: string,
   error: string,
   setLoading: ((v: boolean) => void) | null = null, // null da kabul edilir
-  fn: () => Promise<ActionResultType<T>>,
-): Promise<ActionResultType<T> | undefined> {
+  fn: () => Promise<ActionResult<T>>,
+): Promise<ActionResult<T> | undefined> {
   const toastId = toast.loading(loading);
 
   if (setLoading) setLoading(true);

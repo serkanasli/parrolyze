@@ -1,10 +1,10 @@
 import { Database } from "./database.types";
 
-export interface CreateProjectDataType {
-  project: ProjectInsertType;
+export interface CreateProjectData {
+  project: ProjectInsert;
   icon_file?: File;
 }
 
-export type ProjectRowType = Database["public"]["Tables"]["projects"]["Row"];
-export type ProjectInsertType = Database["public"]["Tables"]["projects"]["Insert"];
-export type ProjectUpdateType = Database["public"]["Tables"]["projects"]["Update"];
+export type ProjectRow = Database["public"]["Tables"]["projects"]["Row"];
+export type ProjectInsert = Database["public"]["Tables"]["projects"]["Insert"];
+export type ProjectUpdate = Database["public"]["Tables"]["projects"]["Update"];

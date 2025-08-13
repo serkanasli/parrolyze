@@ -7,7 +7,7 @@ import * as dbMutations from "@/lib/database/mutations/auth";
 
 import { Result } from "@/lib/result";
 import { AuthFormData } from "@/types/auth";
-import { ActionResultType } from "@/types/common";
+import { ActionResult } from "@/types/common";
 import { getUserProjects } from "./projects";
 
 export async function login(values: AuthFormData) {
@@ -31,7 +31,7 @@ export async function login(values: AuthFormData) {
   redirect(values.redirectTo || redirectUrl);
 }
 
-export async function signUp(values: AuthFormData): Promise<ActionResultType> {
+export async function signUp(values: AuthFormData): Promise<ActionResult> {
   const { error } = await dbMutations.signUp(values);
 
   if (error) {

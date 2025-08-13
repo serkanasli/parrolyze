@@ -4,10 +4,10 @@ import { getSupportedLanguages } from "@/actions/supported-languages";
 import LocalizationStore from "@/components/projects/localizations/store/localizations-store";
 import { getProject } from "@/lib/database/queries/projects";
 import { StoreLocalizationsProvider } from "@/providers/store-localizations-provider";
-import { PageProps, StoreType } from "@/types/common";
+import { PageProps, StorePlatform } from "@/types/common";
 import { redirect } from "next/navigation";
 
-const VALID_PLATFORMS: StoreType[] = ["app_store", "play_store"];
+const VALID_PLATFORMS: StorePlatform[] = ["app_store", "play_store"];
 
 export default async function Page({ params, searchParams }: PageProps) {
   const resolvedParams = await params;
@@ -18,11 +18,11 @@ export default async function Page({ params, searchParams }: PageProps) {
 
   const project = await getProject(projectId);
 
-  const isValidPlatform = VALID_PLATFORMS.includes(platform as StoreType);
+  const isValidPlatform = VALID_PLATFORMS.includes(platform as StorePlatform);
 
   if (!platform || !isValidPlatform) {
-    const defaultPlatform: StoreType =
-      project?.store_type === "both" ? "app_store" : (project?.store_type as StoreType);
+    const defaultPlatform: StorePlatform =
+      project?.store_type === "both" ? "app_store" : (project?.store_type as StorePlatform);
 
     redirect(`/projects/${projectId}/localization/store?platform=${defaultPlatform}`);
   }

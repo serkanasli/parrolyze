@@ -1,6 +1,6 @@
-import { FormFieldType } from "@/types/form";
+import { FormField } from "@/types/form";
 
-export const createProjectFormFields: FormFieldType[] = [
+export const createProjectFormFields: FormField[] = [
   {
     name: "icon_file",
     label: "Project Icon",

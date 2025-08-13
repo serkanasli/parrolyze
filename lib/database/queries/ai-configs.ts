@@ -1,8 +1,8 @@
 import { Entities } from "@/lib/enum";
 import { createClient } from "@/lib/supabase/server";
-import { AIConfigsRowType } from "@/types/ai-configs";
+import { AIConfigsRow } from "@/types/ai-configs";
 
-export async function getAIConfigs(): Promise<AIConfigsRowType> {
+export async function getAIConfigs(): Promise<AIConfigsRow> {
   const supabase = await createClient();
 
   const {
@@ -18,5 +18,5 @@ export async function getAIConfigs(): Promise<AIConfigsRowType> {
 
   if (error) throw error;
 
-  return data as AIConfigsRowType;
+  return data as AIConfigsRow;
 }

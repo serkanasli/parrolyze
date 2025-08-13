@@ -2,16 +2,16 @@
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { ProjectRowType } from "@/types/projects";
+import { ProjectRow } from "@/types/projects";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { DeleteProject } from "./delete-project";
 import IconEditForm from "./edit-icon-form";
 import EditProjectForm from "./edit-project-form";
 
-type ProjectSettingsPros = {
-  project: ProjectRowType;
-};
+interface ProjectSettingsPros {
+  project: ProjectRow;
+}
 
 export default function ProjectSettings({ project }: ProjectSettingsPros) {
   const formId: string = "edit-project-form";

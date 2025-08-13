@@ -1,12 +1,12 @@
-import { ComboBoxItemType } from "@/types/form";
-import { StoreLocalizationRowType } from "@/types/store-localizations";
-import { SupportedLanguagesRowType } from "@/types/supported-languages";
+import { ComboBoxItem } from "@/types/form";
+import { StoreLocalizationRow } from "@/types/store-localizations";
+import { SupportedLanguagesRow } from "@/types/supported-languages";
 import { useMemo } from "react";
 
-type Props = {
-  supportedLanguages?: SupportedLanguagesRowType[] | null;
-  storeLocalizations?: StoreLocalizationRowType[] | null;
-};
+interface Props {
+  supportedLanguages?: SupportedLanguagesRow[] | null;
+  storeLocalizations?: StoreLocalizationRow[] | null;
+}
 
 export default function useAvailableLanguageOptions({
   storeLocalizations,
@@ -26,7 +26,7 @@ export default function useAvailableLanguageOptions({
   }, [storeLocalizations]);
 
   // Prepare language options for ComboBox excluding used languages
-  const languageOptions: ComboBoxItemType[] = useMemo(() => {
+  const languageOptions: ComboBoxItem[] = useMemo(() => {
     if (!supportedLanguages || !usedLanguages) return [];
 
     return supportedLanguages

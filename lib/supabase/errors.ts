@@ -1,6 +1,6 @@
-import { ActionResultType } from "@/types/common";
+import { ActionResult } from "@/types/common";
 
-export function mapSupabaseAuthError(result?: ActionResultType): string {
+export function mapSupabaseAuthError(result?: ActionResult): string {
   switch (result?.code) {
     case "invalid_credentials":
       return "Invalid login credentials";

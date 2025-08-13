@@ -5,13 +5,13 @@ import * as dbMutations from "@/lib/database/mutations/projects";
 import * as dbQueries from "@/lib/database/queries/projects";
 import * as dbTransactions from "@/lib/database/transactions/projects";
 import { Result } from "@/lib/result";
-import { ActionResultType } from "@/types/common";
-import { CreateProjectDataType, ProjectRowType, ProjectUpdateType } from "@/types/projects";
+import { ActionResult } from "@/types/common";
+import { CreateProjectData, ProjectRow, ProjectUpdate } from "@/types/projects";
 
 const subject = "Project";
 
 //queries
-export async function getUserProjects(): Promise<ActionResultType<ProjectRowType[]>> {
+export async function getUserProjects(): Promise<ActionResult<ProjectRow[]>> {
   try {
     const response = await dbQueries.getUserProjects();
     return Result.ok(response);
@@ -20,7 +20,7 @@ export async function getUserProjects(): Promise<ActionResultType<ProjectRowType
   }
 }
 
-export async function getProject(projectId: string): Promise<ActionResultType<ProjectRowType>> {
+export async function getProject(projectId: string): Promise<ActionResult<ProjectRow>> {
   try {
     const response = await dbQueries.getProject(projectId);
 
@@ -33,8 +33,8 @@ export async function getProject(projectId: string): Promise<ActionResultType<Pr
 //mutations
 export async function updateProject(
   projectId: string,
-  updateData: ProjectUpdateType,
-): Promise<ActionResultType<ProjectRowType>> {
+  updateData: ProjectUpdate,
+): Promise<ActionResult<ProjectRow>> {
   try {
     const response = await dbMutations.updateProject(projectId, updateData);
 
@@ -44,7 +44,7 @@ export async function updateProject(
   }
 }
 
-export async function deleteProject(projectId: string): Promise<ActionResultType> {
+export async function deleteProject(projectId: string): Promise<ActionResult> {
   try {
     await dbMutations.deleteProject(projectId);
     return Result.ok();
@@ -57,7 +57,7 @@ export async function deleteProject(projectId: string): Promise<ActionResultType
 export async function updateProjectIconWithUpload(
   projectId: string,
   iconFile: File,
-): Promise<ActionResultType> {
+): Promise<ActionResult> {
   try {
     await dbTransactions.updateProjectIconWithUpload(projectId, iconFile);
     return Result.ok(null, messages.success.update(subject));
@@ -67,8 +67,8 @@ export async function updateProjectIconWithUpload(
 }
 
 export async function createProjectWithIcon(
-  data: CreateProjectDataType,
-): Promise<ActionResultType<ProjectRowType>> {
+  data: CreateProjectData,
+): Promise<ActionResult<ProjectRow>> {
   try {
     const response = await dbTransactions.createProjectWithIcon(data.project, data.icon_file!);
     return Result.ok(response, messages.success.create(subject));

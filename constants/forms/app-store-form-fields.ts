@@ -1,6 +1,6 @@
-import { FormFieldType } from "@/types/form";
+import { FormField } from "@/types/form";
 
-export const appStoreFormFields: FormFieldType[] = [
+export const appStoreFormFields: FormField[] = [
   {
     name: "source_language",
     label: "Source language",
