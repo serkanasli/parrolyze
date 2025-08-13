@@ -10,10 +10,11 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 import { Align, Side } from "@/types/common";
 import { ComboBoxItem } from "@/types/form";
 
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown, Loader2 } from "lucide-react";
 import * as React from "react";
 
 interface ComboBoxProps {
@@ -27,6 +28,7 @@ interface ComboBoxProps {
   trigger?: React.ReactNode;
   side?: Side;
   align?: Align;
+  loading?: boolean;
 }
 
 export function ComboBox({
@@ -34,11 +36,13 @@ export function ComboBox({
   defaultValue = "",
   placeholder = "Select...",
   buttonClassName,
+  className,
   searchPlaceholder = "Search...",
   onValueChange,
   trigger,
   side,
   align,
+  loading = false,
 }: ComboBoxProps) {
   const [value, setValue] = React.useState(defaultValue);
   const [open, setOpen] = React.useState(false);
@@ -64,30 +68,44 @@ export function ComboBox({
             aria-expanded={open}
             className={`w-[250px] justify-between ${buttonClassName || ""}`}
           >
-            {selectedItem ? selectedItem.label : placeholder}
+            <span className="max-w-12 truncate md:w-auto">
+              {selectedItem ? selectedItem.label : placeholder}
+            </span>
             {selectedItem?.flag && <span className="ml-auto">{selectedItem?.flag}</span>}
             <ChevronsUpDown className="ml-2 opacity-50" />
           </Button>
         )}
       </PopoverTrigger>
 
-      <PopoverContent className="w-[250px] p-0" side={side || "bottom"} align={align || "start"}>
+      <PopoverContent
+        className={cn("w-[250px] p-0", className)}
+        side={side || "bottom"}
+        align={align || "start"}
+      >
         <Command className="scrollbar">
           <CommandInput placeholder={searchPlaceholder} autoFocus />
           <CommandList>
-            <CommandEmpty>No results found.</CommandEmpty>
-            <CommandGroup>
-              {options &&
-                options.map((item) => (
-                  <CommandItem key={item.value} value={item.value} onSelect={handleSelect}>
-                    {item.label}
-                    <div className="ml-auto flex flex-row items-center gap-x-1">
-                      {value === item.value && <Check />}
-                      {item.flag && <span>{item.flag}</span>}
-                    </div>
-                  </CommandItem>
-                ))}
-            </CommandGroup>
+            {loading ? (
+              <div className="flex h-16 w-full items-center justify-center">
+                <Loader2 className="text-muted-foreground animate-spin" />
+              </div>
+            ) : (
+              <>
+                <CommandEmpty>No results found.</CommandEmpty>
+                <CommandGroup>
+                  {options &&
+                    options.map((item) => (
+                      <CommandItem key={item.value} value={item.value} onSelect={handleSelect}>
+                        {item.label}
+                        <div className="ml-auto flex flex-row items-center gap-x-1">
+                          {value === item.value && <Check />}
+                          {item.flag && <span className="text-muted-foreground">{item.flag}</span>}
+                        </div>
+                      </CommandItem>
+                    ))}
+                </CommandGroup>
+              </>
+            )}
           </CommandList>
         </Command>
       </PopoverContent>

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FEEDBACK_OPTIONS, STORE_PLATFORM_OPTIONS } from "@/constants";
+import { AI_MODELS, FEEDBACK_OPTIONS, STORE_PLATFORM_OPTIONS } from "@/constants";
 
 export interface ActionResult<T = unknown> {
   success: boolean;
@@ -19,9 +19,19 @@ export interface PageProps {
   };
 }
 
+export type AIService = keyof typeof AI_MODELS;
 export interface AIChatMessage {
   role: "user" | "system";
   content: string;
+}
+export interface AINormalizedModel {
+  service?: AIService;
+  id: string;
+}
+export interface AIChatCompletions {
+  model: string;
+  messages: AIChatMessage[];
+  service?: AIService;
 }
 
 export type StorePlatform = (typeof STORE_PLATFORM_OPTIONS)[number]["value"];

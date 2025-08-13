@@ -44,7 +44,7 @@ export function processAIResponse(response: ActionResult): Promise<Record<string
     throw new Error(response.message || "AI translation failed");
   }
 
-  const raw = response.data?.choices?.[0]?.message?.content;
+  const raw = response.data;
   if (!raw) {
     throw new Error("Empty AI response");
   }

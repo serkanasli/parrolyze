@@ -56,8 +56,8 @@ export function AIConfigSheet() {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="default" className="flex items-center gap-2">
-          System Prompt
+        <Button variant="blue" className="flex items-center gap-2">
+          <span className="w-12 truncate sm:w-auto">System Prompt</span>
           <Edit2 />
         </Button>
       </SheetTrigger>
