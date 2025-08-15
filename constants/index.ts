@@ -16,9 +16,10 @@ Translate the fields from [SOURCE_LANG] to [TARGET_LANG], ensuring:
 - Natural, context-aware translations
 - Compliance with App Store character limits
 - Optimization for keyword discoverability
+- IMPORTANT: Only translate the fields provided in the input. If only some fields (e.g., name) are provided, return a JSON object containing only those fields with their translations. Do NOT add any extra fields or explanations.
 
-Fields:
-- app_name (max 30 chars)
+**IMPORTANT:**
+- app_name or name (max 30 chars)
 - subtitle (max 30 chars)
 - promotional_text (max 170 chars)
 - short_description (max 80 chars)
@@ -28,6 +29,4 @@ Fields:
 Preserve clarity and uniqueness for app_name and subtitle.
 Return ONLY a JSON object matching input structure with translations.
 No explanations or extra text.
-
-Translate the following metadata:
 `;

@@ -22,13 +22,15 @@ import { getLanguageLabel } from "@/lib/store-localization";
 import { useStoreLocalizations } from "@/providers/store-localizations-provider";
 import { ChevronDown, Plus, Trash } from "lucide-react";
 import { AITranslateButton } from "../ai-translate-button";
+import { DeleteLocalizations } from "../delete-localizations";
 
 function StoreLocalizationsTable() {
-  const { storeLocalizations, supportedLanguages, aiModels } = useStoreLocalizations();
+  const { storeLocalizations, supportedLanguages } = useStoreLocalizations();
 
-  const { localizations, sourceLocalizations, uniqueTargetLanguages } = useStoreLocalizationRows({
-    storeLocalizations: storeLocalizations!,
-  });
+  const { localizations, sourceLocalizations, uniqueTargetLanguages, hasDeletableLocalizations } =
+    useStoreLocalizationRows({
+      storeLocalizations: storeLocalizations!,
+    });
 
   const { languageOptions } = useAvailableLanguageOptions({
     storeLocalizations,
@@ -46,42 +48,46 @@ function StoreLocalizationsTable() {
 
   return (
     <div className="flex flex-col gap-y-5">
-      {/* Locale Add ComboBox */}
-      <div className="ml-auto flex flex-row gap-x-2.5">
-        <AIModelCombobox models={aiModels} />
-        <AIConfigSheet />
-        <ComboBox
-          align="end"
-          options={languageOptions}
-          onValueChange={handleAddStoreLocalizations}
-          trigger={
-            <Button variant="green" className="flex items-center gap-1">
-              <Plus />
-              Add locale
-              <ChevronDown />
-            </Button>
-          }
-        />
+      <div className="flex flex-row items-center">
+        {hasDeletableLocalizations && (
+          <DeleteLocalizations
+            langCode={sourceLanguage}
+            handleRemoveStoreLocalizations={handleRemoveStoreLocalizations}
+          />
+        )}
+        <div className="flex gap-2.5 md:ml-auto md:flex-row">
+          <AIModelCombobox />
+          <AIConfigSheet />
+          <ComboBox
+            align="end"
+            options={languageOptions}
+            onValueChange={handleAddStoreLocalizations}
+            trigger={
+              <Button variant="green" className="flex items-center gap-1">
+                <Plus />
+                <span className="w-12 truncate sm:w-auto"> Add locale</span>
+                <ChevronDown />
+              </Button>
+            }
+          />
+        </div>
       </div>
 
       {/* Localizations Table */}
       <div className="overflow-auto">
         <Table>
           <TableHeader className="h-14">
-            <TableRow className="hover:bg-transparent">
+            <TableRow className="max-w-96 hover:bg-transparent">
               <TableHead className="bg-green-primary/5 min-w-[160px] border font-semibold">
                 FIELDS
               </TableHead>
-              <TableHead className="bg-blue/5 min-w-[320px] border font-semibold">
+              <TableHead className="bg-blue/5 min-w-96 border font-semibold">
                 {`${getLanguageLabel(supportedLanguages, sourceLanguage)} (Source)`}
               </TableHead>
 
               {/* Dynamic target language columns */}
               {uniqueTargetLanguages.map((lang) => (
-                <TableHead
-                  key={lang}
-                  className="min-w-[320px] border font-semibold whitespace-nowrap"
-                >
+                <TableHead key={lang} className="min-w-96 border font-semibold whitespace-nowrap">
                   <div className="flex items-center justify-between gap-x-1">
                     {getLanguageLabel(supportedLanguages, lang)}
 
@@ -123,7 +129,7 @@ function StoreLocalizationsTable() {
                 {uniqueTargetLanguages.map((lang) => {
                   const locale = locales.find((l) => l.target_language === lang);
                   return (
-                    <TableCell key={lang} className="gap-y-1 border whitespace-pre-wrap">
+                    <TableCell key={lang} className="max-w-96 gap-y-1 border whitespace-pre-wrap">
                       <div className="flex h-full w-full flex-col">
                         <Textarea
                           defaultValue={locale?.translated_text || ""}

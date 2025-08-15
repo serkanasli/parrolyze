@@ -29,5 +29,10 @@ export default function useStoreLocalizationRows({ storeLocalizations }: Props) 
     [localizations],
   );
 
-  return { localizations, sourceLocalizations, uniqueTargetLanguages };
+  const hasDeletableLocalizations = useMemo(
+    () => localizations.every((row) => row.locales.length === 0),
+    [localizations],
+  );
+
+  return { localizations, sourceLocalizations, uniqueTargetLanguages, hasDeletableLocalizations };
 }

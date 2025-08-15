@@ -11,7 +11,6 @@ type StoreLocalizationsContextType = {
   platform: StorePlatform | null;
   storeLocalizations: StoreLocalizationRow[] | null;
   supportedLanguages: SupportedLanguagesRow[] | null;
-  aiModels: object[];
 };
 
 const StoreLocalizationsContext = createContext<StoreLocalizationsContextType>({
@@ -19,7 +18,6 @@ const StoreLocalizationsContext = createContext<StoreLocalizationsContextType>({
   platform: null,
   storeLocalizations: [],
   supportedLanguages: [],
-  aiModels: [],
 });
 
 type StoreLocalizationsProviderProps = {
@@ -27,7 +25,6 @@ type StoreLocalizationsProviderProps = {
   platform: StorePlatform;
   storeLocalizations: StoreLocalizationRow[] | undefined;
   supportedLanguages: SupportedLanguagesRow[] | undefined;
-  aiModels: object[];
   children: ReactNode;
 };
 
@@ -36,12 +33,11 @@ export function StoreLocalizationsProvider({
   platform,
   storeLocalizations = [],
   supportedLanguages = [],
-  aiModels,
   children,
 }: StoreLocalizationsProviderProps) {
   return (
     <StoreLocalizationsContext.Provider
-      value={{ project, platform, storeLocalizations, supportedLanguages, aiModels }}
+      value={{ project, platform, storeLocalizations, supportedLanguages }}
     >
       {children}
     </StoreLocalizationsContext.Provider>

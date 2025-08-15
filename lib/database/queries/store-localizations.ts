@@ -27,8 +27,7 @@ export async function getStoreLocalizationsByProject(
     .from("store_localizations")
     .select("*")
     .eq("project_id", projectId)
-    .eq("platform", platform)
-    .order("created_at", { ascending: false });
+    .eq("platform", platform);
 
   if (error) {
     console.error("Error fetching store localizations:", error.message);

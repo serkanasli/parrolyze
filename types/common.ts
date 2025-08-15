@@ -23,6 +23,15 @@ export interface AIChatMessage {
   role: "user" | "system";
   content: string;
 }
+export interface AINormalizedModel {
+  service?: string;
+  id: string;
+}
+export interface AIChatCompletions {
+  model: string;
+  messages: AIChatMessage[];
+  service?: string;
+}
 
 export type StorePlatform = (typeof STORE_PLATFORM_OPTIONS)[number]["value"];
 export type Feedback = (typeof FEEDBACK_OPTIONS)[number]["value"];

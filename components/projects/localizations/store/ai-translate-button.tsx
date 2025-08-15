@@ -1,4 +1,4 @@
-import { fetchChatCompletions } from "@/actions/open-router";
+import { fetchAIChatCompletions } from "@/actions/open-ai";
 import { bulkUpsertStoreLocalizations } from "@/actions/store-localizations";
 import { Button } from "@/components/ui/button";
 import { createMessages, processAIResponse } from "@/lib/ai";
@@ -52,8 +52,9 @@ export function AITranslateButton({
           systemPrompt,
         });
 
-        const response = await fetchChatCompletions({
-          model: selectedModel,
+        const response = await fetchAIChatCompletions({
+          service: selectedModel.service,
+          model: selectedModel.id,
           messages,
         });
 
@@ -120,7 +121,7 @@ export function AITranslateButton({
 
   // Handles the click event, triggers the appropriate translation action, and updates UI state
   const handleTranslate = useCallback(async (): Promise<void> => {
-    if (!selectedModel) {
+    if (!selectedModel.id) {
       toast.info("Please select an AI model");
       return;
     }

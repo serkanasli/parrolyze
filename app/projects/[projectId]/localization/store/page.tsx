@@ -1,4 +1,3 @@
-import { fetchModels } from "@/actions/open-router";
 import { getStoreLocalizationsByProject } from "@/actions/store-localizations";
 import { getSupportedLanguages } from "@/actions/supported-languages";
 import LocalizationStore from "@/components/projects/localizations/store/localizations-store";
@@ -30,16 +29,12 @@ export default async function Page({ params, searchParams }: PageProps) {
   const { data: storeLocalizations } = await getStoreLocalizationsByProject(project.id, platform);
   const { data: supportedLanguages } = await getSupportedLanguages();
 
-  //open-router ai models
-  const aiModels = await fetchModels();
-
   return (
     <StoreLocalizationsProvider
       project={project}
       platform={platform}
       storeLocalizations={storeLocalizations}
       supportedLanguages={supportedLanguages}
-      aiModels={aiModels}
     >
       <LocalizationStore />
     </StoreLocalizationsProvider>
