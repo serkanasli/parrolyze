@@ -1,4 +1,4 @@
-import { AppWindow, Globe, Key, LayoutDashboard, Settings } from "lucide-react";
+import { Globe, Key, LayoutDashboard, Settings } from "lucide-react";
 
 export function getSidebarItems(projectId: string) {
   return {
@@ -14,17 +14,17 @@ export function getSidebarItems(projectId: string) {
         icon: Globe,
         hideIfMobileAndNoProject: true,
       },
-      {
-        title: "App Localization",
-        url: `/projects/${projectId}/localization/app`,
-        icon: AppWindow,
-        hideIfMobileAndNoProject: true,
-      },
+      // {
+      //   title: "App Localization",
+      //   url: `/projects/${projectId}/localization/app`,
+      //   icon: AppWindow,
+      //   hideIfMobileAndNoProject: true,
+      // },
     ],
     navSecondary: [
       {
-        title: "API Keys",
-        url: `/projects/api-keys`,
+        title: "AI Services",
+        url: `/projects/ai-services`,
         icon: Key,
       },
       {

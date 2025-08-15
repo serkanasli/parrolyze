@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Github } from "lucide-react";
 import Link from "next/link";
 import AccountMenu from "./account-menu";
-import FeedbackDialog from "./feedback-dialog";
 import ProjectSelector from "./project-selector";
 import SidebarToggle from "./sidebar-toggle";
 
@@ -31,7 +30,7 @@ export default function Navbar() {
               Github
             </Link>
           </Button>
-          <FeedbackDialog />
+          {/* <FeedbackDialog /> */}
           <AccountMenu />
         </div>
       </nav>

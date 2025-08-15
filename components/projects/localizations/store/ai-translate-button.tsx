@@ -1,4 +1,4 @@
-import { fetchOpenAIChatCompletions } from "@/actions/open-ai";
+import { fetchAIChatCompletions } from "@/actions/open-ai";
 import { bulkUpsertStoreLocalizations } from "@/actions/store-localizations";
 import { Button } from "@/components/ui/button";
 import { createMessages, processAIResponse } from "@/lib/ai";
@@ -52,7 +52,7 @@ export function AITranslateButton({
           systemPrompt,
         });
 
-        const response = await fetchOpenAIChatCompletions({
+        const response = await fetchAIChatCompletions({
           service: selectedModel.service,
           model: selectedModel.id,
           messages,

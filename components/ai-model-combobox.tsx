@@ -1,4 +1,4 @@
-import { fetchOpenAIModels } from "@/actions/open-ai";
+import { fetchAIModels } from "@/actions/open-ai";
 import { useAiModelsStore } from "@/store/ai-models-store";
 import { AINormalizedModel, AIService } from "@/types/common";
 import { ComboBoxItem } from "@/types/form";
@@ -13,10 +13,10 @@ export function AIModelCombobox() {
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    const fetchAIModels = async () => {
+    const getAIModels = async () => {
       try {
         setLoading(true);
-        const response = await fetchOpenAIModels();
+        const response = await fetchAIModels();
         if (response.success) {
           setModels(response.data);
         }
@@ -24,7 +24,7 @@ export function AIModelCombobox() {
         setLoading(false);
       }
     };
-    fetchAIModels();
+    getAIModels();
   }, []);
 
   const modelsOptions: ComboBoxItem[] = useMemo(() => {

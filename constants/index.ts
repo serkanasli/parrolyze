@@ -10,24 +10,6 @@ export const FEEDBACK_OPTIONS = [
   { label: "Idea", value: "idea" },
 ] as const;
 
-export const AI_MODELS = {
-  openai: {
-    apiKey: process.env.OPENAI_API_KEY,
-  },
-  gemini: {
-    baseURL: process.env.GEMINI_BASE_URL,
-    apiKey: process.env.GEMINI_API_KEY,
-  },
-  deepseek: {
-    apiKey: process.env.DEEP_SEEK_API_KEY,
-    baseURL: process.env.DEEP_SEEK_BASE_URL,
-  },
-  openrouter: {
-    apiKey: process.env.OPENROUTER_API_KEY,
-    baseURL: process.env.OPENROUTER_BASE_URL,
-  },
-} as const;
-
 export const SYSTEM_PROMPT = `
 You are a mobile app localization and ASO expert.
 Translate the fields from [SOURCE_LANG] to [TARGET_LANG], ensuring:

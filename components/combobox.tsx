@@ -68,7 +68,7 @@ export function ComboBox({
             aria-expanded={open}
             className={`w-[250px] justify-between ${buttonClassName || ""}`}
           >
-            <span className="max-w-12 truncate md:w-auto">
+            <span className="w-12 truncate md:w-auto">
               {selectedItem ? selectedItem.label : placeholder}
             </span>
             {selectedItem?.flag && <span className="ml-auto">{selectedItem?.flag}</span>}

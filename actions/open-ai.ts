@@ -1,62 +1,35 @@
 "use server";
-import { AI_MODELS } from "@/constants";
 import { Result } from "@/lib/result";
 import { ActionResult, AIChatCompletions, AINormalizedModel } from "@/types/common";
 
 import OpenAI from "openai";
+import { getAIServices } from "./ai-services";
 
-export async function fetchOpenAIModels(): Promise<ActionResult<AINormalizedModel[]>> {
+export async function fetchAIModels(): Promise<ActionResult<AINormalizedModel[]>> {
   try {
     const results: AINormalizedModel[] = [];
 
-    // OpenAI
-    if (AI_MODELS.openai.apiKey) {
-      const openaiClient = new OpenAI({ apiKey: AI_MODELS.openai.apiKey });
-      const models = await openaiClient.models.list();
-      const result: AINormalizedModel[] = models.data.map((m) => ({ service: "openai", id: m.id }));
-      results.push(...result);
+    const aiServicesResult = await getAIServices();
+    if (!aiServicesResult.success) {
+      return Result.fail("Failed to fetch AI services");
     }
+    const aiServices = aiServicesResult.data;
 
-    // DeepSeek
-    if (AI_MODELS.deepseek.apiKey && AI_MODELS.deepseek.baseURL) {
-      const deepseekClient = new OpenAI({
-        apiKey: AI_MODELS.deepseek.apiKey,
-        baseURL: AI_MODELS.deepseek.baseURL,
+    for (const service of aiServices) {
+      if (!service.api_key) continue;
+
+      const client = new OpenAI({
+        apiKey: service.api_key,
+        baseURL: service.base_url || undefined,
       });
-      const models = await deepseekClient.models.list();
-      const result: AINormalizedModel[] = models.data.map((m) => ({
-        service: "deepseek",
+
+      const models = await client.models.list();
+      const normalized: AINormalizedModel[] = models.data.map((m) => ({
+        service: service.service,
         id: m.id,
       }));
-      results.push(...result);
-    }
 
-    // Gemini
-    if (AI_MODELS.gemini.apiKey && AI_MODELS.gemini.baseURL) {
-      const geminiClient = new OpenAI({
-        apiKey: AI_MODELS.gemini.apiKey,
-        baseURL: AI_MODELS.gemini.baseURL,
-      });
-      const models = await geminiClient.models.list();
-      const result: AINormalizedModel[] = models.data.map((m) => ({
-        service: "gemini",
-        id: m.id,
-      }));
-      results.push(...result);
-    }
-
-    // Openrouter
-    if (AI_MODELS.openrouter.apiKey && AI_MODELS.openrouter.baseURL) {
-      const openrouterClient = new OpenAI({
-        apiKey: AI_MODELS.openrouter.apiKey,
-        baseURL: AI_MODELS.openrouter.baseURL,
-      });
-      const models = await openrouterClient.models.list();
-      const result: AINormalizedModel[] = models.data.map((m) => ({
-        service: "openrouter",
-        id: m.id,
-      }));
-      results.push(...result);
+      results.push(...normalized);
     }
 
     return Result.ok(results);
@@ -66,7 +39,7 @@ export async function fetchOpenAIModels(): Promise<ActionResult<AINormalizedMode
   }
 }
 
-export async function fetchOpenAIChatCompletions({
+export async function fetchAIChatCompletions({
   service,
   model,
   messages,
@@ -74,42 +47,29 @@ export async function fetchOpenAIChatCompletions({
   try {
     if (!model) throw new Error("No model selected");
 
-    switch (service) {
-      case "openai": {
-        const client = new OpenAI({ apiKey: AI_MODELS.openai.apiKey });
-        const response = await client.chat.completions.create({ model, messages, stream: false });
-        return Result.ok(response.data?.choices?.[0]?.message?.content);
-      }
-
-      case "deepseek": {
-        const client = new OpenAI({
-          apiKey: AI_MODELS.deepseek.apiKey,
-          baseURL: AI_MODELS.deepseek.baseURL,
-        });
-        const response = await client.chat.completions.create({ model, messages, stream: false });
-        return Result.ok(response.choices?.[0]?.message?.content);
-      }
-
-      case "gemini": {
-        const client = new OpenAI({
-          apiKey: AI_MODELS.gemini.apiKey,
-          baseURL: AI_MODELS.gemini.baseURL,
-        });
-        const response = await client.chat.completions.create({ model, messages, stream: false });
-        return Result.ok(response.choices?.[0]?.message?.content);
-      }
-      case "openrouter": {
-        const client = new OpenAI({
-          apiKey: AI_MODELS.openrouter.apiKey,
-          baseURL: AI_MODELS.openrouter.baseURL,
-        });
-        const response = await client.chat.completions.create({ model, messages, stream: false });
-        return Result.ok(response.choices?.[0]?.message?.content);
-      }
-
-      default:
-        throw new Error("Unsupported AI service");
+    const aiServicesResult = await getAIServices();
+    if (!aiServicesResult.success) {
+      throw new Error("Failed to fetch AI services");
     }
+
+    const aiServices = aiServicesResult.data;
+    const selectedService = aiServices.find((s) => s.service === service);
+    if (!selectedService || !selectedService.api_key) {
+      throw new Error(`API key not found for service: ${service}`);
+    }
+
+    const client = new OpenAI({
+      apiKey: selectedService.api_key,
+      baseURL: selectedService.base_url || undefined,
+    });
+
+    const response = await client.chat.completions.create({
+      model,
+      messages,
+      stream: false,
+    });
+
+    return Result.ok(response?.choices?.[0]?.message?.content || "");
   } catch (error: any) {
     return Result.fail(error.message || "Unknown error");
   }
